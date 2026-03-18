@@ -1,0 +1,8 @@
+{
+  "case_id": ["Case ID", "CASE-\\d{3}"],
+  "patient_id": ["Patient ID", "PAT-\\d{4}"],
+  "ward": ["Ward", ""],
+  "report_date": ["Date", "\\d{4}-\\d{2}-\\d{2}"],
+  "shift": ["Shift", "\\w+ Shift"],
+  "nursing_note_free_text": ["Report", ""]
+}
