@@ -1,0 +1,16 @@
+services:
+  server:
+    build:
+      context: ./server
+    container_name: shawarmys-server
+    expose:
+      - "80"
+
+  client:
+    build:
+      context: ./client
+    container_name: shawarmys-client
+    depends_on:
+      - server
+    ports:
+      - "80:80"
