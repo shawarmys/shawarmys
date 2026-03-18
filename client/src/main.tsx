@@ -11,7 +11,7 @@ root.render(
   <React.StrictMode>
     <SWRConfig
       value={{
-        dedupingInterval: 1000 * 60, // Don't refetch within that time span
+        dedupingInterval: 5 * 60, // Refetch every 5 minutes
         revalidateOnFocus: false, // Don't refetch when tab regains focus
         revalidateOnReconnect: false, // Don't refetch when network reconnects
         refreshInterval: 0, // Disable automatic polling

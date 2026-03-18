@@ -1,8 +1,25 @@
 services:
+  db:
+    image: postgres:16-alpine
+    container_name: shawarmys-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: shawarmys
+      POSTGRES_USER: shawarmys
+      POSTGRES_PASSWORD: shawarmys
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # ! DEV Mount the SQL file to initialize the database on startup
+      - ../database_on_compose_up.sql:/docker-entrypoint-initdb.d/01-database_on_compose_up.sql:ro
+
   server:
     build:
       context: ./server
     container_name: shawarmys-server
+    depends_on:
+      - db
     expose:
       - "80"
 
@@ -14,3 +31,6 @@ services:
       - server
     ports:
       - "80:80"
+
+volumes:
+  postgres_data:
