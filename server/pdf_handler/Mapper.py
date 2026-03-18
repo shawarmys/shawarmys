@@ -18,34 +18,47 @@ class Mapper:
         with open(path, "r") as f:
             self.config = json.load(f)
 
-    def find_match(self, text, search_term, regex_pattern):
-        for line in text.split("\n"):
-            if search_term in line:
-                # 1. Get everything AFTER the search term
-                # We split by the term and take the last part
-                parts = line.split(search_term, 1)
-                content_after_term = parts[1].strip()
+    def clean_value(self, value):
+        if not value:
+            return None
 
-                # Remove leading colons or spaces common in PDFs
-                content_after_term = re.sub(r'^[:\s]+', '', content_after_term)
+        # 1. Replace newlines and carriage returns with a single space
+        value = re.sub(r'[\r\n]+', ' ', value)
 
-                # 2. If regex is empty, return the rest of the line
-                if not regex_pattern:
-                    print(f"{search_term}Content after term:")
-                    print(content_after_term)
-                    return content_after_term
+        # 2. Remove leading/trailing whitespace, colons, and semicolons
+        # The strip() characters include: space, tab, newline, colon, semicolon
+        value = value.strip(' :;\t\n\r')
 
-                # 3. Apply regex to the remaining string
-                match = re.search(regex_pattern, content_after_term, re.IGNORECASE)
-                if match:
-                    return match.group(0)
+        # 3. Collapse multiple internal spaces into one
+        value = re.sub(r'\s+', ' ', value)
 
-        return None
+        return value
+
+    def find_match(self, full_text, search_term, regex_pattern):
+        if search_term not in full_text:
+            return None
+
+        # 1. Split the entire text by the search term
+        parts = full_text.split(search_term, 1)
+        content_after = parts[1]
+
+        # 2. Specific Regex Match
+        if regex_pattern and regex_pattern != ".*":
+            match = re.search(regex_pattern, content_after, re.MULTILINE | re.IGNORECASE)
+            raw_value = match.group(0) if match else None
+
+        # 3. Free Text / Remainder
+        else:
+            raw_value = content_after
+
+        # Use the cleanup function for all returned values
+        return self.clean_value(raw_value)
 
     def map_data(self, extracted_text):
-        """Helper method to run the whole schema against the text"""
         results = {}
-        for key, (search_term, regex) in self.config.items():
+        for key, value in self.config.items():
+            search_term = value[0]
+            regex = value[1]
             results[key] = self.find_match(extracted_text, search_term, regex)
         return results
 
