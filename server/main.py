@@ -1,6 +1,21 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
-app = FastAPI(title="shawarmys-server")
+from database import Base, engine
+
+# Import model package so all models are registered on Base.metadata
+import model  # noqa: F401
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Create all tables on startup
+    Base.metadata.create_all(bind=engine)
+    yield
+
+
+app = FastAPI(title="shawarmys-server", lifespan=lifespan)
 
 
 @app.get("/api/health")
