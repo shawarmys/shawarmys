@@ -10,7 +10,7 @@ class DeviceMotions(Base):
     __tablename__ = "device_motions"
 
     id: Mapped[int] = mapped_column("id", BigInteger, primary_key=True, autoincrement=True)
-    patient_id: Mapped[Optional[int]] = mapped_column("patient_id", ForeignKey("patients.id"))
+    patient_id: Mapped[Optional[int]] = mapped_column("patient_id", BigInteger)
     timestamp: Mapped[Optional[datetime.datetime]] = mapped_column("timestamp", DateTime)
     movement_index_0_100: Mapped[Optional[str]] = mapped_column("movement_index_0_100", String(256))
     micro_movements_count: Mapped[Optional[str]] = mapped_column("micro_movements_count", String(256))

@@ -10,7 +10,7 @@ class Device1HzMotions(Base):
     __tablename__ = "device_1hz_motions"
 
     id: Mapped[int] = mapped_column("id", BigInteger, primary_key=True, autoincrement=True)
-    patient_id: Mapped[Optional[int]] = mapped_column("patient_id", ForeignKey("patients.id"))
+    patient_id: Mapped[Optional[int]] = mapped_column("patient_id", BigInteger)
     device_id: Mapped[Optional[str]] = mapped_column("device_id", String(256))
     timestamp: Mapped[Optional[datetime.datetime]] = mapped_column("timestamp", DateTime)
     bed_occupied_0_1: Mapped[Optional[str]] = mapped_column("bed_occupied_0_1", String(256))

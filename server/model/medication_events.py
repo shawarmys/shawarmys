@@ -10,7 +10,7 @@ class MedicationEvents(Base):
 
     id: Mapped[int] = mapped_column("id", BigInteger, primary_key=True, autoincrement=True)
     record_type: Mapped[Optional[str]] = mapped_column("record_type", String(256))
-    patient_id: Mapped[Optional[int]] = mapped_column("patient_id", ForeignKey("patients.id"))
+    patient_id: Mapped[Optional[int]] = mapped_column("patient_id", BigInteger)
     encounter_id: Mapped[Optional[str]] = mapped_column("encounter_id", String(256))
     ward: Mapped[Optional[str]] = mapped_column("ward", String(256))
     admission_datetime: Mapped[Optional[str]] = mapped_column("admission_datetime", String(256))

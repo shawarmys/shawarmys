@@ -10,7 +10,7 @@ class LabResults(Base):
 
     id: Mapped[int] = mapped_column("id", BigInteger, primary_key=True, autoincrement=True)
     case_id: Mapped[Optional[int]] = mapped_column("case_id", BigInteger)
-    patient_id: Mapped[Optional[str]] = mapped_column("patient_id", String(256))
+    patient_id: Mapped[Optional[str]] = mapped_column("patient_id", BigInteger)
     sex: Mapped[Optional[str]] = mapped_column("sex", String(256))
     age_years: Mapped[Optional[int]] = mapped_column("age_years", Integer)
     specimen_datetime: Mapped[Optional[str]] = mapped_column("specimen_datetime", String(256))
