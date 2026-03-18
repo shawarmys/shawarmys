@@ -1,5 +1,5 @@
 import React from "react";
-import PageTemplate from "../components/pageTemplate";
+import PageTemplate from "../components/PageTemplate";
 
 const HomePage: React.FC = () => {
   return (

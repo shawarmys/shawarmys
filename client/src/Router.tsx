@@ -1,7 +1,7 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Theme from "./components/theme";
-import HomePage from "./pages/homePage";
+import Theme from "./components/Theme";
+import HomePage from "./pages/HomePage";
 
 const Router = () => {
   return (
