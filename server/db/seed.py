@@ -4,6 +4,7 @@ from parser.parser import main as parse_all
 
 import pandas as pd
 from common import DIRECT_MAPPING_TABLES, INDIRECT_MAPPING_TABLES
+from db.create_mappings import create_direct_mappings, create_indirect_mappings
 from db.database import engine
 from sqlalchemy import text
 
@@ -77,23 +78,59 @@ def insert_dataframe(df: pd.DataFrame, table_name: str):
     print(f"  ↳ inserted {len(df)} rows into '{table_name}'")
 
 
-def resolve_and_insert(table_name: str, df: pd.DataFrame):
-    """Upsert parent rows (patients/cases) then insert the data."""
-    if table_name in DIRECT_MAPPING_TABLES:
-        admission = df["admission_date"] if "admission_date" in df.columns else None
-        discharge = df["discharge_date"] if "discharge_date" in df.columns else None
-        upsert_cases(df["case_id"], df["patient_id"], admission, discharge)
-    elif table_name in INDIRECT_MAPPING_TABLES:
-        pass
+# Tables whose rows carry a case_id we can use in integration_mappings.
+_MAPPING_COLUMNS: dict[str, str] = {
+    "lab_results": "lab_results_id",
+    "icd10_data": "icd10_data_id",
+    "nursing_daily_reports": "nursing_daily_reports_id",
+    "medication_events": "medication_events_id",
+    "device_motions": "device_motions_id",
+    "device_1hz_motions": "device_1hz_motions_id",
+}
 
-    insert_dataframe(df, table_name)
 
-
-def is_db_empty() -> bool:
-    """Return True if the cases table has no rows (i.e. DB has not been seeded)."""
+def build_integration_mappings():
+    """
+    Query every data table for its (id, case_id) pairs and insert one
+    integration_mappings row per pair.  This gives a many-to-one view:
+    one case can have many rows in each data table, all retrievable from
+    the integration_mappings table.
+    """
     with engine.begin() as conn:
-        result = conn.execute(text("SELECT COUNT(*) FROM cases")).scalar()
-        return result == 0
+        rows_to_insert = []
+        for table_name, fk_col in _MAPPING_COLUMNS.items():
+            pairs = conn.execute(
+                text(f"SELECT id, case_id FROM {table_name} WHERE case_id IS NOT NULL")
+            ).fetchall()
+            for row_id, case_id in pairs:
+                rows_to_insert.append({"case_id": case_id, fk_col: row_id})
+
+        if rows_to_insert:
+            # Build a single INSERT with all nullable FK columns
+            conn.execute(
+                text(
+                    "INSERT INTO integration_mappings "
+                    "(case_id, lab_results_id, icd10_data_id, "
+                    "nursing_daily_reports_id, medication_events_id, "
+                    "device_motions_id, device_1hz_motions_id) "
+                    "VALUES (:case_id, :lab_results_id, :icd10_data_id, "
+                    ":nursing_daily_reports_id, :medication_events_id, "
+                    ":device_motions_id, :device_1hz_motions_id)"
+                ),
+                [
+                    {
+                        "case_id": r["case_id"],
+                        "lab_results_id": r.get("lab_results_id"),
+                        "icd10_data_id": r.get("icd10_data_id"),
+                        "nursing_daily_reports_id": r.get("nursing_daily_reports_id"),
+                        "medication_events_id": r.get("medication_events_id"),
+                        "device_motions_id": r.get("device_motions_id"),
+                        "device_1hz_motions_id": r.get("device_1hz_motions_id"),
+                    }
+                    for r in rows_to_insert
+                ],
+            )
+            print(f"  ↳ inserted {len(rows_to_insert)} integration mapping(s)")
 
 
 def seed_database():
@@ -106,12 +143,28 @@ def seed_database():
         return
 
     print(f"\nInserting {len(dfs)} dataset(s) into the database:\n")
-    for table_name, df in dfs.items():
-        print(f"📄 {table_name}  ({len(df)} rows)")
-        resolve_and_insert(table_name, df)
-        print()
+    direct_mapping_dfs = {k: v for k, v in dfs.items() if k in DIRECT_MAPPING_TABLES}
+    indirect_mapping_dfs = {k: v for k, v in dfs.items() if k in INDIRECT_MAPPING_TABLES}
 
-    print("✅ Done — all data inserted.")
+    # 1. Upsert cases (from direct tables + icd10 dates)
+    cases_df, alert_cases = create_direct_mappings(direct_mapping_dfs)
+
+    # 2. Insert direct-mapping DataFrames
+    for table_name, df in direct_mapping_dfs.items():
+        print(f"📄 {table_name}  ({len(df)} rows)")
+        insert_dataframe(df, table_name)
+
+    # 3. Resolve case_id for indirect tables, then insert them
+    resolved_indirect = create_indirect_mappings(indirect_mapping_dfs, cases_df)
+    for table_name, df in resolved_indirect.items():
+        print(f"📄 {table_name}  ({len(df)} rows)")
+        insert_dataframe(df, table_name)
+
+    # 4. Build and insert integration_mappings
+    print("\nBuilding integration mappings …")
+    build_integration_mappings()
+
+    print("\n✅ Done — all data inserted.")
 
 
 if __name__ == "__main__":

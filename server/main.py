@@ -4,17 +4,17 @@ from contextlib import asynccontextmanager
 import models  # noqa: F401
 from api.routes import router
 from db.database import Base, engine
-from db.seed import is_db_empty, seed_database
+from db.seed import seed_database
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
-    if is_db_empty():
-        print("Database is empty — seeding from CSV files …")
-        seed_database()
+    print("Database is empty — seeding from CSV files …")
+    seed_database()
     yield
 
 
