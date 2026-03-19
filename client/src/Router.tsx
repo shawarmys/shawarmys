@@ -5,6 +5,7 @@ import AlertsPage from "./pages/AlertsPage";
 import HomePage from "./pages/HomePage";
 import ImportedFilesPage from "./pages/ImportedFilesPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import UploadPage from "./pages/UploadPage";
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/imported-files" element={<ImportedFilesPage />} />
           <Route path="/alerts" element={<AlertsPage />} />
+          <Route path="/upload" element={<UploadPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Theme>
