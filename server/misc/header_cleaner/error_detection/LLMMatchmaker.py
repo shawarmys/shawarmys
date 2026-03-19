@@ -57,7 +57,6 @@ class BertSemanticMatcher:
         ]
 
 
-# --- Example Usage ---
 if __name__ == "__main__":
     import json
     from CsvExcelReader import CsvExcelReader
@@ -66,7 +65,7 @@ if __name__ == "__main__":
     from TableSchemaEncoder import TableSchemaEncoder
 
     encoder = TableSchemaEncoder()
-    input_file = "C:\\Users\\marti\\Documents\\shawarmys\\server\\misc\\header_cleaner\\error_detection\\csvFiles\\split_data_pat_case_altered\\clinic_1_nursing.csv"
+    input_file = "C:\\Users\\marti\\Documents\\shawarmys\\server\\misc\\header_cleaner\\error_detection\\csvFiles\\split_data_pat_case_altered\\clinic_4_nursing.csv"
     reader = CsvExcelReader(input_file)
     incoming_df = reader.read_csv()
     incoming_metadata = encoder.encode_target_table("incoming_table", incoming_df)
