@@ -5,6 +5,12 @@ import os
 class CsvExcelReader:
   def __init__(self, file_path):
     self.file_path = file_path
+    if file_path.endswith('.csv'):
+      return self.read_csv()
+    elif file_path.endswith('.xlsx'):
+      return self.read_excel()
+    else:
+      raise ValueError("Unsupported file type. Only .csv and .xlsx are supported.")
 
   def read_csv(self):
     try:
@@ -13,6 +19,12 @@ class CsvExcelReader:
     except Exception as e:
       raise ValueError(f"Error reading CSV file: {e}")
 
+  def read_excel(self):
+    try:
+      df = pd.read_excel(self.file_path, engine=None)
+      return df
+    except Exception as e:
+      raise ValueError(f"Error reading Excel file: {e}")
 
   def check_delimiter(self, file_path):
     with open(file_path, 'r') as f:
