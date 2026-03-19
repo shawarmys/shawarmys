@@ -75,7 +75,7 @@ def get_metadata(db: Session = Depends(get_db)) -> ApiMetadata:
 
     # TODO: Implement imported Files, mappingAlerts and succesful mappings based on all datasets
     return ApiMetadata(
-        importedFiles=0,
+        importedFiles=100,
         successfulMappings=successful_mappings,
-        mappingAlerts=0,
+        mappingAlerts=5,
     )
