@@ -76,10 +76,7 @@ class HeaderValidator:
 
             # Call the mapping function here if needed, passing the header row and gold standard for further processing
 
-
-            return results
-
-        if self.header_error_indicators["completely_wrong"] > 0:
+        if self.header_error_indicators["completely_wrong"] > 1:
             results["message"] = "Header row might be completely wrong based on multiple indicators."
             return results
 
