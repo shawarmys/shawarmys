@@ -11,8 +11,10 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableHead,
   TableRow,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import React from "react";
 import PageTemplate from "../components/PageTemplate";
@@ -26,7 +28,24 @@ const TableEditorPage: React.FC = () => {
     setEditModeTableDataEntry,
     errors,
     unsetError,
+    setErrors,
   } = useTableData();
+
+  //!--[
+  //! Mock data until we implement file upload and parsing
+  React.useEffect(() => {
+    const a = ["a", "b", "c", "d", "e", "f", "g", "h"];
+    a.concat(a)
+      .concat(a)
+      .concat(a)
+      .forEach((_, rowIdx) => {
+        for (let cellIdx = 0; cellIdx < 100; cellIdx++) {
+          setTableDataEntry(rowIdx, cellIdx, `R${rowIdx + 1}C${cellIdx + 1}`);
+        }
+      });
+    setErrors([{ row: 5, col: 5, msg: "This is a mock error message." }]);
+  }, [setTableDataEntry]);
+  //!--]
 
   const [editingValues, setEditingValues] = React.useState<
     Record<string, string>
@@ -97,19 +116,42 @@ const TableEditorPage: React.FC = () => {
           }}
           aria-label="simple table"
         >
+          <TableHead></TableHead>
           <TableBody>
             {tableData?.map((row, rowIdx) => {
               return (
-                <>
-                  <TableRow
-                    key={rowIdx}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                      backgroundColor:
-                        rowIdx % 2 === 1 ? "action.hover" : "background.paper",
-                    }}
-                  >
-                    {row?.map((cell, cellIdx) => (
+                <TableRow
+                  key={rowIdx}
+                  sx={{
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    backgroundColor:
+                      rowIdx % 2 === 1 ? "action.hover" : "background.paper",
+                  }}
+                >
+                  {row?.map((cell, cellIdx) => (
+                    <Tooltip
+                      title={
+                        errors.find(
+                          (error) =>
+                            error.row === rowIdx && error.col === cellIdx,
+                        )?.msg || ""
+                      }
+                      placement="top"
+                      arrow
+                      slotProps={{
+                        tooltip: {
+                          sx: {
+                            bgcolor: "error.main",
+                            color: "common.white",
+                          },
+                        },
+                        arrow: {
+                          sx: {
+                            color: "error.main",
+                          },
+                        },
+                      }}
+                    >
                       <TableCell
                         id={`error-cell-${rowIdx}-${cellIdx}`}
                         scope="row"
@@ -124,6 +166,13 @@ const TableEditorPage: React.FC = () => {
                             ? "error.light"
                             : undefined,
                         }}
+                        // Show error message as tooltip on hover if this cell has an error
+                        title={
+                          errors.find(
+                            (error) =>
+                              error.row === rowIdx && error.col === cellIdx,
+                          )?.msg
+                        }
                       >
                         {editModeTableData?.[rowIdx]?.[cellIdx] ? (
                           <TextField
@@ -186,9 +235,9 @@ const TableEditorPage: React.FC = () => {
                           </span>
                         )}
                       </TableCell>
-                    ))}
-                  </TableRow>
-                </>
+                    </Tooltip>
+                  ))}
+                </TableRow>
               );
             })}
           </TableBody>
