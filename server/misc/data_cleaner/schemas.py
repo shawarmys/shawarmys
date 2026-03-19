@@ -2,6 +2,15 @@
 
 import pandera.pandas as pa
 
+from misc.config_loader import load_fingerprints
+from pandera.engines.pandas_engine import DateTime as PanderaDateTime
+
+EPAC_COLUMN_OVERRIDES = {
+    "epaAC-Data-2_fingerprint": {
+        "EPA0002": pa.Column(str, nullable=False),  # observed value "A"
+    },
+    # add more as you discover them
+}
 
 LABS_SCHEMA = pa.DataFrameSchema(
     {
@@ -202,4 +211,138 @@ NURSING_SCHEMA = pa.DataFrameSchema(
     coerce=True,
     ordered=True,
 )
+
+EPAC_DATA_1_SCHEMA = pa.DataFrameSchema(
+    {
+        "FallID": pa.Column(str, nullable=True),
+        "PID": pa.Column(int, nullable=False),
+        "Einschätzung": pa.Column(pa.DateTime, nullable=False),
+        "Aufnahme": pa.Column(pa.DateTime, nullable=False),
+        "Entlassund": pa.Column(str, nullable=True),  # nulls_only column
+        "Station": pa.Column(str, nullable=False),
+        "Account": pa.Column(str, nullable=False),
+        "SID": pa.Column(float, nullable=False),
+        "SID_value": pa.Column(float, nullable=True),  # Mixed int/float/string
+    },
+    strict=True,
+    coerce=True,
+    ordered=True,
+)
+
+_TYPE_MAP = {
+    "int": int,
+    "float": float,
+    "bool": bool,
+    "string": str,
+}
+
+
+
+def _dtype_from_expected_types(expected_types: dict) -> object:
+    if not expected_types or expected_types.get("nulls_only", 0) == 1.0:
+        return str
+
+    int_p = float(expected_types.get("int", 0) or 0)
+    float_p = float(expected_types.get("float", 0) or 0)
+    dt_p = float(expected_types.get("datetime", 0) or 0)
+    bool_p = float(expected_types.get("bool", 0) or 0)
+    str_p = float(expected_types.get("string", 0) or 0)
+
+    # Key fix: if strings are materially present with numeric types, use string.
+    if str_p > 0 and (int_p > 0 or float_p > 0):
+        return str
+
+    candidates = {
+        "int": int_p,
+        "float": float_p,
+        "datetime": dt_p,
+        "bool": bool_p,
+        "string": str_p,
+    }
+    best_type = max(candidates, key=candidates.get, default="string")
+
+    if best_type == "datetime":
+        return "datetime"
+    return _TYPE_MAP.get(best_type, str)
+
+
+def _datetime_kwargs_from_meta(meta: dict) -> dict:
+    # Use fixed german formats where detectable, fallback to dayfirst parsing.
+    length_stats = meta.get("length_stats", {}) or {}
+    mean_len = length_stats.get("mean", None)
+
+    if mean_len == 10:
+        return {"format": "%d.%m.%Y", "dayfirst": True}
+    if mean_len == 16:
+        return {"format": "%d.%m.%Y %H:%M", "dayfirst": True}
+    if mean_len == 19:
+        return {"format": "%d.%m.%Y %H:%M:%S", "dayfirst": True}
+    return {"dayfirst": True}
+
+def _schema_from_fingerprint(fingerprint: dict, fingerprint_name: str | None = None) -> pa.DataFrameSchema:
+    ordered_headers = fingerprint["table_metadata"]["ordered_headers"]
+    col_fp = fingerprint["column_fingerprints"]
+    overrides = EPAC_COLUMN_OVERRIDES.get(fingerprint_name or "", {})
+
+    columns = {}
+    for col in ordered_headers:
+        if col in overrides:
+            columns[col] = overrides[col]
+            continue
+
+        meta = col_fp[col]
+        expected = meta.get("expected_types", {})
+        nullable = bool(meta.get("is_nullable", True))
+        inferred = _dtype_from_expected_types(expected)
+
+        has_mixed_datetime_string = (
+            inferred == "datetime" and float(expected.get("string", 0) or 0) > 0
+        )
+        effective_nullable = nullable or has_mixed_datetime_string
+
+        if inferred == "datetime":
+            col_schema = pa.Column(
+                PanderaDateTime(to_datetime_kwargs=_datetime_kwargs_from_meta(meta)),
+                nullable=effective_nullable,
+            )
+        else:
+            col_schema = pa.Column(inferred, nullable=effective_nullable)
+
+        columns[col] = col_schema
+
+    return pa.DataFrameSchema(columns, strict=True, coerce=True, ordered=True)
+
+
+
+_FPS = load_fingerprints()
+
+EPAC_DATA_1_SCHEMA = pa.DataFrameSchema(
+    {
+        "FallID": pa.Column(str, nullable=True),
+        "PID": pa.Column(int, nullable=False),
+        "Einschätzung": pa.Column(
+            PanderaDateTime(to_datetime_kwargs={"format": "%d.%m.%Y %H:%M", "dayfirst": True}),
+            nullable=False,
+        ),
+        "Aufnahme": pa.Column(
+            PanderaDateTime(to_datetime_kwargs={"format": "%d.%m.%Y %H:%M", "dayfirst": True}),
+            nullable=False,
+        ),
+        "Entlassund": pa.Column(str, nullable=True),
+        "Station": pa.Column(str, nullable=False),
+        "Account": pa.Column(str, nullable=False),
+        "SID": pa.Column(str, nullable=False),         # was float, but values are like 08_02
+        "SID_value": pa.Column(str, nullable=True),    # mixed values (08_02_01, 70, etc.)
+    },
+    strict=True,
+    coerce=True,
+    ordered=True,
+)
+
+EPAC_DATA_2_SCHEMA = _schema_from_fingerprint(_FPS["epaAC-Data-2_fingerprint"], "epaAC-Data-2_fingerprint")
+EPAC_DATA_3_SCHEMA = _schema_from_fingerprint(_FPS["epaAC-Data-3_fingerprint"], "epaAC-Data-3_fingerprint")
+EPAC_DATA_4_SCHEMA = _schema_from_fingerprint(_FPS["epaAC-Data-4_fingerprint"], "epaAC-Data-4_fingerprint")
+EPAC_DATA_5_SCHEMA = _schema_from_fingerprint(_FPS["epaAC-Data-5_fingerprint"], "epaAC-Data-5_fingerprint")
+
+
 

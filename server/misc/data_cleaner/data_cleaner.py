@@ -4,14 +4,21 @@ import pandas as pd
 
 from misc.config_loader import load_fingerprints
 from misc.data_cleaner.file_name_matcher import FileNameMatcher, FILE_KEYWORDS
-from misc.data_cleaner.schemas import LABS_SCHEMA, ICD10_SCHEMA, DEVICE_MOTION_SCHEMA, DEVICE_RAW_1HZ_SCHEMA, \
-    MEDICATION_SCHEMA, NURSING_SCHEMA
+from misc.data_cleaner.schemas import (
+    LABS_SCHEMA, ICD10_SCHEMA, DEVICE_MOTION_SCHEMA, DEVICE_RAW_1HZ_SCHEMA,
+    MEDICATION_SCHEMA, NURSING_SCHEMA,
+    EPAC_DATA_1_SCHEMA, EPAC_DATA_2_SCHEMA, EPAC_DATA_3_SCHEMA,
+    EPAC_DATA_4_SCHEMA, EPAC_DATA_5_SCHEMA
+)
 
 from misc.header_cleaner.error_detection.CsvExcelReader import CsvExcelReader
 
 
 class DataCleaner:
-    NULL_LIKE_TOKENS = {"null", "missing", "unknown", "nan", "n/a"}
+    NULL_LIKE_TOKENS = {
+        "null", "missing", "unknown", "nan", "n/a", "",
+        "00.00.0000", "00:00:00", "0000-00-00"
+    }
 
     def __init__(self, file_path: str):
         self.file_path = file_path
@@ -27,6 +34,11 @@ class DataCleaner:
             "device_1hz": DEVICE_RAW_1HZ_SCHEMA,
             "medication": MEDICATION_SCHEMA,
             "nursing": NURSING_SCHEMA,
+            "epac_data_1": EPAC_DATA_1_SCHEMA,
+            "epac_data_2": EPAC_DATA_2_SCHEMA,
+            "epac_data_3": EPAC_DATA_3_SCHEMA,
+            "epac_data_4": EPAC_DATA_4_SCHEMA,
+            "epac_data_5": EPAC_DATA_5_SCHEMA,
         }
 
     def get_file_extension(self, file_path: str) -> str:
@@ -55,8 +67,6 @@ class DataCleaner:
 
     def clean_csv(self):
         print(f"Cleaning CSV file: {self.file_path}")
-        if self.file_type == "device_raw":
-            pass
         # Depending on file type, apply schema
         df = CsvExcelReader(self.file_path).read_csv()
         schema = self.file_type_to_schema[self.file_type]
