@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useMetadata } from "../hooks/useMetadata";
+import { useMetadata } from "../hooks/useApi";
 import Navbar from "./Navbar";
 
 interface PageTemplateProps {
@@ -15,18 +15,22 @@ interface PageTemplateProps {
 }
 
 const PageTemplate: React.FC<PageTemplateProps> = ({ children, title }) => {
-  const { isLoading: metadataLoading } = useMetadata();
+  const { isLoading: metadataIsLoading } = useMetadata();
 
   return (
     <Box>
       <Navbar />
-      <Container sx={{ mt: 4 }}>
-        {title && <Typography variant="h4">{title}</Typography>}
+      <Container sx={{ mt: 4, mb: 6 }}>
+        {title && (
+          <Typography variant="h4" sx={{ mb: 1 }}>
+            {title}
+          </Typography>
+        )}
         {children}
       </Container>
 
       {/* Loader */}
-      {metadataLoading && (
+      {metadataIsLoading && (
         <Backdrop
           open={true}
           sx={{

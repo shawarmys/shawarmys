@@ -16,6 +16,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import CustomCard from "../components/CustomCard";
 import PageTemplate from "../components/PageTemplate";
+import { useMetadata } from "../hooks/useApi";
 
 const IconSX: SxProps = {
   mr: 1.5,
@@ -31,7 +32,10 @@ const CardListItem: React.FC<{
 }> = ({ icon, number, label, sx, onClick }) => {
   return (
     <ListItem>
-      <ListItemText sx={{ cursor: "pointer" }} onClick={onClick}>
+      <ListItemText
+        sx={onClick ? { cursor: "pointer" } : undefined}
+        onClick={onClick}
+      >
         <Typography variant="h6" sx={sx}>
           {icon}
           {number}
@@ -46,6 +50,7 @@ const CardListItem: React.FC<{
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
+  const { data, isLoading, isError } = useMetadata();
 
   return (
     <PageTemplate title="">
@@ -55,10 +60,13 @@ const HomePage: React.FC = () => {
           <CustomCard>
             <List>
               {/* Imported Files */}
-              {/* TODO: Data */}
               <CardListItem
                 icon={<DownloadIcon sx={IconSX} />}
-                number="XX"
+                number={
+                  !isLoading && !isError && data?.importedFiles
+                    ? data.importedFiles.toString()
+                    : ""
+                }
                 label="Imported Files"
                 onClick={() => navigate("/imported-files")}
               />
@@ -66,10 +74,13 @@ const HomePage: React.FC = () => {
               <Divider variant="middle" component="li" />
 
               {/* Successful Mappings */}
-              {/* TODO: Data, onClick */}
               <CardListItem
                 icon={<CheckIcon sx={IconSX} />}
-                number="XX"
+                number={
+                  !isLoading && !isError && data?.successfulMappings
+                    ? data.successfulMappings.toString()
+                    : ""
+                }
                 label="Successful Mappings"
                 sx={{ color: "success.main" }}
               />
@@ -77,10 +88,13 @@ const HomePage: React.FC = () => {
               <Divider variant="middle" component="li" />
 
               {/* Mapping Alerts */}
-              {/* TODO: Data, onClick */}
               <CardListItem
                 icon={<ReportProblemIcon sx={IconSX} />}
-                number="XX"
+                number={
+                  !isLoading && !isError && data?.mappingAlerts
+                    ? data.mappingAlerts.toString()
+                    : ""
+                }
                 label="Mapping Alerts"
                 sx={{ color: "warning.main" }}
               />
