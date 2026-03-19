@@ -4,7 +4,7 @@ import os
 from Levenshtein import distance as lev_dist
 import json
 import pandas as pd
-from server.error_handler.error_detection.TableSchemaEncoder import TargetSchemaEncoder
+from TableSchemaEncoder import TargetSchemaEncoder
 
 
 class HeaderValidator:
@@ -26,16 +26,15 @@ class HeaderValidator:
         """
         results = {
             "is_valid": False,
-            "likelihood_score": 0.0,
-            "message": [],
+            "message": "",
         }
 
         # Column Count Check
         incoming_col_count = len(incoming_row_1)
         count_diff = abs(incoming_col_count - self.gold_col_count)
         if count_diff > 0:
-            results["message"].append(f"Column count mismatch: Expected {self.gold_col_count}, got {incoming_col_count} ")
             self.header_error_indicators["column_count_mismatch"] += 1
+            self.header_error_indicators["completely_wrong"] += 1
 
         # We check how many headers match their expected positions
         matches = 0
@@ -46,12 +45,20 @@ class HeaderValidator:
                 total_dist += dist
                 if dist <= 2:
                     matches += 1
+                else:
+                    self.header_error_indicators["wrong_labels"] += 1
+                    self.header_error_indicators["completely_wrong"] += 1
+                    self.header_error_indicators["incorrect_order"] += 1
 
         match_ratio = matches / self.gold_col_count if self.gold_col_count > 0 else 0
+        if match_ratio < 0.5:
+            self.header_error_indicators["completely_wrong"] += 1
 
         # Composition Check (Is Row 1 actually Data?)
         row1_composition = self._get_composition(incoming_row_1)
         is_numeric_heavy = row1_composition["digit_count"] > row1_composition["alpha_count"]
+        if is_numeric_heavy:
+            self.header_error_indicators["no_header_but_data"] += 1
 
         # 4. Compare Row 1 vs Row 2
         is_row1_data_like = False
@@ -60,23 +67,30 @@ class HeaderValidator:
             # If Row 1 and Row 2 look almost identical structurally, Row 1 is likely data
             if self._compositions_are_similar(row1_composition, row2_composition):
                 is_row1_data_like = True
-                results["message"].append("Row 1 structure matches Row 2. Likely missing header row. ")
+                self.header_error_indicators["no_header_but_data"] += 1
 
-        # Scoring Logic
-        score = 0.0
-        score += match_ratio * 0.6  # Label similarity is high weight
-        if not is_numeric_heavy: score += 0.2
-        if incoming_col_count == self.gold_col_count: score += 0.2
-        if is_row1_data_like: score -= 0.5
+        # Error suggestions based on indicators
+        if self.header_error_indicators["column_count_mismatch"] > 0:
+            results["message"] = "Header row appears valid based on the checks performed. Continue with matching and mapping."
+            results["is_valid"] = True
 
-        results["likelihood_score"] = max(0, min(score, 1.0))
-        results["is_valid"] = results["likelihood_score"] > 0.85
+            # Call the mapping function here if needed, passing the header row and gold standard for further processing
 
-        # 5. Suggestion Logic (The "Small Hints")
-        if 0.4 < match_ratio < 0.85:
-            results["errors"].append("Headers found but order might be shifted or labels renamed.")
-        if is_numeric_heavy and not is_row1_data_like:
-            results["errors"].append("Headers contain many numbers. Check if this is a technical naming convention.")
+
+            return results
+
+        if self.header_error_indicators["completely_wrong"] > 0:
+            results["message"] = "Header row might be completely wrong based on multiple indicators."
+            return results
+
+        if self.header_error_indicators["wrong_labels"] > 0 and self.header_error_indicators["completely_wrong"] == 0:
+            results["message"] = "Header row has wrong labels compared to the gold standard."
+        elif self.header_error_indicators["incorrect_order"] > 0:
+            results["message"] = "Header row might have incorrect order of columns."
+        elif self.header_error_indicators["no_header_but_data"] > 0:
+            results["message"] = "First row appears to contain data, not headers."
+        else:
+            results["message"] = "Unable to determine the validity of the header row."
 
         return results
 
