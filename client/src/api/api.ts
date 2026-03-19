@@ -24,19 +24,6 @@ export interface apiImportedFile {
 }
 
 export const getImportedFiles = async () => {
-  // TODO remove mock data
-  const mockData = [];
-  for (let i = 1; i <= 50; i++) {
-    mockData.push({
-      name: `file_${i}.csv`,
-      source: "Clinic",
-      entries: 100 * i,
-      records: 10 * i,
-      type: "csv",
-    });
-  }
-  return mockData as apiImportedFile[];
-  // TODO ---
   const response = await apiClient.get("/imported-files/");
   return response.data as apiImportedFile[];
 };
