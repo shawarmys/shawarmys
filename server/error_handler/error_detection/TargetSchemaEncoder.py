@@ -7,8 +7,10 @@ import csv
 from Levenshtein import distance as lev_dist
 
 class TargetSchemaEncoder:
-    def __init__(self):
+    def __init__(self, save_fingerprint=False, save_directory='saved_fingerprints'):
         self.gold_fingerprints = {}
+        self.save_fingerprint = save_fingerprint
+        self.save_directory = save_directory
 
     def encode_target_table(self, table_name, df):
         """Creates a deterministic fingerprint based on structure and metadata."""
@@ -45,9 +47,10 @@ class TargetSchemaEncoder:
         self.gold_fingerprints[table_name] = table_profile
 
         # Save the fingerprint for later use in mapping
-        self.save_fingerprint(table_name)
+        if self.save_fingerprint:
+            self.save_fingerprints(table_name, directory=self.save_directory)
 
-    def save_fingerprint(self, table_name, directory='goldFingerPrints'):
+    def save_fingerprints(self, table_name, directory):
         # This finds the directory where TargetSchemaEncoder.py actually lives
         script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -157,7 +160,7 @@ class NumpyEncoder(json.JSONEncoder):
 
 if __name__ == "__main__":
     # Create FIngerprints for all csv and excel files in the 'goldStandard' directory
-    target_encoder = TargetSchemaEncoder()
+    target_encoder = TargetSchemaEncoder(save_fingerprint=True)
     gold_standard_dir = os.path.join(os.path.dirname(__file__), 'csvFiles/goldStandard')
     for filename in os.listdir(gold_standard_dir):
         if filename.endswith(('.csv', '.xlsx')):
@@ -179,7 +182,8 @@ if __name__ == "__main__":
                         file_path,
                         sep=delimiter,
                         engine='python',
-                        encoding='utf-8'
+                        encoding='utf-8',
+                        on_bad_lines='warn'
                     )
                 except UnicodeDecodeError:
                     # Fallback for German/Windows-encoded files
@@ -187,7 +191,8 @@ if __name__ == "__main__":
                         file_path,
                         sep=delimiter,
                         engine='python',
-                        encoding='latin1'
+                        encoding='latin1',
+                        on_bad_lines='warn'
                     )
                 #try:
                 #    df = pd.read_excel(file_path, engine=None)
