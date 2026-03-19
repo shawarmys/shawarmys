@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Install dependencies first for better layer caching
 COPY server/package*.json ./
-RUN npm ci
+RUN npm install
 
 # Copy TypeScript sources and build
 COPY server/ ./
