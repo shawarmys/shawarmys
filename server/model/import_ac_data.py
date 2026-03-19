@@ -1,7 +1,7 @@
 import datetime
 from typing import Optional
 
-from sqlalchemy import BigInteger, DateTime, Numeric, SmallInteger, String
+from sqlalchemy import BigInteger, DateTime, ForeignKey, Numeric, SmallInteger, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from database import Base
@@ -11,6 +11,7 @@ class ImportAcData(Base):
     __tablename__ = "tbImportAcData"
 
     coId: Mapped[int] = mapped_column("coId", BigInteger, primary_key=True, autoincrement=True)
+    file_id: Mapped[Optional[int]] = mapped_column("file_id", ForeignKey("files.id"))
     coCaseId: Mapped[Optional[int]] = mapped_column("coCaseId", BigInteger)
 
     # E0I-series (smallint)

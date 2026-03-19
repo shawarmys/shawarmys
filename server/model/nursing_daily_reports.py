@@ -9,6 +9,7 @@ class NursingDailyReports(Base):
     __tablename__ = "nursing_daily_reports"
 
     id: Mapped[int] = mapped_column("id", BigInteger, primary_key=True, autoincrement=True)
+    file_id: Mapped[Optional[int]] = mapped_column("file_id", ForeignKey("files.id"))
     case_id: Mapped[Optional[int]] = mapped_column("case_id", ForeignKey("cases.id"))
     patient_id: Mapped[Optional[int]] = mapped_column("patient_id", BigInteger)
     ward: Mapped[Optional[str]] = mapped_column("ward", String(256))
