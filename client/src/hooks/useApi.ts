@@ -1,5 +1,10 @@
 import useSWR from "swr";
-import { getImportedFiles, getMetadata } from "../api/api";
+import {
+  getDataGroupsSummary,
+  getDataSourcesSummary,
+  getImportedFiles,
+  getMetadata,
+} from "../api/api";
 
 // *** Metadata ***
 
@@ -22,6 +27,38 @@ export function useImportedFiles() {
   const { data, error, isLoading, mutate } = useSWR(
     "/imported-files",
     async () => getImportedFiles(),
+  );
+
+  return {
+    data,
+    isLoading,
+    isError: error,
+    mutate,
+  };
+}
+
+// *** Data Source Summary ***
+
+export function useDataSourcesSummary() {
+  const { data, error, isLoading, mutate } = useSWR(
+    "/data-sources-summary",
+    async () => getDataSourcesSummary(),
+  );
+
+  return {
+    data,
+    isLoading,
+    isError: error,
+    mutate,
+  };
+}
+
+// *** Data Groups Summary ***
+
+export function useDataGroupsSummary() {
+  const { data, error, isLoading, mutate } = useSWR(
+    "/data-groups-summary",
+    async () => getDataGroupsSummary(),
   );
 
   return {
