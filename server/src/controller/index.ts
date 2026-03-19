@@ -54,13 +54,14 @@ class Controller {
     }
   }
 
-  uploadFile(req: Request, res: Response, next: NextFunction) {
+  async uploadFile(req: Request, res: Response, next: NextFunction) {
     try {
       if (!req.file) {
         res.status(400).json({ error: "No file provided" });
         return;
       }
-      res.json(service.handleFileUpload(req.file));
+      const result = await service.handleFileUpload(req.file);
+      res.json(result);
     } catch (error) {
       next(error);
     }

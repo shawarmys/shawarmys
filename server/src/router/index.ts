@@ -8,7 +8,7 @@ export const apiRouter = Router();
 const ALLOWED_EXTENSIONS = new Set([".csv", ".xlsx", ".pdf"]);
 
 const upload = multer({
-  storage: multer.memoryStorage(),
+  storage: multer.diskStorage({ destination: "/tmp" }),
   fileFilter: (
     _req: Request,
     file: Express.Multer.File,
