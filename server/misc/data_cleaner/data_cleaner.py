@@ -1,6 +1,11 @@
+import argparse
+import json
+import tempfile
 from pathlib import Path
+from typing import Tuple
 
 import pandas as pd
+from pandera.errors import SchemaErrors
 
 from misc.config_loader import load_fingerprints
 from misc.data_cleaner.file_name_matcher import FileNameMatcher, FILE_KEYWORDS
@@ -71,32 +76,92 @@ class DataCleaner:
         df = CsvExcelReader(self.file_path).read_csv()
         schema = self.file_type_to_schema[self.file_type]
         df = self._map_null_like_values_for_nullable_columns(df, schema)
-        schema.validate(df)
-        return df
 
-    def clean_data(self):
+        try:
+            # Use lazy=True to collect ALL errors instead of failing on first
+            schema.validate(df, lazy=True)
+            print(f"✓ Validation passed")
+            return df, None
+
+        except SchemaErrors as e:
+            errors = self._extract_validation_errors_from_schema_errors(e)
+            print(f"✗ Validation failed with {len(errors['errors'])} error(s)")
+            return None, errors
+
+    def _extract_validation_errors_from_schema_errors(self, schema_errors):
+        """Extract errors from a SchemaErrors exception (lazy validation)."""
+        all_errors = []
+        for schema_error in schema_errors.schema_errors:
+            error_info = self._extract_single_error(schema_error)
+            all_errors.append(error_info)
+
+        return {
+            "errors": all_errors,
+            "error_count": len(all_errors)
+        }
+
+    def _extract_single_error(self, schema_error):
+        """Extract a single SchemaError into structured format."""
+        # Pandera SchemaError stores the message as a string representation
+        # Access attributes that actually exist: check, reason_code, failure_cases
+        error_str = str(schema_error)
+
+        return {
+            #"message": error_str,  # The full error message from string conversion
+            "reason_code": getattr(schema_error, 'reason_code', None),
+            #"check": getattr(schema_error, 'check', None),
+            "column": getattr(schema_error, 'column', None),
+            "row": getattr(schema_error, 'row', None),  # added
+            "failure_cases": str(schema_error.failure_cases) if hasattr(schema_error,
+                                                                        'failure_cases') and schema_error.failure_cases is not None else None
+        }
+
+    def clean_data(self) -> Tuple[pd.DataFrame, any]:
         if self.file_extension == 'csv':
-            self.clean_csv()
+            return self.clean_csv()
         else:
             raise ValueError(f"Unsupported file type: {self.file_extension}")
 
 if __name__ == "__main__":
-    base_dir = Path(
-        "C:/Users/trist/PycharmProjects/shawarmys/data/Endtestdaten_ohne_Fehler_ einheitliche ID"
+    parser = argparse.ArgumentParser(
+        description="Clean and validate EPAC/Labs/Device CSV/XLSX files"
+    )
+    parser.add_argument(
+        "--file_path",
+        type=str,
+        help="Path to CSV to clean"
     )
 
-    for file_path in base_dir.iterdir():
-        if not file_path.is_file():
-            continue
+    args = parser.parse_args()
 
-        if file_path.suffix.lower() != ".csv":
-            print(f"Skipping unsupported file type: {file_path.name}")
-            continue
+    df, errors = DataCleaner(args.file_path).clean_data()
 
-        print(f"\nProcessing: {file_path.name}")
-        try:
-            cleaner = DataCleaner(str(file_path))
-            cleaner.clean_data()
-        except Exception as exc:
-            print(f"Failed on {file_path.name}: {exc}")
-            continue
+    # TODO: Save CSV, Save JSON with errors, return by printing with delimiter ';'
+    errors_path = None
+    if errors is not None:
+        with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                suffix=".json",
+                prefix="errors_",
+                delete=False,
+        ) as tmp_json:
+            json.dump(errors, tmp_json, ensure_ascii=False, indent=2, default=str)
+            errors_path = tmp_json.name
+
+    csv_path = None
+    if df is not None:
+        with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                suffix=".csv",
+                prefix="cleaned_",
+                delete=False,
+                newline=""
+        ) as tmp_csv:
+            df.to_csv(tmp_csv.name, index=False)
+            csv_path = tmp_csv.name
+    else:
+        csv_path = args.file_path
+
+    print(csv_path + ";" + errors_path)
