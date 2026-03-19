@@ -90,12 +90,6 @@ const UploadPage: React.FC = () => {
 
   const removeFile = () => setFile(null);
 
-  const clearFiles = () => {
-    setFile(null);
-    setErrorMessage(null);
-    setSuccessMessage(null);
-  };
-
   const onDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setIsDragActive(true);
@@ -227,13 +221,6 @@ const UploadPage: React.FC = () => {
         </Box>
 
         <Stack direction="row" spacing={1.5}>
-          <Button
-            variant="outlined"
-            onClick={clearFiles}
-            disabled={isUploading}
-          >
-            Clear
-          </Button>
           <Button
             variant="contained"
             onClick={uploadFiles}
