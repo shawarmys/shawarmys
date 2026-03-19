@@ -1,37 +1,8 @@
-import { Request, Router } from "express";
-import multer, { FileFilterCallback } from "multer";
-import path from "path";
+import { Router } from "express";
 import { controller } from "../controller/index.js";
+import upload from "../middleware/upload.js";
 
 export const apiRouter = Router();
-
-const ALLOWED_EXTENSIONS = new Set([".csv", ".xlsx", ".pdf"]);
-
-const upload = multer({
-  storage: multer.diskStorage({
-    destination: "/tmp",
-    filename: (req, file, next) => {
-      next(null, file.originalname);
-    },
-  }),
-  fileFilter: (
-    _req: Request,
-    file: Express.Multer.File,
-    cb: FileFilterCallback,
-  ) => {
-    console.log("Received file:", file.originalname);
-    const ext = path.extname(file.originalname).toLowerCase();
-    if (ALLOWED_EXTENSIONS.has(ext)) {
-      cb(null, true);
-    } else {
-      cb(
-        new Error(
-          `File type not allowed. Accepted: ${[...ALLOWED_EXTENSIONS].join(", ")}`,
-        ),
-      );
-    }
-  },
-});
 
 // --- Health & Root ---
 apiRouter.get("/", controller.getRoot);
@@ -51,3 +22,5 @@ apiRouter.get("/data-groups-summary", controller.getDataGroupsSummary);
 
 // --- File Upload ---
 apiRouter.post("/upload", upload.single("file"), controller.uploadFile);
+
+apiRouter.post("/upload/array", controller.upload2dArray);
