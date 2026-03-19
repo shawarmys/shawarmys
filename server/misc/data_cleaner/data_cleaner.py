@@ -208,6 +208,12 @@ if __name__ == "__main__":
         type=str,
         help="Path to CSV to clean"
     )
+    parser.add_argument(
+        "--json",
+        required=False,
+        action="store_true",
+        help="Whether to dump CSV to JSON"
+    )
 
     args = parser.parse_args()
 
@@ -215,6 +221,9 @@ if __name__ == "__main__":
 
     df = out["df"]
     errors = out["errors"]
+    errors_path = ""
+    csv_path = ""
+    json_path = ""
     if errors is not None:
         with tempfile.NamedTemporaryFile(
                 mode="w",
@@ -226,8 +235,19 @@ if __name__ == "__main__":
             json.dump(errors, tmp_json, ensure_ascii=False, indent=2, default=str)
             errors_path = tmp_json.name
 
-    csv_path = None
     if df is not None:
+        if args.json:
+            with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                suffix=".json",
+                prefix="cleaned_",
+                delete=False,
+                newline=""
+            ) as tmp_json:
+                df.to_json(tmp_json.name, index=False)
+                json_path = tmp_json.name
+
         with tempfile.NamedTemporaryFile(
                 mode="w",
                 encoding="utf-8",
@@ -241,4 +261,4 @@ if __name__ == "__main__":
     else:
         csv_path = args.file_path
 
-    print(csv_path + ";" + errors_path)
+    print(csv_path + ";" + errors_path + ";" + json_path)
