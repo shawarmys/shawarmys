@@ -15,8 +15,7 @@ from misc.data_cleaner.schemas import (
     EPAC_DATA_1_SCHEMA, EPAC_DATA_2_SCHEMA, EPAC_DATA_3_SCHEMA,
     EPAC_DATA_4_SCHEMA, EPAC_DATA_5_SCHEMA
 )
-
-from misc.header_cleaner.error_detection.CsvExcelReader import CsvExcelReader
+from misc.header_cleaner.CsvExcelReader import CsvExcelReader
 
 
 class DataCleaner:
@@ -70,7 +69,7 @@ class DataCleaner:
 
         return out
 
-    def _preprocess_ids(self, df: pd.DataFrame) -> pd.DataFrame:
+    def _preprocess_ids(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, list]:
         out = df.copy()
 
         for col in out.columns:
@@ -86,7 +85,38 @@ class DataCleaner:
                 # Nullable integer dtype: invalid parses become <NA>
                 out[col] = pd.to_numeric(s, errors="coerce").astype("Int64")
 
-        return out
+        # Track rows with null IDs
+        id_issues = []
+        case_cols = [c for c in out.columns if "case_id" in c.lower() or "fallid" in c.lower()]
+        patient_cols = [c for c in out.columns if "patient_id" in c.lower()]
+
+        if case_cols and patient_cols:
+            col_to_idx = {name: int(i) for i, name in enumerate(out.columns)}
+
+            # Check if any case_id/fallid OR patient_id is null
+            rows_with_null_ids = out[case_cols + patient_cols].isna().any(axis=1)
+
+            for row_idx in out[rows_with_null_ids].index:
+                null_cols = []
+                for col in case_cols + patient_cols:
+                    if pd.isna(out.loc[row_idx, col]):
+                        null_cols.append(f"{col} (col {col_to_idx[col]})")
+
+                id_issues.append({
+                    "row": int(row_idx),
+                    "column": None,
+                    "header": None,
+                    "value": None,
+                    "error": "missing_required_id",
+                    "message": f"Row dropped: null ID value(s) in {', '.join(null_cols)}"
+                })
+
+            # Drop rows with null IDs
+            if rows_with_null_ids.sum() > 0:
+                print(f"Dropping {rows_with_null_ids.sum()} row(s) with null ID values")
+                out = out[~rows_with_null_ids].reset_index(drop=True)
+
+        return out, id_issues
 
     def clean_csv(self):
         print(f"Cleaning CSV file: {self.file_path}")
@@ -94,9 +124,8 @@ class DataCleaner:
         df = CsvExcelReader(self.file_path).read_csv()
         schema = self.file_type_to_schema[self.file_type]
         df = self._map_null_like_values_for_nullable_columns(df, schema)
-        df = self._preprocess_ids(df)
+        df, issues = self._preprocess_ids(df)
         schema_cols = [c for c in schema.columns.keys() if c in df.columns]
-        issues = []
         col_to_idx = {name: int(i) for i, name in enumerate(df.columns)}
 
         for row_idx, row in df.iterrows():
