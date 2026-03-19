@@ -6,13 +6,15 @@ class MappingMatchmaker:
     def __init__(self, gold_metadata, incoming_metadata, incoming_df):
         self.gold_metadata = gold_metadata
         self.incoming_metadata = incoming_metadata
+        self.incoming_df = incoming_df
 
-    def match_wrong_ordered_headers(self):
-        self.gold_headers_order = self.gold_metadata["table_metadata"]["ordered_headers"]
-        self.incoming_headers_order = self.incoming_metadata["table_metadata"]["ordered_headers"]
+    def match_wrong_ordered_columns(self):
+        gold_order = self.gold_metadata["table_metadata"]["ordered_headers"]
+        existing_columns = [col for col in gold_order if col in self.incoming_df.columns]
 
-        # Sort incoming dataframe by gold_headers_order
-        self.incoming_df = self.incoming_df.reindex(columns=sorted(self.incoming_df.columns, key=lambda x: self.gold_headers_order.index(x) if x in self.gold_headers_order else float('inf')))
+        # Reorder the dataframe directly
+        self.incoming_df = self.incoming_df[existing_columns]
+
         return self.incoming_df
 
     def match_wrong_labels(self):
@@ -57,4 +59,28 @@ class MappingMatchmaker:
 
 
 if __name__ == "__main__":
+    import json
+    from CsvExcelReader import CsvExcelReader
+
     # Example usage
+    with open("C:\\Users\\marti\\Documents\\shawarmys\\server\\misc\\header_cleaner\\error_detection\\goldFingerPrints\\epaAC-Data-1_fingerprint.json") as f:
+        gold_metadata = json.load(f)
+
+    incoming_metadata = gold_metadata.copy()
+
+    reader = CsvExcelReader("C:\\Users\\marti\\Documents\\shawarmys\\server\\misc\\header_cleaner\\error_detection\\csvFiles\\goldStandard\\epaAC-Data-1.csv")
+    df = reader.read_csv()
+
+    # Reorder 9 dataframe columns for testing
+    df_reordered = df.iloc[:, [0, 2, 1, 4, 3, 6, 5, 8, 7]]
+
+    # Reorder incoming metadata to match the reordered dataframe
+    incoming_metadata["table_metadata"]["ordered_headers"] = [incoming_metadata["table_metadata"]["ordered_headers"][i] for i in [0, 2, 1, 4, 3, 6, 5, 8, 7]]
+
+    print("original columns:", df.columns.tolist())
+    print("reordered columns:", df_reordered.columns.tolist())
+
+    matchmaker = MappingMatchmaker(gold_metadata, incoming_metadata, df_reordered)
+    matched_df = matchmaker.match_wrong_ordered_columns()
+
+    print("matched columns:", matched_df.columns.tolist())
