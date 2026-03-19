@@ -7,6 +7,7 @@ from typing import Tuple
 import pandas as pd
 
 from misc.config_loader import load_fingerprints
+from misc.data_cleaner.adjusted_boxplot import adjusted_boxplot
 from misc.data_cleaner.file_name_matcher import FileNameMatcher, FILE_KEYWORDS
 from misc.data_cleaner.iqr import get_outliers
 from misc.data_cleaner.schemas import (
@@ -170,7 +171,7 @@ class DataCleaner:
                         "error": "type_conversion_failed",
                         "message": self._normalize_error_message(str(e)),
                     })
-        outliers_per_column = get_outliers(df)  # { "col_name": [row_idx, ...], ... }
+        outliers_per_column = adjusted_boxplot(df)  # { "col_name": [row_idx, ...], ... }
 
         for col, row_indices in outliers_per_column.items():
             col_idx = col_to_idx.get(col)
