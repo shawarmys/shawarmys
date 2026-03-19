@@ -1,3 +1,4 @@
+from api.imported_files import ImportedFiles
 from api.metadata import ApiMetadata
 from db.database import get_db
 from fastapi import APIRouter, Depends
@@ -17,24 +18,10 @@ def root() -> dict[str, str]:
     return {"message": "Server is running"}
 
 
-@router.get("/metadata")
+@router.get("/api/metadata", response_model=ApiMetadata)
 def get_metadata(db: Session = Depends(get_db)) -> ApiMetadata:
     """Return imported File count, succesful Mapping count, mapping Alert count."""
-    imported_tables = [
-        "lab_results",
-        "icd10_data",
-        "nursing_daily_reports",
-        "medication_events",
-        "device_motions",
-        "device_1hz_motions",
-    ]
-
-    imported_files = 0
-    for table in imported_tables:
-        has_rows = db.execute(
-            text(f"SELECT EXISTS (SELECT 1 FROM {table} LIMIT 1)")
-        ).scalar()
-        imported_files += 1 if has_rows else 0
+    imported_files = db.execute(text("SELECT COUNT(*) FROM files")).scalar_one()
 
     successful_mappings = db.execute(
         text(
@@ -48,9 +35,34 @@ def get_metadata(db: Session = Depends(get_db)) -> ApiMetadata:
         )
     ).scalar_one()
 
-    # TODO: Implement imported Files, mappingAlerts and succesful mappings based on all datasets
+    # TODO: Correct mapping alerts
     return ApiMetadata(
-        importedFiles=0,
+        importedFiles=imported_files,
         successfulMappings=successful_mappings,
         mappingAlerts=0,
     )
+
+@router.get("/api/imported-files", response_model=list[ImportedFiles])
+def get_imported_files(db: Session = Depends(get_db)) -> list[ImportedFiles]:
+    """Return list of imported files with name, source, entries, records, type."""
+    result = db.execute(
+        text(
+            """
+            SELECT name, source, group_type AS "groupType", entries, records, type
+            FROM files
+            ORDER BY created_at DESC
+            """
+        )
+    ).mappings().all()
+
+    return [
+        ImportedFiles(
+            name=row["name"],
+            source=row["source"],
+            groupType=row["groupType"],
+            entries=row["entries"],
+            records=row["records"],
+            type=row["type"],
+        )
+        for row in result
+    ]

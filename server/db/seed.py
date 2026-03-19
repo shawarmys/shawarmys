@@ -1,11 +1,205 @@
 """Helper module for inserting parsed DataFrames into the database."""
-
+from common.constants import FILE_METADATA_BY_TABLE
 from parser.parser import main as parse_all
 
 import pandas as pd
 from common import DIRECT_MAPPING_TABLES, INDIRECT_MAPPING_TABLES
-from db.database import engine
-from sqlalchemy import text
+from db.database import engine, Base
+from sqlalchemy import text, inspect
+
+
+def ensure_file_tracking_columns():
+    """Backfill file_id columns/FKs for existing DBs where tables already existed."""
+    tracked_tables = [
+        "lab_results",
+        "icd10_data",
+        "nursing_daily_reports",
+        "medication_events",
+        "device_motions",
+        "device_1hz_motions",
+        "tbImportAcData",
+    ]
+
+    inspector = inspect(engine)
+    with engine.begin() as conn:
+        for table_name in tracked_tables:
+            if table_name not in inspector.get_table_names():
+                continue
+
+            existing_columns = {
+                col["name"] for col in inspector.get_columns(table_name)
+            }
+            if "file_id" not in existing_columns:
+                conn.execute(
+                    text(f'ALTER TABLE "{table_name}" ADD COLUMN file_id BIGINT')
+                )
+
+            constraint_name = f"{table_name}_file_id_fkey"
+            fk_exists = conn.execute(
+                text(
+                    "SELECT 1 FROM pg_constraint WHERE conname = :constraint_name LIMIT 1"
+                ),
+                {"constraint_name": constraint_name},
+            ).scalar()
+
+            if not fk_exists:
+                conn.execute(
+                    text(
+                        f'ALTER TABLE "{table_name}" '
+                        f'ADD CONSTRAINT "{constraint_name}" '
+                        "FOREIGN KEY (file_id) REFERENCES files(id)"
+                    )
+                )
+
+
+def ensure_case_columns():
+    """Backfill case date columns for DBs created before case model changes."""
+    with engine.begin() as conn:
+        conn.execute(
+            text("ALTER TABLE cases ADD COLUMN IF NOT EXISTS admission_date DATE")
+        )
+        conn.execute(
+            text("ALTER TABLE cases ADD COLUMN IF NOT EXISTS discharge_date DATE")
+        )
+
+
+def ensure_tables():
+    """Create all tables defined in the SQLAlchemy models (if they don't exist)."""
+    Base.metadata.create_all(bind=engine)
+    ensure_case_columns()
+    ensure_files_table()
+    ensure_file_tracking_columns()
+
+def infer_source_from_filename(file_name: str) -> str:
+    """Infer source token from filename, falling back to a labeled unknown value."""
+    stem = file_name.rsplit(".", 1)[0].strip().lower()
+    if not stem:
+        return "Unknown"
+
+    # Common dataset prefixes we currently use.
+    if stem.startswith("synthetic"):
+        return "synthetic"
+    if stem.startswith("synth"):
+        return "synth"
+
+    return "Unknown"
+
+def create_file_record(table_name: str, row_count: int) -> int:
+    """Create one row in files for this dataset and return the inserted ID."""
+    file_name, source, group_type = FILE_METADATA_BY_TABLE.get(
+        table_name,
+        (f"{table_name}.csv", "Unknown", "Unknown"),
+    )
+    file_type = file_name.rsplit(".", 1)[-1].lower() if "." in file_name else "csv"
+    inferred_source = infer_source_from_filename(file_name)
+    resolved_source = inferred_source if inferred_source != "Unknown" else source
+
+    with engine.begin() as conn:
+        return conn.execute(
+            text(
+                """
+                INSERT INTO files (
+                    name,
+                    source,
+                    group_type,
+                    entries,
+                    records,
+                    type,
+                    file_type,
+                    origin_type
+                )
+                VALUES (
+                    :name,
+                    :source,
+                    :group_type,
+                    :entries,
+                    :records,
+                    :type,
+                    :file_type,
+                    :origin_type
+                )
+                RETURNING id
+                """
+            ),
+            {
+                "name": file_name,
+                "source": resolved_source,
+                "group_type": group_type,
+                "entries": row_count,
+                "records": row_count,
+                "type": file_type,
+                "file_type": file_type,
+                "origin_type": group_type,
+            },
+        ).scalar_one()
+
+def ensure_files_table():
+    """Create files table explicitly for environments with stale metadata imports."""
+    with engine.begin() as conn:
+        conn.execute(
+            text(
+                """
+                CREATE TABLE IF NOT EXISTS files (
+                    id BIGSERIAL PRIMARY KEY,
+                    name VARCHAR(512) NOT NULL,
+                    source VARCHAR(256) NOT NULL,
+                    group_type VARCHAR(256) NOT NULL,
+                    entries INTEGER NOT NULL,
+                    records INTEGER NOT NULL,
+                    type VARCHAR(16) NOT NULL,
+                    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+                )
+                """
+            )
+        )
+
+        # Backfill columns for older files schema variants.
+        conn.execute(text("ALTER TABLE files ADD COLUMN IF NOT EXISTS name VARCHAR(512)"))
+        conn.execute(text("ALTER TABLE files ADD COLUMN IF NOT EXISTS source VARCHAR(256)"))
+        conn.execute(text("ALTER TABLE files ADD COLUMN IF NOT EXISTS group_type VARCHAR(256)"))
+        conn.execute(text("ALTER TABLE files ADD COLUMN IF NOT EXISTS file_type VARCHAR(256)"))
+        conn.execute(text("ALTER TABLE files ADD COLUMN IF NOT EXISTS origin_type VARCHAR(256)"))
+        conn.execute(text("ALTER TABLE files ADD COLUMN IF NOT EXISTS entries INTEGER"))
+        conn.execute(text("ALTER TABLE files ADD COLUMN IF NOT EXISTS records INTEGER"))
+        conn.execute(text("ALTER TABLE files ADD COLUMN IF NOT EXISTS type VARCHAR(16)"))
+        conn.execute(
+            text(
+                "ALTER TABLE files ADD COLUMN IF NOT EXISTS created_at "
+                "TIMESTAMP NOT NULL DEFAULT NOW()"
+            )
+        )
+
+        conn.execute(
+            text(
+                """
+                UPDATE files
+                SET
+                    name = COALESCE(name, source, 'unknown.csv'),
+                    source = COALESCE(source, 'Unknown'),
+                    group_type = COALESCE(group_type, 'Unknown'),
+                    file_type = COALESCE(file_type, type, 'csv'),
+                    origin_type = COALESCE(origin_type, group_type, 'Unknown'),
+                    entries = COALESCE(entries, 0),
+                    records = COALESCE(records, 0),
+                    type = COALESCE(type, 'csv')
+                WHERE name IS NULL
+                   OR source IS NULL
+                   OR group_type IS NULL
+                   OR file_type IS NULL
+                   OR origin_type IS NULL
+                   OR entries IS NULL
+                   OR records IS NULL
+                   OR type IS NULL
+                """
+            )
+        )
+
+        conn.execute(text("ALTER TABLE files ALTER COLUMN name SET NOT NULL"))
+        conn.execute(text("ALTER TABLE files ALTER COLUMN source SET NOT NULL"))
+        conn.execute(text("ALTER TABLE files ALTER COLUMN group_type SET NOT NULL"))
+        conn.execute(text("ALTER TABLE files ALTER COLUMN entries SET NOT NULL"))
+        conn.execute(text("ALTER TABLE files ALTER COLUMN records SET NOT NULL"))
+        conn.execute(text("ALTER TABLE files ALTER COLUMN type SET NOT NULL"))
 
 
 def upsert_cases(
@@ -86,6 +280,10 @@ def resolve_and_insert(table_name: str, df: pd.DataFrame):
     elif table_name in INDIRECT_MAPPING_TABLES:
         pass
 
+    file_id = create_file_record(table_name, len(df))
+    df = df.copy()
+    df["file_id"] = file_id
+
     insert_dataframe(df, table_name)
 
 
@@ -98,6 +296,8 @@ def is_db_empty() -> bool:
 
 def seed_database():
     """Parse all CSVs and insert them into the database."""
+    ensure_tables()
+
     print("Parsing CSV files …")
     dfs = parse_all()
 
