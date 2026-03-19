@@ -105,10 +105,8 @@ def insert_dataframe(df: pd.DataFrame, table_name: str):
 def resolve_and_insert(table_name: str, df: pd.DataFrame):
     """Upsert parent rows (patients/cases) then insert the data."""
     if table_name in _HAS_CASE_AND_PATIENT:
-        # upsert_patients(df["patient_id"])
         upsert_cases(df["case_id"], df["patient_id"])
     elif table_name in _HAS_PATIENT_ONLY:
-        #upsert_patients(df["patient_id"])
         pass
 
     insert_dataframe(df, table_name)
