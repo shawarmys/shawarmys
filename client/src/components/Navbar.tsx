@@ -1,4 +1,5 @@
 import FilterListIcon from "@mui/icons-material/FilterList";
+import HomeIcon from "@mui/icons-material/Home";
 import {
   AppBar,
   Badge,
@@ -26,6 +27,12 @@ const Navbar: React.FC = () => {
         >
           <Typography variant="h6">epaCC Dashboard</Typography>
         </Box>
+
+        {window.location.pathname !== "/" && (
+          <IconButton size="large" onClick={() => navigate("/")}>
+            <HomeIcon />
+          </IconButton>
+        )}
 
         <IconButton size="large" onClick={toggleFilterModal}>
           <FilterListIcon />

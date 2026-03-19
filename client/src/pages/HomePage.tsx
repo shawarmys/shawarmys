@@ -2,11 +2,18 @@ import CheckIcon from "@mui/icons-material/Check";
 import DownloadIcon from "@mui/icons-material/Download";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import {
+  Box,
   Divider,
   Grid,
+  Link,
   List,
   ListItem,
   ListItemText,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   Typography,
   type SxProps,
 } from "@mui/material";
@@ -16,12 +23,23 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import CustomCard from "../components/CustomCard";
 import PageTemplate from "../components/PageTemplate";
-import { useDataSourcesSummary, useMetadata } from "../hooks/useApi";
+import {
+  useAlerts,
+  useDataGroupsSummary,
+  useDataSourcesSummary,
+  useMetadata,
+} from "../hooks/useApi";
 import { useFilter } from "../hooks/useFilter";
 
 const IconSX: SxProps = {
   mr: 1.5,
   verticalAlign: "center",
+};
+
+const ALERT_LEVEL_PRIORITY: Record<string, number> = {
+  severe: 0,
+  warning: 1,
+  info: 2,
 };
 
 const CardListItem: React.FC<{
@@ -58,6 +76,12 @@ const HomePage: React.FC = () => {
   );
   const { data: dataSourcesSummary, isLoading: dataSourcesSummaryIsLoading } =
     useDataSourcesSummary(filterSources, filterGroupTypes);
+  const { data: dataGroupsSummary, isLoading: dataGroupsSummaryIsLoading } =
+    useDataGroupsSummary(filterSources, filterGroupTypes);
+  const { data: alerts, isLoading: alertsIsLoading } = useAlerts(
+    filterSources,
+    filterGroupTypes,
+  );
 
   return (
     <PageTemplate title="">
@@ -92,13 +116,13 @@ const HomePage: React.FC = () => {
                 number={metadata?.mappingAlerts.toString() || ""}
                 label="Mapping Alerts"
                 sx={{ color: "warning.main" }}
+                onClick={() => navigate("/alerts")}
               />
             </List>
           </CustomCard>
         </Grid>
 
         {/* *** Data Sources *** */}
-        {/* TODO: Chart, onClick */}
         <Grid size={4}>
           <CustomCard
             title="Data Sources"
@@ -123,10 +147,103 @@ const HomePage: React.FC = () => {
           </CustomCard>
         </Grid>
 
-        {/* *** Manual Correction *** */}
+        {/* *** Data Groups *** */}
         <Grid size={4}>
-          <CustomCard title="Manual Correction">
-            <></>
+          <CustomCard title="Data Groups" loading={dataGroupsSummaryIsLoading}>
+            <PieChart
+              series={[
+                {
+                  data:
+                    dataGroupsSummary?.map((dataGroup, idx) => {
+                      return {
+                        id: idx,
+                        value: dataGroup.numFiles,
+                        label: dataGroup.groupType,
+                      };
+                    }) || [],
+                },
+              ]}
+              width={200}
+              height={200}
+            />
+          </CustomCard>
+        </Grid>
+
+        {/* *** Alerts *** */}
+        <Grid size={12}>
+          <CustomCard title="Alerts" loading={alertsIsLoading}>
+            {/* Table with pagination of the alerts */}
+            {(alerts && alerts.length > 0 && (
+              <>
+                <Box sx={{ overflow: "auto", maxHeight: 300 }}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead
+                      sx={{
+                        position: "sticky",
+                        top: 0,
+                        zIndex: 2,
+                        backgroundColor: "background.paper",
+                      }}
+                    >
+                      <TableRow>
+                        <TableCell>Timestamp</TableCell>
+                        <TableCell>Level</TableCell>
+                        <TableCell>Message</TableCell>
+                        <TableCell></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {[...alerts]
+                        .sort(
+                          (a, b) =>
+                            (ALERT_LEVEL_PRIORITY[a.level] ?? 999) -
+                            (ALERT_LEVEL_PRIORITY[b.level] ?? 999),
+                        )
+                        .map((alert) => (
+                          <TableRow
+                            key={alert.timestamp}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                              cursor: "pointer",
+                            }}
+                            onClick={() => {
+                              confirm(alert.tableReference);
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {alert.timestamp}
+                            </TableCell>
+                            <TableCell>
+                              <Typography
+                                color={
+                                  alert.level === "severe"
+                                    ? "error"
+                                    : alert.level === "warning"
+                                      ? "warning"
+                                      : "primary"
+                                }
+                              >
+                                {alert.level}
+                              </Typography>
+                            </TableCell>
+                            <TableCell>{alert.message}</TableCell>
+                          </TableRow>
+                        ))}
+                    </TableBody>
+                  </Table>
+                </Box>
+                <Link
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate("/alerts")}
+                >
+                  <Typography sx={{ my: 2 }}>Show more</Typography>
+                </Link>
+              </>
+            )) || (
+              <Typography sx={{ my: 2 }}>
+                No alerts found for the current filters.
+              </Typography>
+            )}
           </CustomCard>
         </Grid>
 

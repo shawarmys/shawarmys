@@ -18,7 +18,7 @@ import { useFilter } from "../hooks/useFilter";
 type SortableKey = "name" | "source" | "entries" | "records" | "type";
 type SortDirection = "asc" | "desc";
 
-const HomePage: React.FC = () => {
+const ImportedFilesPage: React.FC = () => {
   const { filterSources, filterGroupTypes } = useFilter();
   const { data: importedFiles } = useImportedFiles(
     filterSources,
@@ -179,4 +179,4 @@ const HomePage: React.FC = () => {
   );
 };
 
-export default HomePage;
+export default ImportedFilesPage;

@@ -1,6 +1,7 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Theme from "./components/Theme";
+import AlertsPage from "./pages/AlertsPage";
 import HomePage from "./pages/HomePage";
 import ImportedFilesPage from "./pages/ImportedFilesPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -13,6 +14,7 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/imported-files" element={<ImportedFilesPage />} />
+          <Route path="/alerts" element={<AlertsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Theme>
