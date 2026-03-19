@@ -1,3 +1,4 @@
+import FileUploadIcon from "@mui/icons-material/FileUpload";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import HomeIcon from "@mui/icons-material/Home";
 import {
@@ -6,6 +7,7 @@ import {
   Box,
   IconButton,
   Toolbar,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -29,22 +31,32 @@ const Navbar: React.FC = () => {
         </Box>
 
         {window.location.pathname !== "/" && (
-          <IconButton size="large" onClick={() => navigate("/")}>
-            <HomeIcon />
-          </IconButton>
+          <Tooltip title="Home">
+            <IconButton size="large" onClick={() => navigate("/")}>
+              <HomeIcon />
+            </IconButton>
+          </Tooltip>
         )}
 
-        <IconButton size="large" onClick={toggleFilterModal}>
-          <FilterListIcon />
-          {/* Show a badge with the number of set filters */}
-          {filterSources.length > 0 || filterGroupTypes.length > 0 ? (
-            <Badge
-              badgeContent={filterSources.length + filterGroupTypes.length}
-              color="error"
-              sx={{ mt: 2 }}
-            />
-          ) : null}
-        </IconButton>
+        <Tooltip title="Upload File">
+          <IconButton size="large" onClick={() => navigate("/upload")}>
+            <FileUploadIcon />
+          </IconButton>
+        </Tooltip>
+
+        <Tooltip title="Filter">
+          <IconButton size="large" onClick={toggleFilterModal}>
+            <FilterListIcon />
+            {/* Show a badge with the number of set filters */}
+            {filterSources.length > 0 || filterGroupTypes.length > 0 ? (
+              <Badge
+                badgeContent={filterSources.length + filterGroupTypes.length}
+                color="error"
+                sx={{ mt: 2 }}
+              />
+            ) : null}
+          </IconButton>
+        </Tooltip>
         <FilterModal />
       </Toolbar>
     </AppBar>
