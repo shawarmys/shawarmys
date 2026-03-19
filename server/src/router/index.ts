@@ -8,12 +8,18 @@ export const apiRouter = Router();
 const ALLOWED_EXTENSIONS = new Set([".csv", ".xlsx", ".pdf"]);
 
 const upload = multer({
-  storage: multer.diskStorage({ destination: "/tmp" }),
+  storage: multer.diskStorage({
+    destination: "/tmp",
+    filename: (req, file, next) => {
+      next(null, file.originalname);
+    },
+  }),
   fileFilter: (
     _req: Request,
     file: Express.Multer.File,
     cb: FileFilterCallback,
   ) => {
+    console.log("Received file:", file.originalname);
     const ext = path.extname(file.originalname).toLowerCase();
     if (ALLOWED_EXTENSIONS.has(ext)) {
       cb(null, true);
