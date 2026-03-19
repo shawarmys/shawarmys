@@ -1,21 +1,18 @@
-FROM python:3.12-slim
+FROM node:22-alpine
 
 WORKDIR /app
 
-# Copy dataset into the image
-COPY data /app/data
+# Install dependencies first for better layer caching
+COPY server/package*.json ./
+RUN npm ci
 
-# Install Python deps
-COPY server/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir -r /app/requirements.txt \
-    && pip install --no-cache-dir uvicorn
+# Copy TypeScript sources and build
+COPY server/ ./
+RUN npm run build
 
-# Copy application source and install editable
-COPY server /app/server
-
-WORKDIR /app/server
-RUN pip install --no-cache-dir -e .
+ENV NODE_ENV=production
+ENV PORT=80
 
 EXPOSE 80
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80", "--log-level", "debug"]
+CMD ["npm", "run", "start"]

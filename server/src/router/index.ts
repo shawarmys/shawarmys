@@ -41,7 +41,7 @@ apiRouter.get("/imported-files", controller.getImportedFiles);
 apiRouter.get("/data-sources-summary", controller.getDataSourcesSummary);
 
 // --- Data Groups Summary ---
-apiRouter.get("/api/data-groups-summary", controller.getDataGroupsSummary);
+apiRouter.get("/data-groups-summary", controller.getDataGroupsSummary);
 
 // --- File Upload ---
-apiRouter.post("/api/upload", upload.single("file"), controller.uploadFile);
+apiRouter.post("/upload", upload.single("file"), controller.uploadFile);
