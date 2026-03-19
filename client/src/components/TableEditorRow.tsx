@@ -17,6 +17,7 @@ interface TableEditorRowProps {
   row: string[];
   rowIdx: number;
   errors: TableDataError[];
+  outliers: TableDataError[];
   editModeRow?: boolean[];
   editingValues: Record<string, string>;
   getCellKey: (row: number, col: number) => string;
@@ -27,6 +28,7 @@ interface TableEditorRowProps {
   saveCellValue: (row: number, col: number) => void;
   cancelCellEditing: (row: number, col: number) => void;
   unsetError: (row: number, col: number) => void;
+  unsetOutlier: (row: number, col: number) => void;
   tableCellSx?: SxProps<Theme>;
 }
 
@@ -34,6 +36,7 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
   row,
   rowIdx,
   errors,
+  outliers,
   editModeRow,
   editingValues,
   getCellKey,
@@ -42,6 +45,7 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
   saveCellValue,
   cancelCellEditing,
   unsetError,
+  unsetOutlier,
   tableCellSx = {},
 }) => {
   return (
@@ -57,26 +61,48 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
           title={
             errors.find(
               (error) => error.row === rowIdx && error.col === cellIdx,
-            )?.msg || ""
+            )?.msg ||
+            outliers.find(
+              (outlier) => outlier.row === rowIdx && outlier.col === cellIdx,
+            )?.msg ||
+            ""
           }
           placement="top"
           arrow
           slotProps={{
             tooltip: {
               sx: {
-                bgcolor: "error.main",
+                bgcolor: errors.some(
+                  (error) => error.row === rowIdx && error.col === cellIdx,
+                )
+                  ? "error.main"
+                  : outliers.some(
+                        (outlier) =>
+                          outlier.row === rowIdx && outlier.col === cellIdx,
+                      )
+                    ? "warning.main"
+                    : undefined,
                 color: "common.white",
               },
             },
             arrow: {
               sx: {
-                color: "error.main",
+                color: errors.some(
+                  (error) => error.row === rowIdx && error.col === cellIdx,
+                )
+                  ? "error.main"
+                  : outliers.some(
+                        (outlier) =>
+                          outlier.row === rowIdx && outlier.col === cellIdx,
+                      )
+                    ? "warning.main"
+                    : undefined,
               },
             },
           }}
         >
           <TableCell
-            id={`error-cell-${rowIdx}-${cellIdx}`}
+            id={`cell-${rowIdx}-${cellIdx}`}
             scope="row"
             sx={Object.assign(
               {
@@ -86,16 +112,15 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
                   (error) => error.row === rowIdx && error.col === cellIdx,
                 )
                   ? "error.light"
-                  : undefined,
+                  : outliers.some(
+                        (outlier) =>
+                          outlier.row === rowIdx && outlier.col === cellIdx,
+                      )
+                    ? "warning.light"
+                    : undefined,
               },
               tableCellSx,
             )}
-            // Show error message as tooltip on hover if this cell has an error
-            title={
-              errors.find(
-                (error) => error.row === rowIdx && error.col === cellIdx,
-              )?.msg
-            }
           >
             {editModeRow?.[cellIdx] ? (
               <TextField

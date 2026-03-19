@@ -17,7 +17,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { apiClient } from "../api/apiClient";
 import PageTemplate from "../components/PageTemplate";
-import { useTableData } from "../hooks/useTableData";
+import { useTableData, type TableDataError } from "../hooks/useTableData";
 
 const ALLOWED_EXTENSIONS = ["csv", "pdf", "xlsx"];
 
@@ -46,7 +46,7 @@ const UploadPage: React.FC = () => {
     null,
   );
 
-  const { setTableData } = useTableData();
+  const { setTableData, setFileName, setErrors, setOutliers } = useTableData();
 
   const addFiles = (incomingFiles: FileList | File[]) => {
     const nextFiles = Array.from(incomingFiles);
@@ -129,6 +129,10 @@ const UploadPage: React.FC = () => {
       });
 
       setTableData(response.data.tableData as string[][]);
+      setErrors(response.data.errors as TableDataError[]);
+      setOutliers(response.data.outliers as TableDataError[]);
+      setFileName(file.name);
+
       navigate("/table-editor");
     } catch (error) {
       if (axios.isAxiosError(error)) {

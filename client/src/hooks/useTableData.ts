@@ -15,8 +15,15 @@ interface TableDataState {
   setErrors: (errors: TableDataError[]) => void;
   unsetError: (row: number, col: number) => void;
 
+  outliers: TableDataError[];
+  setOutliers: (outliers: TableDataError[]) => void;
+  unsetOutlier: (row: number, col: number) => void;
+
   editModeTableData: boolean[][];
   setEditModeTableDataEntry: (row: number, col: number, value: boolean) => void;
+
+  fileName: string;
+  setFileName: (name: string) => void;
 }
 
 export const useTableData = create<TableDataState>((set) => ({
@@ -51,6 +58,16 @@ export const useTableData = create<TableDataState>((set) => ({
       return { errors: newErrors };
     }),
 
+  outliers: [],
+  setOutliers: (outliers: TableDataError[]) => set(() => ({ outliers })),
+  unsetOutlier: (row: number, col: number) =>
+    set((state) => {
+      const newOutliers = state.outliers.filter(
+        (outlier) => !(outlier.row === row && outlier.col === col),
+      );
+      return { outliers: newOutliers };
+    }),
+
   editModeTableData: [],
   setEditModeTableDataEntry: (row: number, col: number, value: boolean) =>
     set((state) => {
@@ -61,4 +78,7 @@ export const useTableData = create<TableDataState>((set) => ({
       newEditModeData[row][col] = value;
       return { editModeTableData: newEditModeData };
     }),
+
+  fileName: "",
+  setFileName: (name: string) => set(() => ({ fileName: name })),
 }));

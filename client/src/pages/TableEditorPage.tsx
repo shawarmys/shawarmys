@@ -9,6 +9,7 @@ import {
   TableHead,
 } from "@mui/material";
 import React from "react";
+import { apiClient } from "../api/apiClient";
 import PageTemplate from "../components/PageTemplate";
 import TableEditorRow from "../components/TableEditorRow";
 import { useTableData } from "../hooks/useTableData";
@@ -22,6 +23,10 @@ const TableEditorPage: React.FC = () => {
     errors,
     unsetError,
     setErrors,
+    outliers,
+    unsetOutlier,
+    setOutliers,
+    fileName,
   } = useTableData();
 
   //!--[
@@ -41,7 +46,12 @@ const TableEditorPage: React.FC = () => {
       { row: 10, col: 10, msg: "This is a mock error message." },
       { row: 15, col: 15, msg: "This is a mock error message." },
     ]);
-  }, [setTableDataEntry, setErrors]);
+    setOutliers([
+      { row: 6, col: 5, msg: "This is a mock error message." },
+      { row: 11, col: 10, msg: "This is a mock error message." },
+      { row: 13, col: 15, msg: "This is a mock error message." },
+    ]);
+  }, [setTableDataEntry]);
   //!--]
 
   const [editingValues, setEditingValues] = React.useState<
@@ -74,21 +84,38 @@ const TableEditorPage: React.FC = () => {
     setEditModeTableDataEntry(row, col, false);
   };
 
+  const [isUploading, setIsUploading] = React.useState(false);
+  const uploadTableData = async () => {
+    try {
+      setIsUploading(true);
+      const body = {
+        tableData,
+        fileName: fileName,
+      };
+      await apiClient.post("/upload/array", {
+        body,
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
   return (
     <PageTemplate
       title="Table Editor"
       wide={true}
       topRightAction={
         <>
-          {errors.length > 0 && (
-            <Alert severity="error">
-              {errors.length} error{errors.length > 1 ? "s" : ""} remaining.
+          {outliers.length > 0 && (
+            <Alert severity="warning">
+              {outliers.length} potential outlier
+              {outliers.length > 1 ? "s" : ""} found.
               <Link
                 sx={{ cursor: "pointer", ml: 1 }}
                 onClick={() =>
                   document
                     .getElementById(
-                      `error-cell-${errors[0].row}-${errors[0].col}`,
+                      `cell-${outliers[0].row}-${outliers[0].col}`,
                     )
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
@@ -97,7 +124,27 @@ const TableEditorPage: React.FC = () => {
               </Link>
             </Alert>
           )}
-          <Button variant="contained" disabled={errors.length > 0}>
+          {errors.length > 0 && (
+            <Alert severity="error">
+              {errors.length} error{errors.length > 1 ? "s" : ""} remaining.
+              <Link
+                sx={{ cursor: "pointer", ml: 1 }}
+                onClick={() =>
+                  document
+                    .getElementById(`cell-${errors[0].row}-${errors[0].col}`)
+                    ?.scrollIntoView({ behavior: "smooth" })
+                }
+              >
+                Show me
+              </Link>
+            </Alert>
+          )}
+          <Button
+            variant="contained"
+            disabled={errors.length > 0}
+            loading={isUploading}
+            onClick={uploadTableData}
+          >
             Save Table
           </Button>
         </>
@@ -123,6 +170,7 @@ const TableEditorPage: React.FC = () => {
                   row={row}
                   rowIdx={rowIdx}
                   errors={errors}
+                  outliers={outliers}
                   editModeRow={editModeTableData?.[rowIdx]}
                   editingValues={editingValues}
                   getCellKey={getCellKey}
@@ -131,6 +179,7 @@ const TableEditorPage: React.FC = () => {
                   saveCellValue={saveCellValue}
                   cancelCellEditing={cancelCellEditing}
                   unsetError={unsetError}
+                  unsetOutlier={unsetOutlier}
                   tableCellSx={{ fontWeight: "bold" }}
                 />
               );
@@ -143,6 +192,7 @@ const TableEditorPage: React.FC = () => {
                   row={row}
                   rowIdx={rowIdx + 1}
                   errors={errors}
+                  outliers={outliers}
                   editModeRow={editModeTableData?.[rowIdx + 1]}
                   editingValues={editingValues}
                   getCellKey={getCellKey}
@@ -151,6 +201,7 @@ const TableEditorPage: React.FC = () => {
                   saveCellValue={saveCellValue}
                   cancelCellEditing={cancelCellEditing}
                   unsetError={unsetError}
+                  unsetOutlier={unsetOutlier}
                 />
               );
             })}
