@@ -1,0 +1,549 @@
+{
+    "table_metadata": {
+        "column_count": 18,
+        "ordered_headers": [
+            "PatientID",
+            "DeviceID",
+            "Timestamp",
+            "BedOccupied",
+            "MovementScore",
+            "AccelX",
+            "AccelY",
+            "AccelZ",
+            "AccelMag",
+            "PressZ1",
+            "PressZ2",
+            "PressZ3",
+            "PressZ4",
+            "BedExit",
+            "BedReturn",
+            "FallEvent",
+            "ImpactMag",
+            "EventID"
+        ]
+    },
+    "column_fingerprints": {
+        "PatientID": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 9,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0047886849637986196,
+            "entropy": 5.544141089923733,
+            "length_stats": {
+                "min": 1,
+                "max": 10,
+                "mean": 8.023377978530283
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "DeviceID": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.003724532749621148,
+            "entropy": 5.969116612241802,
+            "length_stats": {
+                "min": 1,
+                "max": 9,
+                "mean": 8.007565163411623
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Timestamp": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 9,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.98,
+                "bool": 0.0,
+                "string": 0.02
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.9802323623505641,
+            "entropy": 17.09965708729048,
+            "length_stats": {
+                "min": 1,
+                "max": 20,
+                "mean": 18.92632734912147
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "BedOccupied": {
+            "header_structure": {
+                "len": 11,
+                "digit_count": 0,
+                "alpha_count": 11,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.99,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.01
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.00016837851490149856,
+            "entropy": 1.2022575489071672,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.0762551906379767
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "MovementScore": {
+            "header_structure": {
+                "len": 13,
+                "digit_count": 0,
+                "alpha_count": 13,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.97,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.03
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.03033507324465398,
+            "entropy": 10.188498379583237,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 3.9470303977213805
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "AccelX": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.96,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.04
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.031439636302407814,
+            "entropy": 9.929264980731164,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 5.227268050077174
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "AccelY": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.97,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.03
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.031183700959757536,
+            "entropy": 9.92358153902906,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 5.223491274218251
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "AccelZ": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.98,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.02
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.03760902508839872,
+            "entropy": 10.490268714531501,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 5.168480498449208
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "AccelMag": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.96,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.04
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.010116181175282034,
+            "entropy": 7.291055494129812,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 4.9174258390943475
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "PressZ1": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 1,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.97,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.03
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.02489307964303755,
+            "entropy": 9.48577404187656,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 4.044579568905423
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "PressZ2": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 1,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.94,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.06
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.025263512375820845,
+            "entropy": 9.488842781071808,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 4.046134818417998
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "PressZ3": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 1,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.95,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.05
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.02445529550429365,
+            "entropy": 9.47646004710899,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 4.042720687843853
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "PressZ4": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 1,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.97,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.03
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.024987371611382387,
+            "entropy": 9.482673047551458,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 4.0462064913069025
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "BedExit": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.99,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.01
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.00016837851490149856,
+            "entropy": 0.6873553971735102,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.0766469449668483
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "BedReturn": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 9,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.97,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.03
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.00016837851490149856,
+            "entropy": 0.6176075147475927,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.0732850622833807
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "FallEvent": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 9,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.98,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.02
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.00016837851490149856,
+            "entropy": 0.5122200821571666,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.060626317333206
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "ImpactMag": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 9,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.65,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.35
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0045529550429365215,
+            "entropy": 7.895237767490172,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 4.240078876016761
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "EventID": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.06848964472133356,
+            "entropy": 12.625862028756398,
+            "length_stats": {
+                "min": 1,
+                "max": 13,
+                "mean": 11.341822699440945
+            },
+            "has_leading_trailing_spaces": true
+        }
+    }
+}
