@@ -16,7 +16,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import CustomCard from "../components/CustomCard";
 import PageTemplate from "../components/PageTemplate";
-import { useMetadata } from "../hooks/useApi";
+import { useDataSourcesSummary, useMetadata } from "../hooks/useApi";
 
 const IconSX: SxProps = {
   mr: 1.5,
@@ -51,6 +51,8 @@ const CardListItem: React.FC<{
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const { data: metadata, isLoading: metadataIsLoading } = useMetadata();
+  const { data: dataSourcesSummary, isLoading: dataSourcesSummaryIsLoading } =
+    useDataSourcesSummary();
 
   return (
     <PageTemplate title="">
@@ -93,15 +95,21 @@ const HomePage: React.FC = () => {
         {/* *** Data Sources *** */}
         {/* TODO: Chart, onClick */}
         <Grid size={4}>
-          <CustomCard title="Data Sources">
+          <CustomCard
+            title="Data Sources"
+            loading={dataSourcesSummaryIsLoading}
+          >
             <PieChart
               series={[
                 {
-                  data: [
-                    { id: 0, value: 10, label: "series A" },
-                    { id: 1, value: 15, label: "series B" },
-                    { id: 2, value: 20, label: "series C" },
-                  ],
+                  data:
+                    dataSourcesSummary?.map((dataSource, idx) => {
+                      return {
+                        id: idx,
+                        value: dataSource.numFiles,
+                        label: dataSource.name,
+                      };
+                    }) || [],
                 },
               ]}
               width={200}

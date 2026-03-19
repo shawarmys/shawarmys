@@ -27,3 +27,27 @@ export const getImportedFiles = async () => {
   const response = await apiClient.get("/imported-files/");
   return response.data as apiImportedFile[];
 };
+
+// *** Data Source Summary ***
+
+export interface apiDataSourceSummary {
+  name: string;
+  numFiles: number;
+}
+
+export const getDataSourcesSummary = async () => {
+  const response = await apiClient.get("/data-sources-summary/");
+  return response.data as apiDataSourceSummary[];
+};
+
+// *** Data Groups Summary ***
+
+export interface apiDataGroupSummary {
+  groupType: string;
+  numFiles: number;
+}
+
+export const getDataGroupsSummary = async () => {
+  const response = await apiClient.get("/data-groups-summary/");
+  return response.data as apiDataGroupSummary[];
+};
