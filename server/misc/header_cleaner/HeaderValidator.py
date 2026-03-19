@@ -4,7 +4,7 @@ import os
 from Levenshtein import distance as lev_dist
 import json
 import pandas as pd
-from TableSchemaEncoder import TargetSchemaEncoder
+from TableSchemaEncoder import TableSchemaEncoder
 
 
 class HeaderValidator:
