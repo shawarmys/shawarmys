@@ -9,3 +9,10 @@ class ImportedFiles(BaseModel):
     records: int
     type: Literal["csv", "pdf", "xlsx"]
 
+class DataSourceSummary(BaseModel):
+    name: str
+    numFiles: int
+
+class DataGroupSummary(BaseModel):
+    groupType: str
+    numFiles: int
