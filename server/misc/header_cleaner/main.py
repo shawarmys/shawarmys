@@ -11,7 +11,6 @@ from HeaderValidator import HeaderValidator
 from LLMMatchmaker import LLMMatchmaker
 from pdf_handler.TextExtractor import TextExtractor
 from pdf_handler.Mapper import Mapper
-from pdf_handler.FreetextExtractor import FreetextExtractor
 from SaveBert import download_and_save_bert
 from server.misc.data_cleaner.data_cleaner import DataCleaner
 
@@ -29,12 +28,9 @@ def main(file_path):
     text_extractor = TextExtractor()
     extracted_text = text_extractor.extract_text(file_path)
 
-    free_text_extractor = FreetextExtractor()
-    free_text_extractor.extract_free_text(extracted_text)
-
     # Map extracted text to structured format
     mapper = Mapper()
-    incoming_df = mapper.map_text_to_dataframe(extracted_text, target_fingerprint_name)
+    incoming_df = mapper.map_values_to_dataframe(extracted_text)
 
     # Save the mapped dataframe as CSV for further processing with ; delimiter
     store_temp_file(incoming_df)
@@ -63,11 +59,35 @@ def main(file_path):
       matches = matchmaker.match_columns(gold_fingerprint, incoming_fingerprint)
 
       # Reorder/rename incoming dataframe based on matches
-      reordered_df = matchmaker.reorder_and_rename(incoming_df, matches)
+      predictions = matchmaker.reorder_and_rename(incoming_df, matches)
+
+      # Unzip predictions and rearrange columns of dataframe with column names as predicted
+      unziped_predictions = matchmaker.unzip_predictions(predictions)
+      matchmaker_logic = MatchmakerLogic()
+      reordered_df = matchmaker_logic.reorder_dataframe(incoming_df, unziped_predictions, list(gold_fingerprint.keys()))
 
       return {"df": reordered_df, "errors": message}
 
     return {"df": incoming_df, "errors": message}
+
+class MatchmakerLogic:
+  def unzip_predictions(self, predictions):
+      return {item['incoming']: item['target'] for item in predictions}
+
+  def reorder_dataframe(self, incoming_df, mapping, target_order):
+    # Create a reverse mapping for easy lookup: {target: incoming}
+    reverse_mapping = {v: k for k, v in mapping.items()}
+
+    # Only take target columns that actually exist in our mapping
+    cols_to_extract = [reverse_mapping[t_col] for t_col in target_order if t_col in reverse_mapping]
+
+    # Slice and Reorder: This creates a new DF with only matched cols in target order
+    reordered_df = incoming_df[cols_to_extract].copy()
+
+    # Rename columns to target names
+    reordered_df.rename(columns=mapping, inplace=True)
+
+    return reordered_df
 
 def store_temp_file(out):
   df = out["df"]

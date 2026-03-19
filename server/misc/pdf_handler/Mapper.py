@@ -1,6 +1,7 @@
 import json
 import re
 import os
+from turtle import pd
 from TextExtractor import TextExtractor
 
 
@@ -54,13 +55,15 @@ class Mapper:
     # Use the cleanup function for all returned values
     return self.clean_value(raw_value)
 
-  def map_values_to_attributes(self, extracted_text):
+  def map_values_to_dataframe(self, extracted_text):
     results = {}
     for key, value in self.config.items():
         search_term = value[0]
         regex = value[1]
         results[key] = self.find_match(extracted_text, search_term, regex)
-    return results
+
+    # Create dataframe with headers as keys and values as the extracted values
+    return pd.DataFrame([results])
 
 
 if __name__ == "__main__":
@@ -73,6 +76,7 @@ if __name__ == "__main__":
   # 2. Map data
   mapper = Mapper()
   mapper.load_schema("nursing_config")
-  final_data = mapper.map_data(raw_text)
+
+  final_data = mapper.map_values_to_dataframe(raw_text)
 
   print(final_data)
