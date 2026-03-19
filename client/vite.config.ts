@@ -2,8 +2,6 @@ import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import checker from "vite-plugin-checker";
 
-const apiProxyTarget = process.env.VITE_API_PROXY_TARGET ?? "http://localhost:80";
-
 export default defineConfig({
   plugins: [
     react(),
@@ -16,7 +14,10 @@ export default defineConfig({
     port: 3000,
     open: false,
     proxy: {
-      "/api": apiProxyTarget,
+      "/api": {
+        target: "http://localhost:8000",
+        changeOrigin: true,
+      },
     },
   },
   build: {
