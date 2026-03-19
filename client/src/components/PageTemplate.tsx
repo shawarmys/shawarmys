@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import { useIsLoading } from "../hooks/isLoading";
+import { useMetadata } from "../hooks/useMetadata";
 import Navbar from "./Navbar";
 
 interface PageTemplateProps {
@@ -15,7 +15,7 @@ interface PageTemplateProps {
 }
 
 const PageTemplate: React.FC<PageTemplateProps> = ({ children, title }) => {
-  const isLoading = useIsLoading((state) => state.isLoading);
+  const { isLoading: metadataLoading } = useMetadata();
 
   return (
     <Box>
@@ -26,9 +26,9 @@ const PageTemplate: React.FC<PageTemplateProps> = ({ children, title }) => {
       </Container>
 
       {/* Loader */}
-      {isLoading && (
+      {metadataLoading && (
         <Backdrop
-          open={isLoading}
+          open={true}
           sx={{
             color: "#fff",
             zIndex: (theme) => theme.zIndex.drawer + 1,
