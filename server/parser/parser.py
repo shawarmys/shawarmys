@@ -73,24 +73,24 @@ def main():
             elif file == "synthetic_cases_icd10_ops.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_icd10(df)
-                dfs["icd10"] = df
+                dfs["icd10_data"] = df
             elif file == "synthetic_device_motion_fall_data.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_device_motion(df)
-                dfs["device_motion"] = df
-            elif file == "synthetic__device_1hz_motion_fall.csv":
+                dfs["device_motions"] = df
+            elif file == "synthetic_device_raw_1hz_motion_fall.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_device_1hz_motion(df)
-                dfs["device_1hz_motion"] = df
+                dfs["device_1hz_motions"] = df
             elif file == "synthetic_medication_raw_inpatient.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_medication_events(df)
-                dfs["medication_events"] = df
+                dfs["medication_events"] = df  
             elif file == "synthetic_nursing_daily_reports_en.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_nursing_daily_reports(df)
                 dfs["nursing_daily_reports"] = df
-        return dfs
+    return dfs
 
 if __name__ == "__main__":
     main()
