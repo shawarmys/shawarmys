@@ -20,6 +20,7 @@ class Base(DeclarativeBase):
 def get_db():
     """FastAPI dependency that provides a database session per request."""
     db = SessionLocal()
+
     try:
         yield db
     finally:
