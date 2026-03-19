@@ -1,0 +1,1959 @@
+{
+    "table_metadata": {
+        "column_count": 65,
+        "ordered_headers": [
+            "CaseID",
+            "PID",
+            "Gender",
+            "Age",
+            "SpecDT",
+            "Na",
+            "Na_flag",
+            "Na_low",
+            "Na_high",
+            "K",
+            "K_flag",
+            "K_low",
+            "K_high",
+            "Creat",
+            "Creat_flag",
+            "Creat_low",
+            "Creat_high",
+            "eGFR",
+            "eGFR_flag",
+            "eGFR_low",
+            "eGFR_high",
+            "Gluc",
+            "Gluc_flag",
+            "Gluc_low",
+            "Gluc_high",
+            "Hb",
+            "Hb_flag",
+            "Hb_low",
+            "Hb_high",
+            "WBC",
+            "WBC_flag",
+            "WBC_low",
+            "WBC_high",
+            "PLT",
+            "PLT_flag",
+            "PLT_low",
+            "PLT_high",
+            "CRP",
+            "CRP_flag",
+            "CRP_low",
+            "CRP_high",
+            "ALT",
+            "ALT_flag",
+            "ALT_low",
+            "ALT_high",
+            "AST",
+            "AST_flag",
+            "AST_low",
+            "AST_high",
+            "Bili",
+            "Bili_flag",
+            "Bili_low",
+            "Bili_high",
+            "Alb",
+            "Alb_flag",
+            "Alb_low",
+            "Alb_high",
+            "INR",
+            "INR_flag",
+            "INR_low",
+            "INR_high",
+            "Lact",
+            "Lact_flag",
+            "Lact_low",
+            "Lact_high"
+        ]
+    },
+    "column_fingerprints": {
+        "CaseID": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.9838,
+            "entropy": 12.250325496590204,
+            "length_stats": {
+                "min": 1,
+                "max": 14,
+                "mean": 12.111964430072756
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "PID": {
+            "header_structure": {
+                "len": 3,
+                "digit_count": 0,
+                "alpha_count": 3,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": true,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.96,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.04
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0598,
+            "entropy": 6.351633327734937,
+            "length_stats": {
+                "min": 1,
+                "max": 8,
+                "mean": 6.045066211020932
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Gender": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.015,
+            "entropy": 3.4083878317332816,
+            "length_stats": {
+                "min": 1,
+                "max": 9,
+                "mean": 3.838044308632544
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Age": {
+            "header_structure": {
+                "len": 3,
+                "digit_count": 0,
+                "alpha_count": 3,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.99,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.01
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0418,
+            "entropy": 6.565769372264883,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 2.1049598682856554
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "SpecDT": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.12,
+                "float": 0.04,
+                "datetime": 0.81,
+                "bool": 0.0,
+                "string": 0.03
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.583,
+            "entropy": 11.22403742345779,
+            "length_stats": {
+                "min": 1,
+                "max": 12,
+                "mean": 10.037128205128205
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Na": {
+            "header_structure": {
+                "len": 2,
+                "digit_count": 0,
+                "alpha_count": 2,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.96,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.04
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.392,
+            "entropy": 10.60728704280741,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 5.9179073614557485
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Na_flag": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0056,
+            "entropy": 2.4365771178385294,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.6958698372966208
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Na_low": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 5,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Na_high": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "K": {
+            "header_structure": {
+                "len": 1,
+                "digit_count": 0,
+                "alpha_count": 1,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": true,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.98,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.02
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0862,
+            "entropy": 7.845867820000076,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 3.9661366921329755
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "K_flag": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 5,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0044,
+            "entropy": 2.0223380920813527,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.8309705561613958
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "K_low": {
+            "header_structure": {
+                "len": 5,
+                "digit_count": 0,
+                "alpha_count": 4,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "K_high": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 5,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Creat": {
+            "header_structure": {
+                "len": 5,
+                "digit_count": 0,
+                "alpha_count": 5,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.96,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.04
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0624,
+            "entropy": 7.114732187261284,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 3.9351184346035017
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Creat_flag": {
+            "header_structure": {
+                "len": 10,
+                "digit_count": 0,
+                "alpha_count": 9,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.006,
+            "entropy": 2.500829605987093,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.689967105263158
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Creat_low": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Creat_high": {
+            "header_structure": {
+                "len": 10,
+                "digit_count": 0,
+                "alpha_count": 9,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "eGFR": {
+            "header_structure": {
+                "len": 4,
+                "digit_count": 0,
+                "alpha_count": 4,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.95,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.05
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.1812,
+            "entropy": 9.294017172743,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 4.269103676166873
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "eGFR_flag": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0028,
+            "entropy": 0.412080297674669,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.104205433569036
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "eGFR_low": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 2,
+                "max": 2,
+                "mean": 2.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "eGFR_high": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Gluc": {
+            "header_structure": {
+                "len": 4,
+                "digit_count": 0,
+                "alpha_count": 4,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.95,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.05
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.7588,
+            "entropy": 11.729353436753119,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 5.413564929693962
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Gluc_flag": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0058,
+            "entropy": 2.5289659068287436,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.749730312837109
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Gluc_low": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 2,
+                "max": 2,
+                "mean": 2.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Gluc_high": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Hb": {
+            "header_structure": {
+                "len": 2,
+                "digit_count": 0,
+                "alpha_count": 2,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.97,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.03
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.219,
+            "entropy": 9.625413121094516,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 4.892437667422213
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Hb_flag": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0056,
+            "entropy": 1.8876289606492,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.6279411764705882
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Hb_low": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 5,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0004,
+            "entropy": 0.9999219776456704,
+            "length_stats": {
+                "min": 4,
+                "max": 4,
+                "mean": 4.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Hb_high": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0004,
+            "entropy": 0.9999219776456704,
+            "length_stats": {
+                "min": 4,
+                "max": 4,
+                "mean": 4.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "WBC": {
+            "header_structure": {
+                "len": 3,
+                "digit_count": 0,
+                "alpha_count": 3,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": true,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.96,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.04
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.2772,
+            "entropy": 10.048139942294464,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 4.115145228215767
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "WBC_flag": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0062,
+            "entropy": 2.4416046786972587,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.6632
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "WBC_low": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "WBC_high": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 4,
+                "max": 4,
+                "mean": 4.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "PLT": {
+            "header_structure": {
+                "len": 3,
+                "digit_count": 0,
+                "alpha_count": 3,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": true,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.94,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.06
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.8862,
+            "entropy": 12.012985719509132,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 5.878731727403747
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "PLT_flag": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0034,
+            "entropy": 2.093174988695003,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.839607201309329
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "PLT_low": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "PLT_high": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "CRP": {
+            "header_structure": {
+                "len": 3,
+                "digit_count": 0,
+                "alpha_count": 3,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": true,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.34,
+                "float": 0.64,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.02
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0664,
+            "entropy": 6.025462266174278,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 2.5699524695184954
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "CRP_flag": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0086,
+            "entropy": 2.3967263573448365,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.5953726123217649
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "CRP_low": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "CRP_high": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "ALT": {
+            "header_structure": {
+                "len": 3,
+                "digit_count": 0,
+                "alpha_count": 3,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": true,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.96,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.04
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.2158,
+            "entropy": 9.583314828544225,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 3.9738144329896907
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "ALT_flag": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0052,
+            "entropy": 2.44485478702086,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.6722306525037935
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "ALT_low": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 1,
+                "max": 1,
+                "mean": 1.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "ALT_high": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 2,
+                "max": 2,
+                "mean": 2.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "AST": {
+            "header_structure": {
+                "len": 3,
+                "digit_count": 0,
+                "alpha_count": 3,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": true,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.97,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.03
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.1988,
+            "entropy": 9.450319462540978,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 3.978956055291933
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "AST_flag": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0058,
+            "entropy": 2.1292695791783642,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.6030534351145038
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "AST_low": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 1,
+                "max": 1,
+                "mean": 1.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "AST_high": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 2,
+                "max": 2,
+                "mean": 2.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Bili": {
+            "header_structure": {
+                "len": 4,
+                "digit_count": 0,
+                "alpha_count": 4,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.98,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.02
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0602,
+            "entropy": 7.0885406601972765,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 3.9500412881915774
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Bili_flag": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.003,
+            "entropy": 2.668482508608613,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 2.0198863636363638
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Bili_low": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Bili_high": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Alb": {
+            "header_structure": {
+                "len": 3,
+                "digit_count": 0,
+                "alpha_count": 3,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.98,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.02
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.084,
+            "entropy": 7.82292269795259,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 3.9426685914621573
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Alb_flag": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0046,
+            "entropy": 2.3899056535942256,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.7839262187088274
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Alb_low": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Alb_high": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "INR": {
+            "header_structure": {
+                "len": 3,
+                "digit_count": 0,
+                "alpha_count": 3,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": true,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.91,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.09
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0526,
+            "entropy": 6.60456891708242,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 3.951158940397351
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "INR_flag": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0072,
+            "entropy": 2.3877992024998713,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.632867132867133
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "INR_low": {
+            "header_structure": {
+                "len": 7,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "INR_high": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Lact": {
+            "header_structure": {
+                "len": 4,
+                "digit_count": 0,
+                "alpha_count": 4,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.97,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.03
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0914,
+            "entropy": 8.043894460747133,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 3.973023064250412
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Lact_flag": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0046,
+            "entropy": 2.4592236233315496,
+            "length_stats": {
+                "min": 1,
+                "max": 7,
+                "mean": 1.8231780167264038
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Lact_low": {
+            "header_structure": {
+                "len": 8,
+                "digit_count": 0,
+                "alpha_count": 7,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "Lact_high": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 8,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0002,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 3,
+                "max": 3,
+                "mean": 3.0
+            },
+            "has_leading_trailing_spaces": false
+        }
+    }
+}
