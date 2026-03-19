@@ -6,15 +6,21 @@ from api.imported_files import ImportedFiles
 from api.metadata import ApiMetadata
 from database import Base, engine, get_db
 from fastapi import Depends, FastAPI
+# Import models package so all models are registered on Base.metadata
+import models  # noqa: F401
+from api.routes import router
+from db.database import Base, engine
+from db.seed import is_db_empty, seed_database
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import text
-from sqlalchemy.orm import Session
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Create all tables on startup
     Base.metadata.create_all(bind=engine)
+    if is_db_empty():
+        print("Database is empty — seeding from CSV files …")
+        seed_database()
     yield
 
 
@@ -33,6 +39,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(router)
 
 @app.get("/api/health")
 def health() -> dict[str, str]:
