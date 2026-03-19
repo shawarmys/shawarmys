@@ -1,14 +1,12 @@
 from contextlib import asynccontextmanager
 
+# Import model package so all models are registered on Base.metadata
+import model  # noqa: F401
+from api.metadata import ApiMetadata
+from database import Base, engine, get_db
 from fastapi import Depends, FastAPI
 from sqlalchemy import text
 from sqlalchemy.orm import Session
-
-from api.metadata import ApiMetadata
-from database import Base, engine, get_db
-
-# Import model package so all models are registered on Base.metadata
-import model  # noqa: F401
 
 
 @asynccontextmanager
@@ -26,11 +24,11 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.get("/")
+@app.get("/api/")
 def root() -> dict[str, str]:
     return {"message": "Server is running"}
 
-@app.get("/metadata")
+@app.get("/api/metadata")
 def get_metadata(db: Session = Depends(get_db)) -> ApiMetadata:
     """Return imported File count, succesful Mapping count, mapping Alert count."""
     imported_tables = [
