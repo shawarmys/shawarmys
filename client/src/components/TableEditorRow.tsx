@@ -136,11 +136,6 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
                 size="small"
                 sx={{
                   width: 240,
-                  // position: "absolute",
-                  // left: 0,
-                  // top: "50%",
-                  // transform: "translateY(-50%)",
-                  // zIndex: 100,
                   bgcolor: "background.paper",
                   boxShadow: 2,
                 }}
@@ -153,6 +148,7 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
                         onClick={() => {
                           saveCellValue(rowIdx, cellIdx);
                           unsetError(rowIdx, cellIdx);
+                          unsetOutlier(rowIdx, cellIdx);
                         }}
                       >
                         <SaveIcon fontSize="small" />
