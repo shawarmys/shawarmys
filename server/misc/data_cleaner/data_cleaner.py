@@ -15,8 +15,7 @@ from misc.data_cleaner.schemas import (
     EPAC_DATA_1_SCHEMA, EPAC_DATA_2_SCHEMA, EPAC_DATA_3_SCHEMA,
     EPAC_DATA_4_SCHEMA, EPAC_DATA_5_SCHEMA
 )
-
-from misc.header_cleaner.error_detection.CsvExcelReader import CsvExcelReader
+from misc.header_cleaner.CsvExcelReader import CsvExcelReader
 
 
 class DataCleaner:
@@ -70,51 +69,116 @@ class DataCleaner:
 
         return out
 
+    def _preprocess_ids(self, df: pd.DataFrame) -> Tuple[pd.DataFrame, list]:
+        out = df.copy()
+
+        for col in out.columns:
+            col_l = col.lower()
+            if "case_id" in col_l or "patient_id" in col_l or "fallid" in col_l:
+                s = out[col].astype("string").str.strip()
+
+                if "case_id" in col_l or "fallid" in col_l:
+                    s = s.str.replace(r"(?i)^case-", "", regex=True)
+                if "patient_id" in col_l:
+                    s = s.str.replace(r"(?i)^pat-", "", regex=True)
+
+                # Nullable integer dtype: invalid parses become <NA>
+                out[col] = pd.to_numeric(s, errors="coerce").astype("Int64")
+
+        # Track rows with null IDs
+        id_issues = []
+        case_cols = [c for c in out.columns if "case_id" in c.lower() or "fallid" in c.lower()]
+        patient_cols = [c for c in out.columns if "patient_id" in c.lower()]
+
+        if case_cols and patient_cols:
+            col_to_idx = {name: int(i) for i, name in enumerate(out.columns)}
+
+            # Check if any case_id/fallid OR patient_id is null
+            rows_with_null_ids = out[case_cols + patient_cols].isna().any(axis=1)
+
+            for row_idx in out[rows_with_null_ids].index:
+                null_cols = []
+                for col in case_cols + patient_cols:
+                    if pd.isna(out.loc[row_idx, col]):
+                        null_cols.append(f"{col} (col {col_to_idx[col]})")
+
+                id_issues.append({
+                    "row": int(row_idx),
+                    "column": None,
+                    "header": None,
+                    "value": None,
+                    "error": "missing_required_id",
+                    "message": f"Row dropped: null ID value(s) in {', '.join(null_cols)}"
+                })
+
+            # Drop rows with null IDs
+            if rows_with_null_ids.sum() > 0:
+                print(f"Dropping {rows_with_null_ids.sum()} row(s) with null ID values")
+                out = out[~rows_with_null_ids].reset_index(drop=True)
+
+        return out, id_issues
+
     def clean_csv(self):
         print(f"Cleaning CSV file: {self.file_path}")
         # Depending on file type, apply schema
         df = CsvExcelReader(self.file_path).read_csv()
         schema = self.file_type_to_schema[self.file_type]
         df = self._map_null_like_values_for_nullable_columns(df, schema)
+        df, issues = self._preprocess_ids(df)
+        schema_cols = [c for c in schema.columns.keys() if c in df.columns]
+        col_to_idx = {name: int(i) for i, name in enumerate(df.columns)}
 
-        try:
-            # Use lazy=True to collect ALL errors instead of failing on first
-            schema.validate(df, lazy=True)
-            print(f"✓ Validation passed")
-            return df, None
+        for row_idx, row in df.iterrows():
+            for col in schema_cols:
+                col_schema = schema.columns[col]
+                value = row[col]
+                col_idx = col_to_idx[col]
 
-        except SchemaErrors as e:
-            errors = self._extract_validation_errors_from_schema_errors(e)
-            print(f"✗ Validation failed with {len(errors['errors'])} error(s)")
-            return None, errors
+                if pd.isna(value):
+                    if not col_schema.nullable:
+                        issues.append({
+                            "row": int(row_idx),
+                            "column": col_idx,
+                            "header": col,
+                            "value": None,
+                            "error": "null_in_non_nullable_column",
+                            "message": "Empty value"
+                        })
+                    continue
+                expected = str(col_schema.dtype).lower()
 
-    def _extract_validation_errors_from_schema_errors(self, schema_errors):
-        """Extract errors from a SchemaErrors exception (lazy validation)."""
-        all_errors = []
-        for schema_error in schema_errors.schema_errors:
-            error_info = self._extract_single_error(schema_error)
-            all_errors.append(error_info)
+                try:
+                    if "datetime" in expected:
+                        pd.to_datetime([value], errors="raise", dayfirst=True)
+                    elif "int" in expected:
+                        num = pd.to_numeric([value], errors="raise")[0]
 
-        return {
-            "errors": all_errors,
-            "error_count": len(all_errors)
-        }
+                        if pd.isna(num) or float(num) != int(num):
+                            raise ValueError("not an integer value")
+                    elif "float" in expected:
+                        pd.to_numeric([value], errors="raise")
+                    elif "bool" in expected:
+                        if str(value).strip().lower() not in {"true", "false", "0", "1"}:
+                            raise ValueError("not a boolean-like value")
+                    else:
+                        str(value)
+                except Exception as e:
+                    issues.append({
+                        "row": int(row_idx),
+                        "column": col_idx,
+                        "header": col,
+                        "value": str(value),
+                        "error": "type_conversion_failed",
+                        "message": self._normalize_error_message(str(e)),
+                    })
+        return {"df": df, "errors": issues, "error_count": len(issues)}
 
-    def _extract_single_error(self, schema_error):
-        """Extract a single SchemaError into structured format."""
-        # Pandera SchemaError stores the message as a string representation
-        # Access attributes that actually exist: check, reason_code, failure_cases
-        error_str = str(schema_error)
-
-        return {
-            #"message": error_str,  # The full error message from string conversion
-            "reason_code": getattr(schema_error, 'reason_code', None),
-            #"check": getattr(schema_error, 'check', None),
-            "column": getattr(schema_error, 'column', None),
-            "row": getattr(schema_error, 'row', None),  # added
-            "failure_cases": str(schema_error.failure_cases) if hasattr(schema_error,
-                                                                        'failure_cases') and schema_error.failure_cases is not None else None
-        }
+    def _normalize_error_message(self, error_msg: str) -> str:
+        """Remove pandas-specific context like 'at position 0' from error messages."""
+        import re
+        # Strip " at position \d+" suffix
+        normalized = re.sub(r'\s+at position\s+\d+\s*$', '', error_msg)
+        return normalized.strip()
 
     def clean_data(self) -> Tuple[pd.DataFrame, any]:
         if self.file_extension == 'csv':
@@ -134,10 +198,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    df, errors = DataCleaner(args.file_path).clean_data()
+    out = DataCleaner(args.file_path).clean_data()
 
-    # TODO: Save CSV, Save JSON with errors, return by printing with delimiter ';'
-    errors_path = None
+    df = out["df"]
+    errors = out["errors"]
     if errors is not None:
         with tempfile.NamedTemporaryFile(
                 mode="w",

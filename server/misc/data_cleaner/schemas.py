@@ -7,15 +7,51 @@ from pandera.engines.pandas_engine import DateTime as PanderaDateTime
 
 EPAC_COLUMN_OVERRIDES = {
     "epaAC-Data-2_fingerprint": {
-        "EPA0002": pa.Column(str, nullable=False),  # observed value "A"
+        "EPA0002": pa.Column(str, nullable=False),
+        "FallNr": pa.Column(str, nullable=False),  # Mandatory: Case ID
+        "Einschätzungsdatum": pa.Column(pa.DateTime, nullable=False),  # Mandatory: Assessment date
+        "Einschätzungstyp": pa.Column(str, nullable=False),  # Mandatory: Assessment type
+        "IID": pa.Column(str, nullable=False),  # Mandatory: Individual/Episode ID
     },
-    # add more as you discover them
+    "epaAC-Data-3_fingerprint": {
+        "FallNr": pa.Column(str, nullable=False),
+        "Einschätzungsdatum": pa.Column(pa.DateTime, nullable=False),
+        "Einschätzungstyp": pa.Column(str, nullable=False),
+        "IID": pa.Column(str, nullable=False),
+    },
+    "epaAC-Data-4_fingerprint": {
+        "FallNr": pa.Column(str, nullable=False),
+        "Einschätzungsdatum": pa.Column(pa.DateTime, nullable=False),
+        "Einschätzungstyp": pa.Column(str, nullable=False),
+        "IID": pa.Column(str, nullable=False),
+    },
+    "epaAC-Data-5_fingerprint": {
+        "FallNr": pa.Column(str, nullable=False),
+        "Einschätzungsdatum": pa.Column(pa.DateTime, nullable=False),
+        "Einschätzungstyp": pa.Column(str, nullable=False),
+        "IID": pa.Column(str, nullable=False),
+    },
 }
+
 
 LABS_SCHEMA = pa.DataFrameSchema(
     {
-        "case_id": pa.Column(str, nullable=False),
-        "patient_id": pa.Column(int, nullable=False),
+        "case_id": pa.Column(
+            str,
+            [
+                # Strip "CASE-" prefix if present, and ensure the rest is digits.
+                pa.Check(lambda s: s.str.startswith("CASE-") and s.str[5:].str.isdigit() or s.str.isdigit(), error="case_id must start with 'CASE-' followed by digits, or be digits only")
+            ],
+            nullable=False,
+
+        ),
+        "patient_id": pa.Column(
+            int,
+            [
+                pa.Check(lambda s: s.str.startswith("PAT-") and s.str[4:].str.isdigit() or s.str.isdigit(), error="patient_id must start with 'PAT-' followed by digits, or be digits only")
+            ],
+            nullable=False
+        ),
         "sex": pa.Column(str, nullable=True),
         "age_years": pa.Column(int, nullable=True),
         "specimen_datetime": pa.Column(pa.DateTime, nullable=True),
@@ -102,8 +138,22 @@ LABS_SCHEMA = pa.DataFrameSchema(
 
 ICD10_SCHEMA = pa.DataFrameSchema(
     {
-        "case_id": pa.Column(str, nullable=False),
-        "patient_id": pa.Column(str, nullable=False),
+        "case_id": pa.Column(
+            str,
+            [
+                # Strip "CASE-" prefix if present, and ensure the rest is digits.
+                pa.Check(lambda s: s.str.startswith("CASE-") and s.str[5:].str.isdigit() or s.str.isdigit(), error="case_id must start with 'CASE-' followed by digits, or be digits only")
+            ],
+            nullable=False,
+
+        ),
+        "patient_id": pa.Column(
+            int,
+            [
+                pa.Check(lambda s: s.str.startswith("PAT-") and s.str[4:].str.isdigit() or s.str.isdigit(), error="patient_id must start with 'PAT-' followed by digits, or be digits only")
+            ],
+            nullable=False
+        ),
 
         "ward": pa.Column(str, nullable=True),
         "admission_date": pa.Column(pa.DateTime, nullable=True),
@@ -124,7 +174,13 @@ ICD10_SCHEMA = pa.DataFrameSchema(
 
 DEVICE_MOTION_SCHEMA = pa.DataFrameSchema(
     {
-        "patient_id": pa.Column(str, nullable=False),
+        "patient_id": pa.Column(
+            int,
+            [
+                pa.Check(lambda s: s.str.startswith("PAT-") and s.str[4:].str.isdigit() or s.str.isdigit(), error="patient_id must start with 'PAT-' followed by digits, or be digits only")
+            ],
+            nullable=False
+        ),
         "timestamp": pa.Column(pa.DateTime, nullable=True),
         "movement_index_0_100": pa.Column(float, nullable=True),
         "micro_movements_count": pa.Column(int, nullable=True),
@@ -140,7 +196,13 @@ DEVICE_MOTION_SCHEMA = pa.DataFrameSchema(
 
 DEVICE_RAW_1HZ_SCHEMA = pa.DataFrameSchema(
     {
-        "patient_id": pa.Column(str, nullable=False),
+        "patient_id": pa.Column(
+            int,
+            [
+                pa.Check(lambda s: s.str.startswith("PAT-") and s.str[4:].str.isdigit() or s.str.isdigit(), error="patient_id must start with 'PAT-' followed by digits, or be digits only")
+            ],
+            nullable=False
+        ),
         "device_id": pa.Column(str, nullable=False),  # Changed from nullable=True
         "timestamp": pa.Column(pa.DateTime, nullable=False),  # Changed from nullable=True
         "bed_occupied_0_1": pa.Column(int, nullable=False),  # Changed from nullable=True
@@ -168,7 +230,14 @@ DEVICE_RAW_1HZ_SCHEMA = pa.DataFrameSchema(
 MEDICATION_SCHEMA = pa.DataFrameSchema(
     {
         "record_type": pa.Column(str, nullable=True),
-        "patient_id": pa.Column(str, nullable=False),
+        "patient_id": pa.Column(
+            int,
+            [
+                pa.Check(lambda s: s.str.startswith("PAT-") and s.str[4:].str.isdigit() or s.str.isdigit(),
+                         error="patient_id must start with 'PAT-' followed by digits, or be digits only")
+            ],
+            nullable=False
+        ),
         "encounter_id": pa.Column(str, nullable=True),
         "ward": pa.Column(str, nullable=True),
         "admission_datetime": pa.Column(pa.DateTime, nullable=True),
@@ -200,8 +269,22 @@ MEDICATION_SCHEMA = pa.DataFrameSchema(
 
 NURSING_SCHEMA = pa.DataFrameSchema(
     {
-        "case_id": pa.Column(str, nullable=False),
-        "patient_id": pa.Column(str, nullable=False),
+        "case_id": pa.Column(
+            str,
+            [
+                # Strip "CASE-" prefix if present, and ensure the rest is digits.
+                pa.Check(lambda s: s.str.startswith("CASE-") and s.str[5:].str.isdigit() or s.str.isdigit(), error="case_id must start with 'CASE-' followed by digits, or be digits only")
+            ],
+            nullable=False,
+
+        ),
+        "patient_id": pa.Column(
+            int,
+            [
+                pa.Check(lambda s: s.str.startswith("PAT-") and s.str[4:].str.isdigit() or s.str.isdigit(), error="patient_id must start with 'PAT-' followed by digits, or be digits only")
+            ],
+            nullable=False
+        ),
         "ward": pa.Column(str, nullable=False),
         "report_date": pa.Column(pa.DateTime, nullable=False),
         "shift": pa.Column(str, nullable=False),
@@ -214,7 +297,16 @@ NURSING_SCHEMA = pa.DataFrameSchema(
 
 EPAC_DATA_1_SCHEMA = pa.DataFrameSchema(
     {
-        "FallID": pa.Column(str, nullable=True),
+            "FALLID": pa.Column(
+            str,
+            [
+                # Strip "CASE-" prefix if present, and ensure the rest is digits.
+                pa.Check(lambda s: s.str.startswith("CASE-") and s.str[5:].str.isdigit() or s.str.isdigit(),
+                         error="case_id must start with 'CASE-' followed by digits, or be digits only")
+            ],
+            nullable=False,
+
+        ),
         "PID": pa.Column(int, nullable=False),
         "Einschätzung": pa.Column(pa.DateTime, nullable=False),
         "Aufnahme": pa.Column(pa.DateTime, nullable=False),
@@ -315,29 +407,6 @@ def _schema_from_fingerprint(fingerprint: dict, fingerprint_name: str | None = N
 
 
 _FPS = load_fingerprints()
-
-EPAC_DATA_1_SCHEMA = pa.DataFrameSchema(
-    {
-        "FallID": pa.Column(str, nullable=True),
-        "PID": pa.Column(int, nullable=False),
-        "Einschätzung": pa.Column(
-            PanderaDateTime(to_datetime_kwargs={"format": "%d.%m.%Y %H:%M", "dayfirst": True}),
-            nullable=False,
-        ),
-        "Aufnahme": pa.Column(
-            PanderaDateTime(to_datetime_kwargs={"format": "%d.%m.%Y %H:%M", "dayfirst": True}),
-            nullable=False,
-        ),
-        "Entlassund": pa.Column(str, nullable=True),
-        "Station": pa.Column(str, nullable=False),
-        "Account": pa.Column(str, nullable=False),
-        "SID": pa.Column(str, nullable=False),         # was float, but values are like 08_02
-        "SID_value": pa.Column(str, nullable=True),    # mixed values (08_02_01, 70, etc.)
-    },
-    strict=True,
-    coerce=True,
-    ordered=True,
-)
 
 EPAC_DATA_2_SCHEMA = _schema_from_fingerprint(_FPS["epaAC-Data-2_fingerprint"], "epaAC-Data-2_fingerprint")
 EPAC_DATA_3_SCHEMA = _schema_from_fingerprint(_FPS["epaAC-Data-3_fingerprint"], "epaAC-Data-3_fingerprint")
