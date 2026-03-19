@@ -3,6 +3,7 @@ import numpy as np
 import scipy.stats as stats
 import json
 import os
+import csv
 from Levenshtein import distance as lev_dist
 
 class TargetSchemaEncoder:
@@ -163,12 +164,20 @@ if __name__ == "__main__":
             table_name = os.path.splitext(filename)[0]
             file_path = os.path.join(gold_standard_dir, filename)
 
+            with open(file_path, 'r') as f:
+                try:
+                    dialect = csv.Sniffer().sniff(f.read(2048))
+                    delimiter = dialect.delimiter
+                except:
+                    delimiter = ','
+
+
             if filename.endswith('.csv'):
                 try:
                     # sep=None + engine='python' enables the "auto-sniffer"
                     df = pd.read_csv(
                         file_path,
-                        sep=None,
+                        sep=delimiter,
                         engine='python',
                         encoding='utf-8'
                     )
@@ -176,7 +185,7 @@ if __name__ == "__main__":
                     # Fallback for German/Windows-encoded files
                     df = pd.read_csv(
                         file_path,
-                        sep=None,
+                        sep=delimiter,
                         engine='python',
                         encoding='latin1'
                     )
