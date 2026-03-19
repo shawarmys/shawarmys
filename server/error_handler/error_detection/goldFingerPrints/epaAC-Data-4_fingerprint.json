@@ -1,0 +1,571 @@
+{
+    "table_metadata": {
+        "column_count": 21,
+        "ordered_headers": [
+            "EinschIDFall;FallNr (STRING);AufnDat;AufnZeit;EntlassDat;EntlassZeit;EinschDat;EinschZeit;FaBerFaAbt (STRING);StatBez (STRING);InstrVers;Einsch\u00e4tzungstyp;Versorgungsform zu Hause/ vor Eintritt;Fremdsprachigkeit (STRING);Fremdsprachigkeit;Fremdsprachigkeit Bezugsperson (STRING);Fremdsprachigkeit Bezugsperson;K\u00f6rpergr\u00f6\u00dfe;K\u00f6rpergewicht;Ungewollter Gewichtsverlust;BMI;BMI beeinflussende Faktoren;Nahrungsmenge vor Aufnahme;Alter;Pflegegrad gem. \u00a715 SGB XI (Pflegeversicherung);Pflegegrad ist beantragt (OPS 9-984.b);Hilfsmittel Fortbewegung/Mobilit\u00e4t (Beschreibung) (STRING);Hilfsmittel Fortbewegung/Mobilit\u00e4t (n.b.);Hilfsmittel Fortbewegung/Mobilit\u00e4t (4: Keine);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1f: Andere);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1e: Hilfsmittel zum Heben von Personen);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1d: Transfer- und Wendehilfen);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1c: Rollstuhl);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1b: Mit beiden Armen gehandhabte Gehhilfen);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1a: Mit einem Arm gehandhabte Gehhilfen);Prothesen/ Orthesen (STRING);Prothesen/ Orthesen;Hilfsmittel K\u00f6rperpflege (STRING);Hilfsmittel K\u00f6rperpflege;Hilfsmittel Kleiden (STRING);Hilfsmittel Kleiden;Hilfsmittel Ern\u00e4hrung (n.b.);Hilfsmittel Ern\u00e4hrung (Beschreibung) (STRING);Hilfsmittel Ern\u00e4hrung (1b: Andere);Hilfsmittel Ern\u00e4hrung (1a: Zahnprothese);Hilfsmittel Ern\u00e4hrung (4: Keine);Hilfsmittel Ern\u00e4hrung (Beschreibung) (STRING);Hilfsmittel Ern\u00e4hrung (n.b.);Hilfsmittel Ern\u00e4hrung (4: Keine);Hilfsmittel Ern\u00e4hrung (1c: Andere);Hilfsmittel Ern\u00e4hrung (1b: Zahnprothese);Hilfsmittel Ern\u00e4hrung (1a: Zahnspange);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (Beschreibung) (STRING);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (n.b.);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (4: Keine);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (1c: Andere);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (1b: Inkontinenzmaterialien);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (1a: Toilettenhilfen);Hilfsmittel H\u00f6ren (Beschreibung) (STRING);Hilfsmittel H\u00f6ren (n.b.);Hilfsmittel H\u00f6ren (4: Keine);Hilfsmittel H\u00f6ren (1b: Andere);Hilfsmittel H\u00f6ren (1a: H\u00f6rger\u00e4t);Hilfsmittel Sehen (Beschreibung) (STRING);Hilfsmittel Sehen (n.b.);Hilfsmittel Sehen (4: Keine);Hilfsmittel Sehen (1c: Andere);Hilfsmittel Sehen (1b: Kontaktlinsen);Hilfsmittel Sehen (1a: Brille);Hilfsmittel Sprechen/ Nahkommunikation (STRING);Hilfsmittel Sprechen/ Nahkommunikation;Patientenverf\u00fcgung/ Vorausverf\u00fcgung;Bekannter Diabetes Mellitus;Freitext Zusatzvariable (STRING);Positionswechsel im Liegen;;;Sitzposition halten;;;Transfer;;;Fortbewegung;;;Reibung/ Scherkr\u00e4fte bei Positionswechsel/ Transfer;;;Ver\u00e4ndertes Gangbild;;;Gleichgewichtsst\u00f6rungen;;;Sturzvorgeschichte;Aktuelles Sturzereignis;Ersch\u00f6pfung/ Fatigue;;;Freitext Kategorie Bewegung (STRING);K\u00f6rperpflege Oberk\u00f6rper;;;K\u00f6rperpflege Unterk\u00f6rper;;;Mundstatus;;;An-/Auskleiden Oberk\u00f6rper;;;An-/Auskleiden Unterk\u00f6rper;;;Freitext Kategorie K\u00f6rperpflege und Kleiden (STRING);Essen;;;Nahrungsmenge (oral);;;K\u00fcnstliche Ern\u00e4hrung/ verordnete Zusatzkost;;;Energie-/ N\u00e4hrstoffbedarf;Nahrungsmenge (gesamt);;;Trinken;;;Trinkmenge;;;Verh\u00e4ltnis Fl\u00fcssigkeitsmenge zu Fl\u00fcssigkeitsbedarf;;;Fl\u00fcssigkeitserg\u00e4nzung;;;Sondenern\u00e4hrung;;;Schluckst\u00f6rungen;;;\u00dcbelkeit;;;Freitext Kategorie Ern\u00e4hrung (STRING);Urinausscheidung durchf\u00fchren;;;Urinausscheidung kontrollieren;;;Urinableitungssystem;;;Stuhlausscheidung durchf\u00fchren;;;Stuhlausscheidung kontrollieren;;;Stuhlver\u00e4nderung;;;Stuhlableitungssystem;Dranghafte/ gesteigerte Ausscheidung;Feuchtigkeit der Haut;;;Freitext Kategorie Ausscheidung (STRING);Bewusstsein/ Vigilanz;Orientierung (Person",
+            " Ort",
+            " Zeit",
+            " Situation);;;Informationen verarbeiten/ verstehen;;;Alltagskompetenz;;;Aufmerksamkeit;;;Sturz-/ Delir-Risiko erh\u00f6hende Medikamente;Freitext Kategorie Kognition",
+            " Bewusstsein (STRING);H\u00f6ren;Sehen;Sich mitteilen;;;Selbst initiierte Aktivit\u00e4ten;;;Merkmale herausfordernden Verhaltens;;;Freitext Kategorie Kommunikation und Interaktion (STRING);Einschlafen/ Durchschlafen;;;Schlaf-Wach-Rhythmus;;;Freitext Kategorie Schlaf (STRING);Atmung beeintr\u00e4chtigt (aktuell);Chron. Erkrankung des Atmungssystems;Beatmung > 24h akt. Aufenthalt;Tracheostoma;Experteneinsch\u00e4tzung: weitere Pneumonie-Risikoindikatoren (STRING);Experteneinsch\u00e4tzung: weitere Pneumonie-Risikoindikatoren;Freitext Kategorie Regulation von K\u00f6rperfunktionen (STRING);Sensorische Wahrnehmung;;;Schmerzintensit\u00e4t;;;Schmerzen",
+            " akut;;;Chronische Schmerzen;Schmerzen",
+            " chronisch;Traurigkeit (STRING);Traurigkeit;;;Angst (STRING);Angst;;;Freitext Kategorie Schmerz und emotionales Befinden (STRING);Experteneinsch\u00e4tzung: weitere Dekubitus-Risikoindikatoren (STRING);Experteneinsch\u00e4tzung: weitere Dekubitus-Risikoindikatoren;Dekubitus_Lokalisation;Dekubitus_Stadium;Dekubitus_Lokalisation;Dekubitus-Stadium;;;;;;Wunden/ path. Hautver\u00e4nderungen ([Beschreibung - Freitext]) (STRING);Wunden/ path. Hautver\u00e4nderungen;Wunden/ path. Hautver\u00e4nderungen ([Beschreibung - Freitext]) (STRING);Wunden/ path. Hautver\u00e4nderungen;Freitext Kategorie Dekubitus",
+            " Wunden (STRING);SPI;Risiko Dekubitus: Bradenskala (Punktwert);Risiko Dekubitus: Bradenskala;Risiko Dekubitus: weitere Risikoindikatoren (Experteneinsch\u00e4tzung) (STRING);Risiko Dekubitus: weitere Risikoindikatoren (Experteneinsch\u00e4tzung);Risiko Mangelern\u00e4hrung: NRS;Risiko Mangelern\u00e4hrung: NRS (Punktwert);Abkl\u00e4rungserfordernis Mundgesundheit;Risiko Sturz;Risiko Pneumonie;Risiko Pneumonie: weitere Risikoindikatoren (Experteneinsch\u00e4tzung) (STRING);Risiko Pneumonie: weitere Risikoindikatoren (Experteneinsch\u00e4tzung);Abkl\u00e4rungserfordernis neurokognitive St\u00f6rung;Risiko poststation\u00e4res Versorgungsdefizit;Kontinenzprofil;Freitext Risikoauswertung (STRING);;;;;;;;;;;;BMI-Perzentile;BMI-Perzentile (EU);BMI-Perzentile Grenzwert unterschritten;Gewichtsverlust;Nahrungszufuhr vergangene Woche;Ern\u00e4hrung kommende Woche;Selbstst\u00e4ndiges Drehen;;;Selbstst\u00e4ndiges Sitzen;;;Sicherer Stand;;;Freies Laufen;;;Altersentsprechende Entwicklung des Kindes;Altersentsprechende Entwicklung des Kindes;Stillen;;;Deckung des Tagesbedarfs (N\u00e4hrstoffe und Fl\u00fcssigkeit);;;Verordnete Fl\u00fcssigkeitserg\u00e4nzung;;;Saugverhalten;;;Erbrechen;;;Altersentsprechende Entwicklung des Kindes;Bl\u00e4hungen;;;Altersentsprechende Entwicklung des Kindes;Aufforderungen verstehen;;;Altersentsprechende Entwicklung des Kindes;Merkmale herausfordernden Verhaltens (< 4 J);;;F\u00e4higkeit ver\u00e4nderte Lebenssituationen zu bew\u00e4ltigen (Kind);;;Altersentsprechende Entwicklung des Kindes;Altersentsprechende Entwicklung des Kindes;Experteneinsch. Pneumonierisiko (STRING);Experteneinsch. Pneumonierisiko;K\u00f6rpertemperatur;;;Altersentsprechende Entwicklung des Kindes;Schmerzintensit\u00e4t;;;Heimweh;;;Altersentsprechende Entwicklung des Kindes;Experteneinsch. Dekubitusrisiko (STRING);Experteneinsch. Dekubitusrisiko;Kompensatorische F\u00e4higkeit Bezugsperson;;;Kompensatorische \u00dcbernahme Bezugsperson;;;F\u00e4higkeit ver\u00e4nderte Lebenssituationen zu bew\u00e4ltigen (Bezugsperson/ Familie);;;Stress\u00fcberlastung der Bezugsperson/ Familie - Herausforderung f\u00fcr Pflege;;;Freitext Kategorie Bezugsperson (STRING);SSI;Risiko Dekubitus: Experteneinsch\u00e4tzung (STRING);Risiko Dekubitus: Experteneinsch\u00e4tzung;Risiko Dehydratation;Abkl\u00e4rungserfordernis Mangelern\u00e4hrung;Risiko Mangelern\u00e4hrung: PYMS (STRING);Risiko Mangelern\u00e4hrung: PYMS;Risiko Pneumonie: Experteneinsch\u00e4tzung (STRING);Risiko Pneumonie: Experteneinsch\u00e4tzung;Kompensatorische F\u00e4higkeit Bezugsperson;Kompensatorische \u00dcbernahme Bezugsperson;Trennung der Eltern;Hochstrittige Eltern;Aktuelle Wohnsituation (STRING);Aktuelle Wohnsituation;Schulbesuch",
+            " Ausbildung",
+            " Erwerbst\u00e4tigkeit (STRING);Schulbesuch",
+            " Ausbildung.1",
+            " Erwerbst\u00e4tigkeit;Gesetzliche Betreuung/ Gesetzliche Vertretung (STRING);Gesetzliche Betreuung/ Gesetzliche Vertretung;Vertrauensperson (STRING);Vertrauensperson;Vorgeschichte suizidalen Verhaltens;Aktueller Substanzgebrauch (STRING);Aktueller Substanzgebrauch;Verhalten",
+            " exzessiv (STRING);Verhalten",
+            " exzessiv;Bedeutung der Religiosit\u00e4t / Spiritualit\u00e4t [S];Freitext Kontextdaten (STRING);Antrieb [F] (STRING);Antrieb [F];;;Psychomotorik [F] (STRING);Psychomotorik [F];;;Alltag planen [F];;;Alltagsplanung umsetzen [F];;;F\u00e4higkeit sich zu besch\u00e4ftigen [F] (STRING);F\u00e4higkeit sich zu besch\u00e4ftigen [F];;;Schlafst\u00f6rungen [F] (STRING);Schlafst\u00f6rungen [F];;;K\u00f6rperpflege [F];;;Kleiden [F];;;Fu\u00dfstatus [F];;;Freitext Kategorie Aktivit\u00e4t & Ruhe (STRING);F\u00e4higkeit neue Beziehungen zu Gleichaltrigen einzugehen [F];;;F\u00e4higkeit neue Beziehungen einzugehen [F];;;Vorhandene Beziehungen aufrecht erhalten [F];;;Soziale Interaktion [F];;;Rollenverhalten (inter-personell) [F];;;Rollenstress (intra-personell) [D];;;Soziale Unterst\u00fctzung [F];;;Unterst\u00fctzungsempfinden [S];;;Freitext Kategorie Rollen & Beziehungen (STRING);Gef\u00fchl der Zuversicht [D];;;Gef\u00fchl der Hoffnung [D];;;Grundstimmung [F] (STRING);Grundstimmung [F];;;Vorherrschende Emotion [S] (STRING);Vorherrschende Emotion [S];Selbstwert [F];;;Selbstmitgef\u00fchl [F];;;Freitext Kategorie Selbstwahrnehmung (STRING);Selbstwirksamkeit [F] (STRING);Selbstwirksamkeit [F];;;F\u00e4higkeit mit schwierigen Situationen umzugehen [F];;;F\u00e4higkeit mit Gef\u00fchlen umzugehen [F];;;Adh\u00e4renz [F];;;Angstformen [F] (STRING);Angstformen [F];Freitext Kategorie Coping & Stresstoleranz (STRING);Lebenssinn [S];;;Freitext Kategorie Lebensprinzipien (STRING);Ern\u00e4hrungsverhalten [F] (STRING);Ern\u00e4hrungsverhalten [F];;;Enuresis;;;Merkf\u00e4higkeit [F];;;Sinnest\u00e4uschungen [F] (STRING);Sinnest\u00e4uschungen [F];;;Wahnerleben [F] (STRING);Wahnerleben [F];;;Zwang [F] (STRING);Zwang [F];;;Freitext Wahrnehmung & Kognition (STRING);Sexualit\u00e4t [D] (STRING);Sexualit\u00e4t [D];;;Geschlechtsidentit\u00e4t (STRING);Geschlechtsidentit\u00e4t;;;Gesundheitliches Wohlbefinden [S];;;Wissensstand [F];;;Was hilft Dir/Ihnen",
+            " damit es Dir/Ihnen gut geht? [S] (STRING);Was hilft Dir/Ihnen",
+            " damit es Dir/Ihnen gut geht? [S];;;Warum geht es Dir/Ihnen jetzt nicht gut? [S] (STRING);Warum geht es Dir/Ihnen jetzt nicht gut? [S];;;Freitext Kategorie Gesundheitsf\u00f6rderung",
+            " Wohlbefinden und Sexualit\u00e4t (STRING);Sozialverhalten [F];;;Verhalten",
+            " fremdaggressiv [F];Verhalten",
+            " selbstverletzend [F] (STRING);Verhalten",
+            " selbstverletzend [F];;;Suizidgedanken [D] (STRING);Suizidgedanken [D];;;Verhalten",
+            " suizidal [F];;;Umgang mit Wut [S] (STRING);Umgang mit Wut [S];Freitext Kategorie Sicherheit & Schutz (STRING);Elternbeteiligung;;;F\u00e4higkeit Unterst\u00fctzung zu leisten [F];;;Unterst\u00fctzung zur Erziehung [F] (STRING);Unterst\u00fctzung zur Erziehung [F];;;Abkl\u00e4rungserfordernis Suizidalit\u00e4t;Abkl\u00e4rungserfordernis Gewaltpotenzial;SFI;Treppen steigen;;;Erinnerungsf\u00e4higkeit;;;F\u00e4higkeit zur allt\u00e4glichen Lebensf\u00fchrung;;;F\u00e4higkeit zur Haushaltsf\u00fchrung;;;F\u00e4higkeit Aktivit\u00e4ten au\u00dferhalb zu t\u00e4tigen;;;F\u00e4higkeit situationsangemessen zu entscheiden;;;F\u00e4higkeit sich zu besch\u00e4ftigen;;;Langzeitbeatmung;Abkl\u00e4rungserfordernis Depression;Dekubitus_interne Referenz;Dekubitus_interne Referenz;Wunden/ path. Hautver\u00e4nderungen_interne Referenz;Wunden/ path. Hautver\u00e4nderungen_interne Referenz"
+        ]
+    },
+    "column_fingerprints": {
+        "EinschIDFall;FallNr (STRING);AufnDat;AufnZeit;EntlassDat;EntlassZeit;EinschDat;EinschZeit;FaBerFaAbt (STRING);StatBez (STRING);InstrVers;Einsch\u00e4tzungstyp;Versorgungsform zu Hause/ vor Eintritt;Fremdsprachigkeit (STRING);Fremdsprachigkeit;Fremdsprachigkeit Bezugsperson (STRING);Fremdsprachigkeit Bezugsperson;K\u00f6rpergr\u00f6\u00dfe;K\u00f6rpergewicht;Ungewollter Gewichtsverlust;BMI;BMI beeinflussende Faktoren;Nahrungsmenge vor Aufnahme;Alter;Pflegegrad gem. \u00a715 SGB XI (Pflegeversicherung);Pflegegrad ist beantragt (OPS 9-984.b);Hilfsmittel Fortbewegung/Mobilit\u00e4t (Beschreibung) (STRING);Hilfsmittel Fortbewegung/Mobilit\u00e4t (n.b.);Hilfsmittel Fortbewegung/Mobilit\u00e4t (4: Keine);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1f: Andere);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1e: Hilfsmittel zum Heben von Personen);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1d: Transfer- und Wendehilfen);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1c: Rollstuhl);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1b: Mit beiden Armen gehandhabte Gehhilfen);Hilfsmittel Fortbewegung/Mobilit\u00e4t (1a: Mit einem Arm gehandhabte Gehhilfen);Prothesen/ Orthesen (STRING);Prothesen/ Orthesen;Hilfsmittel K\u00f6rperpflege (STRING);Hilfsmittel K\u00f6rperpflege;Hilfsmittel Kleiden (STRING);Hilfsmittel Kleiden;Hilfsmittel Ern\u00e4hrung (n.b.);Hilfsmittel Ern\u00e4hrung (Beschreibung) (STRING);Hilfsmittel Ern\u00e4hrung (1b: Andere);Hilfsmittel Ern\u00e4hrung (1a: Zahnprothese);Hilfsmittel Ern\u00e4hrung (4: Keine);Hilfsmittel Ern\u00e4hrung (Beschreibung) (STRING);Hilfsmittel Ern\u00e4hrung (n.b.);Hilfsmittel Ern\u00e4hrung (4: Keine);Hilfsmittel Ern\u00e4hrung (1c: Andere);Hilfsmittel Ern\u00e4hrung (1b: Zahnprothese);Hilfsmittel Ern\u00e4hrung (1a: Zahnspange);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (Beschreibung) (STRING);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (n.b.);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (4: Keine);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (1c: Andere);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (1b: Inkontinenzmaterialien);Hilfsmittel Ausscheidung (exkl. Ableitungssyst.) (1a: Toilettenhilfen);Hilfsmittel H\u00f6ren (Beschreibung) (STRING);Hilfsmittel H\u00f6ren (n.b.);Hilfsmittel H\u00f6ren (4: Keine);Hilfsmittel H\u00f6ren (1b: Andere);Hilfsmittel H\u00f6ren (1a: H\u00f6rger\u00e4t);Hilfsmittel Sehen (Beschreibung) (STRING);Hilfsmittel Sehen (n.b.);Hilfsmittel Sehen (4: Keine);Hilfsmittel Sehen (1c: Andere);Hilfsmittel Sehen (1b: Kontaktlinsen);Hilfsmittel Sehen (1a: Brille);Hilfsmittel Sprechen/ Nahkommunikation (STRING);Hilfsmittel Sprechen/ Nahkommunikation;Patientenverf\u00fcgung/ Vorausverf\u00fcgung;Bekannter Diabetes Mellitus;Freitext Zusatzvariable (STRING);Positionswechsel im Liegen;;;Sitzposition halten;;;Transfer;;;Fortbewegung;;;Reibung/ Scherkr\u00e4fte bei Positionswechsel/ Transfer;;;Ver\u00e4ndertes Gangbild;;;Gleichgewichtsst\u00f6rungen;;;Sturzvorgeschichte;Aktuelles Sturzereignis;Ersch\u00f6pfung/ Fatigue;;;Freitext Kategorie Bewegung (STRING);K\u00f6rperpflege Oberk\u00f6rper;;;K\u00f6rperpflege Unterk\u00f6rper;;;Mundstatus;;;An-/Auskleiden Oberk\u00f6rper;;;An-/Auskleiden Unterk\u00f6rper;;;Freitext Kategorie K\u00f6rperpflege und Kleiden (STRING);Essen;;;Nahrungsmenge (oral);;;K\u00fcnstliche Ern\u00e4hrung/ verordnete Zusatzkost;;;Energie-/ N\u00e4hrstoffbedarf;Nahrungsmenge (gesamt);;;Trinken;;;Trinkmenge;;;Verh\u00e4ltnis Fl\u00fcssigkeitsmenge zu Fl\u00fcssigkeitsbedarf;;;Fl\u00fcssigkeitserg\u00e4nzung;;;Sondenern\u00e4hrung;;;Schluckst\u00f6rungen;;;\u00dcbelkeit;;;Freitext Kategorie Ern\u00e4hrung (STRING);Urinausscheidung durchf\u00fchren;;;Urinausscheidung kontrollieren;;;Urinableitungssystem;;;Stuhlausscheidung durchf\u00fchren;;;Stuhlausscheidung kontrollieren;;;Stuhlver\u00e4nderung;;;Stuhlableitungssystem;Dranghafte/ gesteigerte Ausscheidung;Feuchtigkeit der Haut;;;Freitext Kategorie Ausscheidung (STRING);Bewusstsein/ Vigilanz;Orientierung (Person": {
+            "header_structure": {
+                "len": 3676,
+                "digit_count": 31,
+                "alpha_count": 3030,
+                "special_count": 615,
+                "space_count": 222,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 1.0,
+            "entropy": 5.321928094887363,
+            "length_stats": {
+                "min": 97,
+                "max": 8438,
+                "mean": 509.325
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " Ort": {
+            "header_structure": {
+                "len": 4,
+                "digit_count": 0,
+                "alpha_count": 3,
+                "special_count": 1,
+                "space_count": 1,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.625,
+            "entropy": 4.593069207771891,
+            "length_stats": {
+                "min": 61,
+                "max": 830,
+                "mean": 627.3928571428571
+            },
+            "has_leading_trailing_spaces": true
+        },
+        " Zeit": {
+            "header_structure": {
+                "len": 5,
+                "digit_count": 0,
+                "alpha_count": 4,
+                "special_count": 1,
+                "space_count": 1,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.075,
+            "entropy": 1.584962500721156,
+            "length_stats": {
+                "min": 218,
+                "max": 717,
+                "mean": 507.6666666666667
+            },
+            "has_leading_trailing_spaces": true
+        },
+        " Situation);;;Informationen verarbeiten/ verstehen;;;Alltagskompetenz;;;Aufmerksamkeit;;;Sturz-/ Delir-Risiko erh\u00f6hende Medikamente;Freitext Kategorie Kognition": {
+            "header_structure": {
+                "len": 160,
+                "digit_count": 0,
+                "alpha_count": 134,
+                "special_count": 26,
+                "space_count": 8,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.025,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 482,
+                "max": 482,
+                "mean": 482.0
+            },
+            "has_leading_trailing_spaces": true
+        },
+        " Bewusstsein (STRING);H\u00f6ren;Sehen;Sich mitteilen;;;Selbst initiierte Aktivit\u00e4ten;;;Merkmale herausfordernden Verhaltens;;;Freitext Kategorie Kommunikation und Interaktion (STRING);Einschlafen/ Durchschlafen;;;Schlaf-Wach-Rhythmus;;;Freitext Kategorie Schlaf (STRING);Atmung beeintr\u00e4chtigt (aktuell);Chron. Erkrankung des Atmungssystems;Beatmung > 24h akt. Aufenthalt;Tracheostoma;Experteneinsch\u00e4tzung: weitere Pneumonie-Risikoindikatoren (STRING);Experteneinsch\u00e4tzung: weitere Pneumonie-Risikoindikatoren;Freitext Kategorie Regulation von K\u00f6rperfunktionen (STRING);Sensorische Wahrnehmung;;;Schmerzintensit\u00e4t;;;Schmerzen": {
+            "header_structure": {
+                "len": 620,
+                "digit_count": 2,
+                "alpha_count": 527,
+                "special_count": 91,
+                "space_count": 36,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " akut;;;Chronische Schmerzen;Schmerzen": {
+            "header_structure": {
+                "len": 38,
+                "digit_count": 0,
+                "alpha_count": 32,
+                "special_count": 6,
+                "space_count": 2,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " chronisch;Traurigkeit (STRING);Traurigkeit;;;Angst (STRING);Angst;;;Freitext Kategorie Schmerz und emotionales Befinden (STRING);Experteneinsch\u00e4tzung: weitere Dekubitus-Risikoindikatoren (STRING);Experteneinsch\u00e4tzung: weitere Dekubitus-Risikoindikatoren;Dekubitus_Lokalisation;Dekubitus_Stadium;Dekubitus_Lokalisation;Dekubitus-Stadium;;;;;;Wunden/ path. Hautver\u00e4nderungen ([Beschreibung - Freitext]) (STRING);Wunden/ path. Hautver\u00e4nderungen;Wunden/ path. Hautver\u00e4nderungen ([Beschreibung - Freitext]) (STRING);Wunden/ path. Hautver\u00e4nderungen;Freitext Kategorie Dekubitus": {
+            "header_structure": {
+                "len": 572,
+                "digit_count": 0,
+                "alpha_count": 477,
+                "special_count": 95,
+                "space_count": 32,
+                "underscore_count": 3,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " Wunden (STRING);SPI;Risiko Dekubitus: Bradenskala (Punktwert);Risiko Dekubitus: Bradenskala;Risiko Dekubitus: weitere Risikoindikatoren (Experteneinsch\u00e4tzung) (STRING);Risiko Dekubitus: weitere Risikoindikatoren (Experteneinsch\u00e4tzung);Risiko Mangelern\u00e4hrung: NRS;Risiko Mangelern\u00e4hrung: NRS (Punktwert);Abkl\u00e4rungserfordernis Mundgesundheit;Risiko Sturz;Risiko Pneumonie;Risiko Pneumonie: weitere Risikoindikatoren (Experteneinsch\u00e4tzung) (STRING);Risiko Pneumonie: weitere Risikoindikatoren (Experteneinsch\u00e4tzung);Abkl\u00e4rungserfordernis neurokognitive St\u00f6rung;Risiko poststation\u00e4res Versorgungsdefizit;Kontinenzprofil;Freitext Risikoauswertung (STRING);;;;;;;;;;;;BMI-Perzentile;BMI-Perzentile (EU);BMI-Perzentile Grenzwert unterschritten;Gewichtsverlust;Nahrungszufuhr vergangene Woche;Ern\u00e4hrung kommende Woche;Selbstst\u00e4ndiges Drehen;;;Selbstst\u00e4ndiges Sitzen;;;Sicherer Stand;;;Freies Laufen;;;Altersentsprechende Entwicklung des Kindes;Altersentsprechende Entwicklung des Kindes;Stillen;;;Deckung des Tagesbedarfs (N\u00e4hrstoffe und Fl\u00fcssigkeit);;;Verordnete Fl\u00fcssigkeitserg\u00e4nzung;;;Saugverhalten;;;Erbrechen;;;Altersentsprechende Entwicklung des Kindes;Bl\u00e4hungen;;;Altersentsprechende Entwicklung des Kindes;Aufforderungen verstehen;;;Altersentsprechende Entwicklung des Kindes;Merkmale herausfordernden Verhaltens (< 4 J);;;F\u00e4higkeit ver\u00e4nderte Lebenssituationen zu bew\u00e4ltigen (Kind);;;Altersentsprechende Entwicklung des Kindes;Altersentsprechende Entwicklung des Kindes;Experteneinsch. Pneumonierisiko (STRING);Experteneinsch. Pneumonierisiko;K\u00f6rpertemperatur;;;Altersentsprechende Entwicklung des Kindes;Schmerzintensit\u00e4t;;;Heimweh;;;Altersentsprechende Entwicklung des Kindes;Experteneinsch. Dekubitusrisiko (STRING);Experteneinsch. Dekubitusrisiko;Kompensatorische F\u00e4higkeit Bezugsperson;;;Kompensatorische \u00dcbernahme Bezugsperson;;;F\u00e4higkeit ver\u00e4nderte Lebenssituationen zu bew\u00e4ltigen (Bezugsperson/ Familie);;;Stress\u00fcberlastung der Bezugsperson/ Familie - Herausforderung f\u00fcr Pflege;;;Freitext Kategorie Bezugsperson (STRING);SSI;Risiko Dekubitus: Experteneinsch\u00e4tzung (STRING);Risiko Dekubitus: Experteneinsch\u00e4tzung;Risiko Dehydratation;Abkl\u00e4rungserfordernis Mangelern\u00e4hrung;Risiko Mangelern\u00e4hrung: PYMS (STRING);Risiko Mangelern\u00e4hrung: PYMS;Risiko Pneumonie: Experteneinsch\u00e4tzung (STRING);Risiko Pneumonie: Experteneinsch\u00e4tzung;Kompensatorische F\u00e4higkeit Bezugsperson;Kompensatorische \u00dcbernahme Bezugsperson;Trennung der Eltern;Hochstrittige Eltern;Aktuelle Wohnsituation (STRING);Aktuelle Wohnsituation;Schulbesuch": {
+            "header_structure": {
+                "len": 2523,
+                "digit_count": 1,
+                "alpha_count": 2183,
+                "special_count": 339,
+                "space_count": 147,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " Ausbildung": {
+            "header_structure": {
+                "len": 11,
+                "digit_count": 0,
+                "alpha_count": 10,
+                "special_count": 1,
+                "space_count": 1,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " Erwerbst\u00e4tigkeit (STRING);Schulbesuch": {
+            "header_structure": {
+                "len": 38,
+                "digit_count": 0,
+                "alpha_count": 33,
+                "special_count": 5,
+                "space_count": 2,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " Ausbildung.1": {
+            "header_structure": {
+                "len": 13,
+                "digit_count": 1,
+                "alpha_count": 10,
+                "special_count": 2,
+                "space_count": 1,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " Erwerbst\u00e4tigkeit;Gesetzliche Betreuung/ Gesetzliche Vertretung (STRING);Gesetzliche Betreuung/ Gesetzliche Vertretung;Vertrauensperson (STRING);Vertrauensperson;Vorgeschichte suizidalen Verhaltens;Aktueller Substanzgebrauch (STRING);Aktueller Substanzgebrauch;Verhalten": {
+            "header_structure": {
+                "len": 270,
+                "digit_count": 0,
+                "alpha_count": 240,
+                "special_count": 30,
+                "space_count": 14,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " exzessiv (STRING);Verhalten": {
+            "header_structure": {
+                "len": 28,
+                "digit_count": 0,
+                "alpha_count": 23,
+                "special_count": 5,
+                "space_count": 2,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " exzessiv;Bedeutung der Religiosit\u00e4t / Spiritualit\u00e4t [S];Freitext Kontextdaten (STRING);Antrieb [F] (STRING);Antrieb [F];;;Psychomotorik [F] (STRING);Psychomotorik [F];;;Alltag planen [F];;;Alltagsplanung umsetzen [F];;;F\u00e4higkeit sich zu besch\u00e4ftigen [F] (STRING);F\u00e4higkeit sich zu besch\u00e4ftigen [F];;;Schlafst\u00f6rungen [F] (STRING);Schlafst\u00f6rungen [F];;;K\u00f6rperpflege [F];;;Kleiden [F];;;Fu\u00dfstatus [F];;;Freitext Kategorie Aktivit\u00e4t & Ruhe (STRING);F\u00e4higkeit neue Beziehungen zu Gleichaltrigen einzugehen [F];;;F\u00e4higkeit neue Beziehungen einzugehen [F];;;Vorhandene Beziehungen aufrecht erhalten [F];;;Soziale Interaktion [F];;;Rollenverhalten (inter-personell) [F];;;Rollenstress (intra-personell) [D];;;Soziale Unterst\u00fctzung [F];;;Unterst\u00fctzungsempfinden [S];;;Freitext Kategorie Rollen & Beziehungen (STRING);Gef\u00fchl der Zuversicht [D];;;Gef\u00fchl der Hoffnung [D];;;Grundstimmung [F] (STRING);Grundstimmung [F];;;Vorherrschende Emotion [S] (STRING);Vorherrschende Emotion [S];Selbstwert [F];;;Selbstmitgef\u00fchl [F];;;Freitext Kategorie Selbstwahrnehmung (STRING);Selbstwirksamkeit [F] (STRING);Selbstwirksamkeit [F];;;F\u00e4higkeit mit schwierigen Situationen umzugehen [F];;;F\u00e4higkeit mit Gef\u00fchlen umzugehen [F];;;Adh\u00e4renz [F];;;Angstformen [F] (STRING);Angstformen [F];Freitext Kategorie Coping & Stresstoleranz (STRING);Lebenssinn [S];;;Freitext Kategorie Lebensprinzipien (STRING);Ern\u00e4hrungsverhalten [F] (STRING);Ern\u00e4hrungsverhalten [F];;;Enuresis;;;Merkf\u00e4higkeit [F];;;Sinnest\u00e4uschungen [F] (STRING);Sinnest\u00e4uschungen [F];;;Wahnerleben [F] (STRING);Wahnerleben [F];;;Zwang [F] (STRING);Zwang [F];;;Freitext Wahrnehmung & Kognition (STRING);Sexualit\u00e4t [D] (STRING);Sexualit\u00e4t [D];;;Geschlechtsidentit\u00e4t (STRING);Geschlechtsidentit\u00e4t;;;Gesundheitliches Wohlbefinden [S];;;Wissensstand [F];;;Was hilft Dir/Ihnen": {
+            "header_structure": {
+                "len": 1805,
+                "digit_count": 0,
+                "alpha_count": 1377,
+                "special_count": 428,
+                "space_count": 136,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " damit es Dir/Ihnen gut geht? [S] (STRING);Was hilft Dir/Ihnen": {
+            "header_structure": {
+                "len": 62,
+                "digit_count": 0,
+                "alpha_count": 45,
+                "special_count": 17,
+                "space_count": 9,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " damit es Dir/Ihnen gut geht? [S];;;Warum geht es Dir/Ihnen jetzt nicht gut? [S] (STRING);Warum geht es Dir/Ihnen jetzt nicht gut? [S];;;Freitext Kategorie Gesundheitsf\u00f6rderung": {
+            "header_structure": {
+                "len": 176,
+                "digit_count": 0,
+                "alpha_count": 132,
+                "special_count": 44,
+                "space_count": 23,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " Wohlbefinden und Sexualit\u00e4t (STRING);Sozialverhalten [F];;;Verhalten": {
+            "header_structure": {
+                "len": 69,
+                "digit_count": 0,
+                "alpha_count": 56,
+                "special_count": 13,
+                "space_count": 5,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " fremdaggressiv [F];Verhalten": {
+            "header_structure": {
+                "len": 29,
+                "digit_count": 0,
+                "alpha_count": 24,
+                "special_count": 5,
+                "space_count": 2,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " selbstverletzend [F] (STRING);Verhalten": {
+            "header_structure": {
+                "len": 40,
+                "digit_count": 0,
+                "alpha_count": 32,
+                "special_count": 8,
+                "space_count": 3,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " selbstverletzend [F];;;Suizidgedanken [D] (STRING);Suizidgedanken [D];;;Verhalten": {
+            "header_structure": {
+                "len": 82,
+                "digit_count": 0,
+                "alpha_count": 62,
+                "special_count": 20,
+                "space_count": 5,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        " suizidal [F];;;Umgang mit Wut [S] (STRING);Umgang mit Wut [S];Freitext Kategorie Sicherheit & Schutz (STRING);Elternbeteiligung;;;F\u00e4higkeit Unterst\u00fctzung zu leisten [F];;;Unterst\u00fctzung zur Erziehung [F] (STRING);Unterst\u00fctzung zur Erziehung [F];;;Abkl\u00e4rungserfordernis Suizidalit\u00e4t;Abkl\u00e4rungserfordernis Gewaltpotenzial;SFI;Treppen steigen;;;Erinnerungsf\u00e4higkeit;;;F\u00e4higkeit zur allt\u00e4glichen Lebensf\u00fchrung;;;F\u00e4higkeit zur Haushaltsf\u00fchrung;;;F\u00e4higkeit Aktivit\u00e4ten au\u00dferhalb zu t\u00e4tigen;;;F\u00e4higkeit situationsangemessen zu entscheiden;;;F\u00e4higkeit sich zu besch\u00e4ftigen;;;Langzeitbeatmung;Abkl\u00e4rungserfordernis Depression;Dekubitus_interne Referenz;Dekubitus_interne Referenz;Wunden/ path. Hautver\u00e4nderungen_interne Referenz;Wunden/ path. Hautver\u00e4nderungen_interne Referenz": {
+            "header_structure": {
+                "len": 768,
+                "digit_count": 0,
+                "alpha_count": 644,
+                "special_count": 124,
+                "space_count": 52,
+                "underscore_count": 4,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "nulls_only": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": NaN,
+            "cardinality_ratio": 0.0,
+            "entropy": 0.0,
+            "length_stats": {
+                "min": 0,
+                "max": 0,
+                "mean": 0
+            },
+            "has_leading_trailing_spaces": false
+        }
+    }
+}
