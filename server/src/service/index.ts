@@ -7,7 +7,11 @@ const execFile = promisify(child_process.execFile);
 
 const MISC_DR = path.join(__dirname, "..", "misc");
 const PYTHON_VENV_PATH = path.join(MISC_DR, "venv", "bin", "python");
-const PYTHON_SCRIPT_PATH = path.join(MISC_DR, "process_file.py");
+const PYTHON_SCRIPT_PATH = path.join(
+  MISC_DR,
+  "data_cleaner",
+  "data_cleaner.py",
+);
 
 class Service {
   getRoot() {
@@ -45,6 +49,7 @@ class Service {
     try {
       const { stdout, stderr } = await execFile(PYTHON_VENV_PATH, [
         PYTHON_SCRIPT_PATH,
+        "--file_path",
         file.path,
       ]);
       console.log("stdout:", stdout);
