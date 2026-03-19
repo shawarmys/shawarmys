@@ -22,6 +22,8 @@ services:
       - db
     expose:
       - "80"
+    environment:
+      DATABASE_URL: postgresql://shawarmys:shawarmys@db:5432/shawarmys
 
   client:
     build:

@@ -30,24 +30,13 @@ def health() -> dict[str, str]:
 def root() -> dict[str, str]:
     return {"message": "Server is running"}
 
+
+@app.get("/api/metadata", response_model=ApiMetadata)
 @app.get("/metadata")
 def get_metadata(db: Session = Depends(get_db)) -> ApiMetadata:
     """Return imported File count, succesful Mapping count, mapping Alert count."""
-    imported_tables = [
-        "lab_results",
-        "icd10_data",
-        "nursing_daily_reports",
-        "medication_events",
-        "device_motions",
-        "device_1hz_motions",
-    ]
-
-    imported_files = 0
-    for table in imported_tables:
-        has_rows = db.execute(
-            text(f"SELECT EXISTS (SELECT 1 FROM {table} LIMIT 1)")
-        ).scalar()
-        imported_files += 1 if has_rows else 0
+    print()
+    imported_files = db.execute(text("SELECT COUNT(*) FROM files")).scalar_one()
 
     successful_mappings = db.execute(
         text(
@@ -61,9 +50,9 @@ def get_metadata(db: Session = Depends(get_db)) -> ApiMetadata:
         )
     ).scalar_one()
 
-    # TODO: Implement imported Files, mappingAlerts and succesful mappings based on all datasets
+    # TODO: Correct mapping alerts
     return ApiMetadata(
-        importedFiles=0,
+        importedFiles=imported_files,
         successfulMappings=successful_mappings,
         mappingAlerts=0,
     )

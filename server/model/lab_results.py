@@ -1,7 +1,7 @@
 from typing import Optional
 
 from database import Base
-from sqlalchemy import BigInteger, Integer, String
+from sqlalchemy import BigInteger, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 
@@ -9,6 +9,7 @@ class LabResults(Base):
     __tablename__ = "lab_results"
 
     id: Mapped[int] = mapped_column("id", BigInteger, primary_key=True, autoincrement=True)
+    file_id: Mapped[Optional[int]] = mapped_column("file_id", ForeignKey("files.id"))
     case_id: Mapped[Optional[int]] = mapped_column("case_id", BigInteger)
     patient_id: Mapped[Optional[str]] = mapped_column("patient_id", BigInteger)
     sex: Mapped[Optional[str]] = mapped_column("sex", String(256))
