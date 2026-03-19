@@ -1,5 +1,5 @@
-from api.imported_files import ImportedFiles
 from api.metadata import ApiMetadata
+from api.sources import DataSourceSummary, DataGroupSummary, ImportedFiles
 from db.database import get_db
 from fastapi import APIRouter, Depends
 from sqlalchemy import text
@@ -64,5 +64,43 @@ def get_imported_files(db: Session = Depends(get_db)) -> list[ImportedFiles]:
             records=row["records"],
             type=row["type"],
         )
+        for row in result
+    ]
+
+@router.get("/api/data-sources-summary", response_model=list[DataSourceSummary])
+def get_data_sources_summary(db: Session = Depends(get_db)) -> list[DataSourceSummary]:
+    """Return summary of data sources with name and number of files."""
+    result = db.execute(
+        text(
+            """
+            SELECT source AS "name", COUNT(*) AS "numFiles"
+            FROM files
+            GROUP BY source
+            ORDER BY "numFiles" DESC
+            """
+        )
+    ).mappings().all()
+
+    return [
+        DataSourceSummary(name=row["name"], numFiles=row["numFiles"])
+        for row in result
+    ]
+
+@router.get("/api/data-groups-summary", response_model=list[DataGroupSummary])
+def get_data_groups_summary(db: Session = Depends(get_db)) -> list[DataGroupSummary]:
+    """Return summary of data groups with group type and number of files."""
+    result = db.execute(
+        text(
+            """
+            SELECT group_type AS "groupType", COUNT(*) AS "numFiles"
+            FROM files
+            GROUP BY group_type
+            ORDER BY "numFiles" DESC
+            """
+        )
+    ).mappings().all()
+
+    return [
+        DataGroupSummary(groupType=row["groupType"], numFiles=row["numFiles"])
         for row in result
     ]
