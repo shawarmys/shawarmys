@@ -3,13 +3,15 @@ from pathlib import Path
 
 import pandas as pd
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).parent.parent.parent.resolve()
 DEFAULT_DATA_FOLDER = PROJECT_ROOT / "data" / "Endtestdaten_ohne_Fehler_ einheitliche ID"
 
 
 def resolve_data_folder() -> Path:
     """Resolve data folder from env var or project-root default."""
-    configured = os.getenv("DATA_FOLDER")
+    print(f"Resolving data folder... {PROJECT_ROOT}")
+    configured = os.getenv("DATA_FOLDER", DEFAULT_DATA_FOLDER)
+    print(f"Using data folder: {configured}")
     if configured:
         candidate = Path(configured).expanduser()
         if not candidate.is_absolute():
@@ -85,7 +87,7 @@ def main():
             elif file == "synthetic_medication_raw_inpatient.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_medication_events(df)
-                dfs["medication_events"] = df  
+                dfs["medication_events"] = df
             elif file == "synthetic_nursing_daily_reports_en.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_nursing_daily_reports(df)

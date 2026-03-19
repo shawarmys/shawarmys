@@ -1,7 +1,7 @@
 from typing import Optional
 
 from db.database import Base
-from sqlalchemy import BigInteger, ForeignKey, String, Text
+from sqlalchemy import BigInteger, Date, ForeignKey, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 
@@ -12,7 +12,7 @@ class NursingDailyReports(Base):
     case_id: Mapped[Optional[int]] = mapped_column("case_id", ForeignKey("cases.id"))
     patient_id: Mapped[Optional[int]] = mapped_column("patient_id", BigInteger)
     ward: Mapped[Optional[str]] = mapped_column("ward", String(256))
-    report_date: Mapped[Optional[str]] = mapped_column("report_date", String(256))
+    report_date: Mapped[Optional[Date]] = mapped_column("report_date", Date)
     shift: Mapped[Optional[str]] = mapped_column("shift", String(256))
     nursing_note_free_text: Mapped[Optional[str]] = mapped_column("nursing_note_free_text", Text)
 
