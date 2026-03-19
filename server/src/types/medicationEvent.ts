@@ -1,0 +1,29 @@
+export interface MedicationEvent {
+  id: number;
+  caseId?: number | null;
+  recordType?: string | null;
+  patientId?: number | null;
+  encounterId?: string | null;
+  ward?: string | null;
+  admissionDatetime?: Date | null;
+  dischargeDatetime?: Date | null;
+  orderId?: string | null;
+  orderUuid?: string | null;
+  medicationCodeAtc?: string | null;
+  medicationName?: string | null;
+  route?: string | null;
+  dose?: number | null;
+  doseUnit?: string | null;
+  frequency?: string | null;
+  orderStartDatetime?: Date | null;
+  orderStopDatetime?: Date | null;
+  isPrn01?: number | null;
+  indication?: string | null;
+  prescriberRole?: string | null;
+  orderStatus?: string | null;
+  administrationDatetime?: Date | null;
+  administeredDose?: number | null;
+  administeredUnit?: string | null;
+  administrationStatus?: string | null;
+  note?: string | null;
+}
