@@ -16,7 +16,6 @@ class HeaderValidator:
             "completely_wrong": 0,
             "no_header_but_data": 0,
             "wrong_labels": 0,
-            "wrong_order": 0
         }
 
     def validate_header_row(self, incoming_row_1, incoming_row_2=None):
@@ -25,9 +24,21 @@ class HeaderValidator:
         Returns a detailed report with a likelihood score.
         """
         results = {
-            "is_valid": False,
+            "matchmaking_required": False,
             "message": "",
         }
+
+        # Check if the first row exactly matches the gold standard headers
+        if incoming_row_1 == self.gold_headers:
+            results["matchmaking_required"] = False
+            results["message"] = "Header row is valid and matches the gold standard."
+            return results["matchmaking_required"], results["message"]
+
+        # Check if the first row has the same headers but in a different order
+        if sorted(incoming_row_1) == sorted(self.gold_headers):
+            results["matchmaking_required"] = True
+            results["message"] = "Header row has the correct headers but in a different order."
+            return results["matchmaking_required"], results["message"]
 
         # Column Count Check
         incoming_col_count = len(incoming_row_1)
@@ -48,7 +59,6 @@ class HeaderValidator:
                 else:
                     self.header_error_indicators["wrong_labels"] += 1
                     self.header_error_indicators["completely_wrong"] += 1
-                    self.header_error_indicators["incorrect_order"] += 1
 
         match_ratio = matches / self.gold_col_count if self.gold_col_count > 0 else 0
         if match_ratio < 0.5:
@@ -70,26 +80,20 @@ class HeaderValidator:
                 self.header_error_indicators["no_header_but_data"] += 1
 
         # Error suggestions based on indicators
-        if self.header_error_indicators["column_count_mismatch"] > 0:
-            results["message"] = "Header row appears valid based on the checks performed. Continue with matching and mapping."
-            results["is_valid"] = True
+        if self.header_error_indicators["no_header_but_data"] > 0:
+            results["message"] = "Row 1 appears to contain data, not headers."
+            return True, results["message"]
 
-            # Call the mapping function here if needed, passing the header row and gold standard for further processing
+        if self.header_error_indicators["completely_wrong"] > 0:
+            results["message"] = "Header row is completely wrong. Consider using matchmaking to reorder/rename columns."
+            return True, results["message"]
 
-        if self.header_error_indicators["completely_wrong"] > 1:
-            results["message"] = "Header row might be completely wrong based on multiple indicators."
-            return results
+        if self.header_error_indicators["wrong_labels"] > 0:
+            results["message"] = "Header row has wrong labels. Consider using matchmaking to reorder/rename columns."
+            return True, results["message"]
 
-        if self.header_error_indicators["wrong_labels"] > 0 and self.header_error_indicators["completely_wrong"] == 0:
-            results["message"] = "Header row has wrong labels compared to the gold standard."
-        elif self.header_error_indicators["incorrect_order"] > 0:
-            results["message"] = "Header row might have incorrect order of columns."
-        elif self.header_error_indicators["no_header_but_data"] > 0:
-            results["message"] = "First row appears to contain data, not headers."
-        else:
-            results["message"] = "Unable to determine the validity of the header row."
-
-        return results
+        results["message"] = "Header row has some issues but is not completely wrong. Consider reviewing the headers."
+        return True, results["message"]
 
     def _get_composition(self, row):
         """Aggregated composition of an entire row."""

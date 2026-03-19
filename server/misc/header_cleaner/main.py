@@ -45,55 +45,58 @@ def main(file_path):
         gold_fingerprint = json.load(f)
 
     # Read incoming file and create fingerprint
-    reader = CsvExcelReader(file_path)
-    incoming_df = reader.read_csv()
+    incoming_df = CsvExcelReader(file_path)
     encoder = TableSchemaEncoder()
     incoming_fingerprint = encoder.encode_target_table(os.path.basename(file_path), incoming_df)
 
     # Validate header and get errors
     header_validator = HeaderValidator(gold_fingerprint)
-    matchmaking_required, errors = header_validator.validate_header(incoming_fingerprint)
+    matchmaking_required, message = header_validator.validate_header(incoming_fingerprint)
 
     # Match columns and reorder/rename incoming dataframe
-    if matchmaking_required(errors):
+    if matchmaking_required:
+      # Check if BERT model is available, if not download and save it
+      if not os.path.exists("server/misc/header_cleaner/bert_model"):
+          download_and_save_bert("server/misc/header_cleaner/bert_model")
+
       matchmaker = LLMMatchmaker()
       matches = matchmaker.match_columns(gold_fingerprint, incoming_fingerprint)
 
       # Reorder/rename incoming dataframe based on matches
       reordered_df = matchmaker.reorder_and_rename(incoming_df, matches)
 
-      return {"df": reordered_df, "errors": errors}
+      return {"df": reordered_df, "errors": message}
 
-    return {"df": incoming_df, "errors": errors}
+    return {"df": incoming_df, "errors": message}
 
-def store_temp_file(df):
+def store_temp_file(out):
   df = out["df"]
-    errors = out["errors"]
-    if errors is not None:
-        with tempfile.NamedTemporaryFile(
-                mode="w",
-                encoding="utf-8",
-                suffix=".json",
-                prefix="errors_",
-                delete=False,
-        ) as tmp_json:
-            json.dump(errors, tmp_json, ensure_ascii=False, indent=2, default=str)
-            errors_path = tmp_json.name
+  errors = out["errors"]
+  if errors is not None:
+    with tempfile.NamedTemporaryFile(
+      mode="w",
+      encoding="utf-8",
+      suffix=".json",
+      prefix="errors_",
+      delete=False,
+    ) as tmp_json:
+     json.dump(errors, tmp_json, ensure_ascii=False, indent=2, default=str)
+    errors_path = tmp_json.name
 
     csv_path = None
     if df is not None:
-        with tempfile.NamedTemporaryFile(
-                mode="w",
-                encoding="utf-8",
-                suffix=".csv",
-                prefix="cleaned_",
-                delete=False,
-                newline=""
-        ) as tmp_csv:
-            df.to_csv(tmp_csv.name, index=False)
-            csv_path = tmp_csv.name
+      with tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="utf-8",
+        suffix=".csv",
+        prefix="cleaned_",
+        delete=False,
+        newline=""
+      ) as tmp_csv:
+        df.to_csv(tmp_csv.name, index=False)
+        csv_path = tmp_csv.name
     else:
-        csv_path = args.file_path
+      csv_path = args.file_path
 
     print(csv_path + ";" + errors_path)
 
@@ -109,5 +112,4 @@ if __name__ == "__main__":
     )
 
   args = parser.parse_args()
-
   df, errors = main(args.file_path)
