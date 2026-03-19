@@ -108,30 +108,6 @@ export const getAlerts = async (
   filterSources: string[],
   filterGroupTypes: string[],
 ) => {
-  //!--[ Mock
-  return [
-    {
-      timestamp: "2024-08-02 09:15:00",
-      level: "info",
-      message:
-        "Failed to parse date in 'date_of_birth' column for entry ID 789.",
-      tableReference: "data-groups/456/entries/789",
-    },
-    {
-      timestamp: "2024-08-01 14:30:00",
-      level: "warning",
-      message: "Missing value in 'age' column for entry ID 123.",
-      tableReference: "data-groups/456/entries/123",
-    },
-    {
-      timestamp: "2024-08-02 09:15:00",
-      level: "severe",
-      message:
-        "Failed to parse date in 'date_of_birth' column for entry ID 789.",
-      tableReference: "data-groups/456/entries/789",
-    },
-  ] as apiAlert[];
-  //!--]
   const params = new URLSearchParams();
   if (filterSources.length > 0)
     params.append("sources", filterSources.join(","));

@@ -22,37 +22,10 @@ const TableEditorPage: React.FC = () => {
     setEditModeTableDataEntry,
     errors,
     unsetError,
-    setErrors,
     outliers,
     unsetOutlier,
-    setOutliers,
     fileName,
   } = useTableData();
-
-  //!--[
-  //! Mock data until we implement file upload and parsing
-  React.useEffect(() => {
-    const a = ["a", "b", "c", "d", "e", "f", "g", "h"];
-    a.concat(a)
-      .concat(a)
-      .concat(a)
-      .forEach((_, rowIdx) => {
-        for (let cellIdx = 0; cellIdx < 100; cellIdx++) {
-          setTableDataEntry(rowIdx, cellIdx, `R${rowIdx + 1}C${cellIdx + 1}`);
-        }
-      });
-    setErrors([
-      { row: 5, col: 5, msg: "This is a mock error message." },
-      { row: 10, col: 10, msg: "This is a mock error message." },
-      { row: 15, col: 15, msg: "This is a mock error message." },
-    ]);
-    setOutliers([
-      { row: 6, col: 5, msg: "This is a mock error message." },
-      { row: 11, col: 10, msg: "This is a mock error message." },
-      { row: 13, col: 15, msg: "This is a mock error message." },
-    ]);
-  }, [setTableDataEntry]);
-  //!--]
 
   const [editingValues, setEditingValues] = React.useState<
     Record<string, string>
