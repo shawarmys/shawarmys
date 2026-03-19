@@ -1,11 +1,14 @@
 {
   "name": "shawarmys",
   "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
   "scripts": {
-    "start": "concurrently -n db,server,client -c blue,green,cyan \"docker compose -f docker-compose.dev.yml up\" \"cd server && npm run dev\" \"cd client && npm run dev\"",
+    "start": "concurrently -n db,server,client -c blue,green,cyan \"docker compose -f docker-compose.dev.yml up\" \"npm run dev -w server\" \"npm run dev -w client\"",
     "start:db": "docker compose -f docker-compose.dev.yml up -d",
-    "stop:db": "docker compose -f docker-compose.dev.yml down",
-    "install:all": "cd client && npm install && cd ../server && npm install"
+    "stop:db": "docker compose -f docker-compose.dev.yml down"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
