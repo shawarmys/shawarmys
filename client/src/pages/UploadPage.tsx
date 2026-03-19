@@ -38,7 +38,7 @@ const UploadPage: React.FC = () => {
   const navigate = useNavigate();
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
 
-  const [files, setFiles] = React.useState<File[]>([]);
+  const [file, setFile] = React.useState<File | null>(null);
   const [isDragActive, setIsDragActive] = React.useState(false);
   const [isUploading, setIsUploading] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
@@ -50,39 +50,33 @@ const UploadPage: React.FC = () => {
 
   const addFiles = (incomingFiles: FileList | File[]) => {
     const nextFiles = Array.from(incomingFiles);
+    const selectedFile = nextFiles[0];
 
-    const validFiles = nextFiles.filter((file) => {
-      const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
-      return ALLOWED_EXTENSIONS.includes(extension);
-    });
+    if (!selectedFile) {
+      return;
+    }
 
-    if (validFiles.length !== nextFiles.length) {
+    const extension = selectedFile.name.split(".").pop()?.toLowerCase() ?? "";
+    const isValidFile = ALLOWED_EXTENSIONS.includes(extension);
+
+    if (!isValidFile) {
       setErrorMessage(
-        `Only ${ALLOWED_EXTENSIONS.join(", ")} files are allowed. Unsupported files were ignored.`,
+        `Only ${ALLOWED_EXTENSIONS.join(", ")} file are allowed.`,
+      );
+      setSuccessMessage(null);
+      return;
+    }
+
+    if (nextFiles.length > 1) {
+      setErrorMessage(
+        "Only one file can be uploaded at a time. Using the first selected file.",
       );
     } else {
       setErrorMessage(null);
     }
 
     setSuccessMessage(null);
-    setFiles((previous) => {
-      const existingKeys = new Set(
-        previous.map(
-          (file) => `${file.name}:${file.size}:${file.lastModified}`,
-        ),
-      );
-
-      const uniqueNewFiles = validFiles.filter((file) => {
-        const key = `${file.name}:${file.size}:${file.lastModified}`;
-        if (existingKeys.has(key)) {
-          return false;
-        }
-        existingKeys.add(key);
-        return true;
-      });
-
-      return [...previous, ...uniqueNewFiles];
-    });
+    setFile(selectedFile);
   };
 
   const onFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -94,12 +88,10 @@ const UploadPage: React.FC = () => {
     event.target.value = "";
   };
 
-  const removeFile = (fileToRemove: File) => {
-    setFiles((previous) => previous.filter((file) => file !== fileToRemove));
-  };
+  const removeFile = () => setFile(null);
 
   const clearFiles = () => {
-    setFiles([]);
+    setFile(null);
     setErrorMessage(null);
     setSuccessMessage(null);
   };
@@ -123,8 +115,8 @@ const UploadPage: React.FC = () => {
   };
 
   const uploadFiles = async () => {
-    if (files.length === 0) {
-      setErrorMessage("Please select at least one file before uploading.");
+    if (!file) {
+      setErrorMessage("Please select a file before uploading.");
       return;
     }
 
@@ -134,7 +126,7 @@ const UploadPage: React.FC = () => {
 
     try {
       const formData = new FormData();
-      files.forEach((file) => formData.append("files", file));
+      formData.append("file", file);
 
       const response = await apiClient.post("/upload", formData, {
         headers: {
@@ -178,15 +170,14 @@ const UploadPage: React.FC = () => {
           }}
         >
           <CloudUploadIcon color="primary" sx={{ fontSize: 40, mb: 1 }} />
-          <Typography variant="h6">Drag & Drop files here</Typography>
+          <Typography variant="h6">Drag & Drop a file here</Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-            or click to browse ({ALLOWED_EXTENSIONS.join(", ")})
+            or click to browse a single file ({ALLOWED_EXTENSIONS.join(", ")})
           </Typography>
           <input
             ref={fileInputRef}
             hidden
             type="file"
-            multiple
             accept={ALLOWED_EXTENSIONS.map((ext) => `.${ext}`).join(",")}
             onChange={onFileInputChange}
           />
@@ -199,40 +190,38 @@ const UploadPage: React.FC = () => {
 
         <Box>
           <Typography variant="subtitle1" sx={{ mb: 1 }}>
-            Selected Files ({files.length})
+            Selected File
           </Typography>
 
-          {files.length === 0 ? (
+          {!file ? (
             <Typography variant="body2" color="text.secondary">
-              No files selected.
+              No file selected.
             </Typography>
           ) : (
             <List disablePadding>
-              {files.map((file) => (
-                <ListItem
-                  key={`${file.name}:${file.size}:${file.lastModified}`}
-                  secondaryAction={
-                    <Button
-                      size="small"
-                      color="error"
-                      startIcon={<DeleteOutlineIcon />}
-                      onClick={() => removeFile(file)}
-                    >
-                      Remove
-                    </Button>
+              <ListItem
+                key={`${file.name}:${file.size}:${file.lastModified}`}
+                secondaryAction={
+                  <Button
+                    size="small"
+                    color="error"
+                    startIcon={<DeleteOutlineIcon />}
+                    onClick={() => removeFile()}
+                  >
+                    Remove
+                  </Button>
+                }
+                sx={{ px: 0 }}
+              >
+                <ListItemText
+                  primary={file.name}
+                  secondary={
+                    <Stack direction="row" spacing={1} sx={{ mt: 0.5 }}>
+                      <Chip label={formatBytes(file.size)} size="small" />
+                    </Stack>
                   }
-                  sx={{ px: 0 }}
-                >
-                  <ListItemText
-                    primary={file.name}
-                    secondary={
-                      <Stack direction="row" spacing={1} sx={{ mt: 0.5 }}>
-                        <Chip label={formatBytes(file.size)} size="small" />
-                      </Stack>
-                    }
-                  />
-                </ListItem>
-              ))}
+                />
+              </ListItem>
             </List>
           )}
         </Box>
@@ -248,7 +237,7 @@ const UploadPage: React.FC = () => {
           <Button
             variant="contained"
             onClick={uploadFiles}
-            disabled={isUploading || files.length === 0}
+            disabled={isUploading || !file}
           >
             Upload
           </Button>
