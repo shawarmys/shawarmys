@@ -5,10 +5,10 @@ from pathlib import Path
 from typing import Tuple
 
 import pandas as pd
-from pandera.errors import SchemaErrors
 
 from misc.config_loader import load_fingerprints
 from misc.data_cleaner.file_name_matcher import FileNameMatcher, FILE_KEYWORDS
+from misc.data_cleaner.iqr import get_outliers
 from misc.data_cleaner.schemas import (
     LABS_SCHEMA, ICD10_SCHEMA, DEVICE_MOTION_SCHEMA, DEVICE_RAW_1HZ_SCHEMA,
     MEDICATION_SCHEMA, NURSING_SCHEMA,
@@ -135,15 +135,14 @@ class DataCleaner:
                 col_idx = col_to_idx[col]
 
                 if pd.isna(value):
-                    if not col_schema.nullable:
-                        issues.append({
-                            "row": int(row_idx),
-                            "column": col_idx,
-                            "header": col,
-                            "value": None,
-                            "error": "null_in_non_nullable_column",
-                            "message": "Empty value"
-                        })
+                    issues.append({
+                        "row": int(row_idx),
+                        "column": col_idx,
+                        "header": col,
+                        "value": None,
+                        "error": "null_value",
+                        "message": "Empty value"
+                    })
                     continue
                 expected = str(col_schema.dtype).lower()
 
@@ -171,6 +170,20 @@ class DataCleaner:
                         "error": "type_conversion_failed",
                         "message": self._normalize_error_message(str(e)),
                     })
+        outliers_per_column = get_outliers(df)  # { "col_name": [row_idx, ...], ... }
+
+        for col, row_indices in outliers_per_column.items():
+            col_idx = col_to_idx.get(col)
+            for row_idx in row_indices:
+                value = df.at[row_idx, col]
+                issues.append({
+                    "row": int(row_idx),
+                    "column": col_idx,
+                    "header": col,
+                    "value": None if pd.isna(value) else str(value),
+                    "error": "outlier",
+                    "message": "Outlier Value",
+                })
         return {"df": df, "errors": issues, "error_count": len(issues)}
 
     def _normalize_error_message(self, error_msg: str) -> str:
