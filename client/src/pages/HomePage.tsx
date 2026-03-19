@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import CustomCard from "../components/CustomCard";
 import PageTemplate from "../components/PageTemplate";
 import { useDataSourcesSummary, useMetadata } from "../hooks/useApi";
+import { useFilter } from "../hooks/useFilter";
 
 const IconSX: SxProps = {
   mr: 1.5,
@@ -50,9 +51,13 @@ const CardListItem: React.FC<{
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const { data: metadata, isLoading: metadataIsLoading } = useMetadata();
+  const { filterSources, filterGroupTypes } = useFilter();
+  const { data: metadata, isLoading: metadataIsLoading } = useMetadata(
+    filterSources,
+    filterGroupTypes,
+  );
   const { data: dataSourcesSummary, isLoading: dataSourcesSummaryIsLoading } =
-    useDataSourcesSummary();
+    useDataSourcesSummary(filterSources, filterGroupTypes);
 
   return (
     <PageTemplate title="">

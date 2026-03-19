@@ -8,8 +8,18 @@ export interface apiMetadata {
   mappingAlerts: number;
 }
 
-export const getMetadata = async () => {
-  const response = await apiClient.get("/metadata/");
+export const getMetadata = async (
+  filterSources: string[],
+  filterGroupTypes: string[],
+) => {
+  const params = new URLSearchParams();
+  if (filterSources.length > 0)
+    params.append("sources", filterSources.join(","));
+
+  if (filterGroupTypes.length > 0)
+    params.append("groupTypes", filterGroupTypes.join(","));
+
+  const response = await apiClient.get(`/metadata?${params.toString()}`);
   return response.data as apiMetadata;
 };
 
@@ -23,8 +33,18 @@ export interface apiImportedFile {
   type: "csv" | "pdf" | "xslx";
 }
 
-export const getImportedFiles = async () => {
-  const response = await apiClient.get("/imported-files/");
+export const getImportedFiles = async (
+  filterSources: string[],
+  filterGroupTypes: string[],
+) => {
+  const params = new URLSearchParams();
+  if (filterSources.length > 0)
+    params.append("sources", filterSources.join(","));
+
+  if (filterGroupTypes.length > 0)
+    params.append("groupTypes", filterGroupTypes.join(","));
+
+  const response = await apiClient.get(`/imported-files?${params.toString()}`);
   return response.data as apiImportedFile[];
 };
 
@@ -35,8 +55,20 @@ export interface apiDataSourceSummary {
   numFiles: number;
 }
 
-export const getDataSourcesSummary = async () => {
-  const response = await apiClient.get("/data-sources-summary/");
+export const getDataSourcesSummary = async (
+  filterSources: string[],
+  filterGroupTypes: string[],
+) => {
+  const params = new URLSearchParams();
+  if (filterSources.length > 0)
+    params.append("sources", filterSources.join(","));
+
+  if (filterGroupTypes.length > 0)
+    params.append("groupTypes", filterGroupTypes.join(","));
+
+  const response = await apiClient.get(
+    `/data-sources-summary?${params.toString()}`,
+  );
   return response.data as apiDataSourceSummary[];
 };
 
@@ -47,7 +79,19 @@ export interface apiDataGroupSummary {
   numFiles: number;
 }
 
-export const getDataGroupsSummary = async () => {
-  const response = await apiClient.get("/data-groups-summary/");
+export const getDataGroupsSummary = async (
+  filterSources: string[],
+  filterGroupTypes: string[],
+) => {
+  const params = new URLSearchParams();
+  if (filterSources.length > 0)
+    params.append("sources", filterSources.join(","));
+
+  if (filterGroupTypes.length > 0)
+    params.append("groupTypes", filterGroupTypes.join(","));
+
+  const response = await apiClient.get(
+    `/data-groups-summary?${params.toString()}`,
+  );
   return response.data as apiDataGroupSummary[];
 };

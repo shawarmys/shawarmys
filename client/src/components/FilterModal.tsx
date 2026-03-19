@@ -38,8 +38,8 @@ export default function FilterModal() {
     filterGroupTypes,
     setFilterGroupTypes,
   } = useFilter();
-  const { data: dataSourcesSummary } = useDataSourcesSummary();
-  const { data: dataGroupsSummary } = useDataGroupsSummary();
+  const { data: dataSourcesSummary } = useDataSourcesSummary([], []);
+  const { data: dataGroupsSummary } = useDataGroupsSummary([], []);
 
   const availableSources = Array.from(
     new Set((dataSourcesSummary ?? []).map((source) => source.name)),

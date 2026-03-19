@@ -8,9 +8,13 @@ import {
 
 // *** Metadata ***
 
-export function useMetadata() {
-  const { data, error, isLoading, mutate } = useSWR("/metadata", async () =>
-    getMetadata(),
+export function useMetadata(
+  filterSources: string[],
+  filterGroupTypes: string[],
+) {
+  const { data, error, isLoading, mutate } = useSWR(
+    `/metadata:${filterSources.join(",")}:${filterGroupTypes.join(",")}`,
+    async () => getMetadata(filterSources, filterGroupTypes),
   );
 
   return {
@@ -23,10 +27,13 @@ export function useMetadata() {
 
 // *** Imported Files ***
 
-export function useImportedFiles() {
+export function useImportedFiles(
+  filterSources: string[],
+  filterGroupTypes: string[],
+) {
   const { data, error, isLoading, mutate } = useSWR(
-    "/imported-files",
-    async () => getImportedFiles(),
+    `/imported-files:${filterSources.join(",")}:${filterGroupTypes.join(",")}`,
+    async () => getImportedFiles(filterSources, filterGroupTypes),
   );
 
   return {
@@ -39,10 +46,13 @@ export function useImportedFiles() {
 
 // *** Data Source Summary ***
 
-export function useDataSourcesSummary() {
+export function useDataSourcesSummary(
+  filterSources: string[],
+  filterGroupTypes: string[],
+) {
   const { data, error, isLoading, mutate } = useSWR(
-    "/data-sources-summary",
-    async () => getDataSourcesSummary(),
+    `/data-sources-summary:${filterSources.join(",")}:${filterGroupTypes.join(",")}`,
+    async () => getDataSourcesSummary(filterSources, filterGroupTypes),
   );
 
   return {
@@ -55,10 +65,13 @@ export function useDataSourcesSummary() {
 
 // *** Data Groups Summary ***
 
-export function useDataGroupsSummary() {
+export function useDataGroupsSummary(
+  filterSources: string[],
+  filterGroupTypes: string[],
+) {
   const { data, error, isLoading, mutate } = useSWR(
-    "/data-groups-summary",
-    async () => getDataGroupsSummary(),
+    `/data-groups-summary:${filterSources.join(",")}:${filterGroupTypes.join(",")}`,
+    async () => getDataGroupsSummary(filterSources, filterGroupTypes),
   );
 
   return {

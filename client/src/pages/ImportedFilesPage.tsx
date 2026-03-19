@@ -13,12 +13,17 @@ import {
 import React from "react";
 import PageTemplate from "../components/PageTemplate";
 import { useImportedFiles } from "../hooks/useApi";
+import { useFilter } from "../hooks/useFilter";
 
 type SortableKey = "name" | "source" | "entries" | "records" | "type";
 type SortDirection = "asc" | "desc";
 
 const HomePage: React.FC = () => {
-  const { data: importedFiles } = useImportedFiles();
+  const { filterSources, filterGroupTypes } = useFilter();
+  const { data: importedFiles } = useImportedFiles(
+    filterSources,
+    filterGroupTypes,
+  );
 
   const [searchTerm, setSearchTerm] = React.useState("");
   const [sortBy, setSortBy] = React.useState<SortableKey>("name");
