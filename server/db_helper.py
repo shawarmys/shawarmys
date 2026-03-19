@@ -40,39 +40,56 @@ _HAS_CASE_AND_PATIENT = {"lab_results", "icd10_data", "nursing_daily_reports"}
 _HAS_PATIENT_ONLY = {"device_motions", "device_1hz_motions", "medication_events"}
 
 _FILE_METADATA_BY_TABLE: dict[str, tuple[str, str, str]] = {
-    "lab_results": ("synth_labs_1000_cases.csv", "parser", "Lab Results"),
-    "icd10_data": ("synthetic_cases_icd10_ops.csv", "parser", "ICD10"),
+    "lab_results": ("synth_labs_1000_cases.csv", "Unknown", "Lab Results"),
+    "icd10_data": ("synthetic_cases_icd10_ops.csv", "Unknown", "ICD10"),
     "nursing_daily_reports": (
         "synthetic_nursing_daily_reports_en.csv",
-        "parser",
+        "Unknown",
         "Nursing Report",
     ),
     "medication_events": (
         "synthetic_medication_raw_inpatient.csv",
-        "parser",
+        "Unknown",
         "Medication",
     ),
     "device_motions": (
         "synthetic_device_motion_fall_data.csv",
-        "parser",
+        "Unknown",
         "Device Motion",
     ),
     "device_1hz_motions": (
         "synthetic_device_raw_1hz_motion_fall.csv",
-        "parser",
+        "Unknown",
         "Device 1Hz Motion",
     ),
-    "tbImportAcData": ("epaAC-Data.csv", "parser", "Assessment"),
+    "tbImportAcData": ("epaAC-Data.csv", "Unknown", "Assessment"),
 }
+
+
+def infer_source_from_filename(file_name: str) -> str:
+    """Infer source token from filename, falling back to a labeled unknown value."""
+    stem = file_name.rsplit(".", 1)[0].strip().lower()
+    if not stem:
+        return "Unknown"
+
+    # Common dataset prefixes we currently use.
+    if stem.startswith("synthetic"):
+        return "synthetic"
+    if stem.startswith("synth"):
+        return "synth"
+
+    return "Unknown"
 
 
 def create_file_record(table_name: str, row_count: int) -> int:
     """Create one row in files for this dataset and return the inserted ID."""
     file_name, source, group_type = _FILE_METADATA_BY_TABLE.get(
         table_name,
-        (f"{table_name}.csv", "parser", "Unknown"),
+        (f"{table_name}.csv", "Unknown", "Unknown"),
     )
     file_type = file_name.rsplit(".", 1)[-1].lower() if "." in file_name else "csv"
+    inferred_source = infer_source_from_filename(file_name)
+    resolved_source = inferred_source if inferred_source != "Unknown" else source
 
     with _engine.begin() as conn:
         return conn.execute(
@@ -103,7 +120,7 @@ def create_file_record(table_name: str, row_count: int) -> int:
             ),
             {
                 "name": file_name,
-                "source": source,
+                "source": resolved_source,
                 "group_type": group_type,
                 "entries": row_count,
                 "records": row_count,
