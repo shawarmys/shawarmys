@@ -70,6 +70,18 @@ def ensure_tables():
     ensure_files_table()
     ensure_file_tracking_columns()
 
+
+def truncate_all_tables():
+    """Truncate all public tables and reset identities before seeding."""
+    inspector = inspect(engine)
+    table_names = inspector.get_table_names(schema="public")
+    if not table_names:
+        return
+
+    quoted = ", ".join(f'"public"."{name}"' for name in table_names)
+    with engine.begin() as conn:
+        conn.execute(text(f"TRUNCATE TABLE {quoted} RESTART IDENTITY CASCADE"))
+
 def infer_source_from_filename(file_name: str) -> str:
     """Infer source token from filename, falling back to a labeled unknown value."""
     stem = file_name.rsplit(".", 1)[0].strip().lower()
@@ -297,6 +309,7 @@ def is_db_empty() -> bool:
 def seed_database():
     """Parse all CSVs and insert them into the database."""
     ensure_tables()
+    truncate_all_tables()
 
     print("Parsing CSV files …")
     dfs = parse_all()
