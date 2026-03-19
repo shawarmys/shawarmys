@@ -1,23 +1,16 @@
-import CloseIcon from "@mui/icons-material/Close";
-import SaveIcon from "@mui/icons-material/Save";
 import {
   Alert,
   Button,
-  IconButton,
-  InputAdornment,
   Link,
   Paper,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
-  TableRow,
-  TextField,
-  Tooltip,
 } from "@mui/material";
 import React from "react";
 import PageTemplate from "../components/PageTemplate";
+import TableEditorRow from "../components/TableEditorRow";
 import { useTableData } from "../hooks/useTableData";
 
 const TableEditorPage: React.FC = () => {
@@ -43,8 +36,12 @@ const TableEditorPage: React.FC = () => {
           setTableDataEntry(rowIdx, cellIdx, `R${rowIdx + 1}C${cellIdx + 1}`);
         }
       });
-    setErrors([{ row: 5, col: 5, msg: "This is a mock error message." }]);
-  }, [setTableDataEntry]);
+    setErrors([
+      { row: 5, col: 5, msg: "This is a mock error message." },
+      { row: 10, col: 10, msg: "This is a mock error message." },
+      { row: 15, col: 15, msg: "This is a mock error message." },
+    ]);
+  }, [setTableDataEntry, setErrors]);
   //!--]
 
   const [editingValues, setEditingValues] = React.useState<
@@ -115,129 +112,46 @@ const TableEditorPage: React.FC = () => {
             display: "block",
           }}
           aria-label="simple table"
+          stickyHeader
         >
-          <TableHead></TableHead>
-          <TableBody>
-            {tableData?.map((row, rowIdx) => {
+          <TableHead
+            sx={{ fontWeight: "bold", backgroundColor: "background.default" }}
+          >
+            {tableData?.slice(0, 1).map((row, rowIdx) => {
               return (
-                <TableRow
-                  key={rowIdx}
-                  sx={{
-                    "&:last-child td, &:last-child th": { border: 0 },
-                    backgroundColor:
-                      rowIdx % 2 === 1 ? "action.hover" : "background.paper",
-                  }}
-                >
-                  {row?.map((cell, cellIdx) => (
-                    <Tooltip
-                      title={
-                        errors.find(
-                          (error) =>
-                            error.row === rowIdx && error.col === cellIdx,
-                        )?.msg || ""
-                      }
-                      placement="top"
-                      arrow
-                      slotProps={{
-                        tooltip: {
-                          sx: {
-                            bgcolor: "error.main",
-                            color: "common.white",
-                          },
-                        },
-                        arrow: {
-                          sx: {
-                            color: "error.main",
-                          },
-                        },
-                      }}
-                    >
-                      <TableCell
-                        id={`error-cell-${rowIdx}-${cellIdx}`}
-                        scope="row"
-                        key={cellIdx}
-                        sx={{
-                          position: "relative",
-                          overflow: "visible",
-                          backgroundColor: errors.some(
-                            (error) =>
-                              error.row === rowIdx && error.col === cellIdx,
-                          )
-                            ? "error.light"
-                            : undefined,
-                        }}
-                        // Show error message as tooltip on hover if this cell has an error
-                        title={
-                          errors.find(
-                            (error) =>
-                              error.row === rowIdx && error.col === cellIdx,
-                          )?.msg
-                        }
-                      >
-                        {editModeTableData?.[rowIdx]?.[cellIdx] ? (
-                          <TextField
-                            id="outlined-size-small"
-                            value={
-                              editingValues[getCellKey(rowIdx, cellIdx)] ?? cell
-                            }
-                            onChange={(event) => {
-                              const cellKey = getCellKey(rowIdx, cellIdx);
-                              setEditingValues((previous) => ({
-                                ...previous,
-                                [cellKey]: event.target.value,
-                              }));
-                            }}
-                            size="small"
-                            sx={{
-                              width: 240,
-                              position: "absolute",
-                              left: 0,
-                              top: "50%",
-                              transform: "translateY(-50%)",
-                              zIndex: 10,
-                              bgcolor: "background.paper",
-                              boxShadow: 2,
-                            }}
-                            InputProps={{
-                              endAdornment: (
-                                <InputAdornment position="end">
-                                  <IconButton
-                                    size="small"
-                                    aria-label="save cell"
-                                    onClick={() => {
-                                      saveCellValue(rowIdx, cellIdx);
-                                      unsetError(rowIdx, cellIdx);
-                                    }}
-                                  >
-                                    <SaveIcon fontSize="small" />
-                                  </IconButton>
-                                  <IconButton
-                                    size="small"
-                                    aria-label="cancel editing"
-                                    onClick={() =>
-                                      cancelCellEditing(rowIdx, cellIdx)
-                                    }
-                                  >
-                                    <CloseIcon fontSize="small" />
-                                  </IconButton>
-                                </InputAdornment>
-                              ),
-                            }}
-                          />
-                        ) : (
-                          <span
-                            style={{ cursor: "pointer" }}
-                            onClick={() =>
-                              startEditingCell(rowIdx, cellIdx, cell)
-                            }
-                          >
-                            {cell}
-                          </span>
-                        )}
-                      </TableCell>
-                    </Tooltip>
-                  ))}
-                </TableRow>
+                <TableEditorRow
+                  row={row}
+                  rowIdx={rowIdx}
+                  errors={errors}
+                  editModeRow={editModeTableData?.[rowIdx]}
+                  editingValues={editingValues}
+                  getCellKey={getCellKey}
+                  setEditingValues={setEditingValues}
+                  startEditingCell={startEditingCell}
+                  saveCellValue={saveCellValue}
+                  cancelCellEditing={cancelCellEditing}
+                  unsetError={unsetError}
+                  tableCellSx={{ fontWeight: "bold" }}
+                />
+              );
+            })}
+          </TableHead>
+          <TableBody>
+            {tableData?.slice(1).map((row, rowIdx) => {
+              return (
+                <TableEditorRow
+                  row={row}
+                  rowIdx={rowIdx + 1}
+                  errors={errors}
+                  editModeRow={editModeTableData?.[rowIdx + 1]}
+                  editingValues={editingValues}
+                  getCellKey={getCellKey}
+                  setEditingValues={setEditingValues}
+                  startEditingCell={startEditingCell}
+                  saveCellValue={saveCellValue}
+                  cancelCellEditing={cancelCellEditing}
+                  unsetError={unsetError}
+                />
               );
             })}
           </TableBody>
