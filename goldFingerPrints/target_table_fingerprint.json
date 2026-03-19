@@ -1,0 +1,39 @@
+{
+    "table_metadata": {
+        "column_count": 1,
+        "ordered_headers": [
+            "FallID;PID;Einsch\u00e4tzung;Aufnahme;Entlassund;Station;Account;SID;SID_value"
+        ]
+    },
+    "column_fingerprints": {
+        "FallID;PID;Einsch\u00e4tzung;Aufnahme;Entlassund;Station;Account;SID;SID_value": {
+            "header_structure": {
+                "len": 73,
+                "digit_count": 0,
+                "alpha_count": 64,
+                "special_count": 9,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.16850551654964896,
+            "entropy": 7.384606288466457,
+            "length_stats": {
+                "min": 78,
+                "max": 190,
+                "mean": 90.46138415245737
+            },
+            "has_leading_trailing_spaces": true
+        }
+    }
+}

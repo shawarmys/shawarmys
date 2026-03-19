@@ -1,5 +1,8 @@
 from contextlib import asynccontextmanager
 
+# Import model package so all models are registered on Base.metadata
+import model  # noqa: F401
+
 # Import models package so all models are registered on Base.metadata
 import models  # noqa: F401
 from api.routes import router

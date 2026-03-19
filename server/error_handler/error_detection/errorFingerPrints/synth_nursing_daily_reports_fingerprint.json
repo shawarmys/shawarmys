@@ -1,0 +1,189 @@
+{
+    "table_metadata": {
+        "column_count": 6,
+        "ordered_headers": [
+            "CaseID",
+            "PatientID",
+            "Ward",
+            "ReportDate",
+            "Shift",
+            "NursingNote"
+        ]
+    },
+    "column_fingerprints": {
+        "CaseID": {
+            "header_structure": {
+                "len": 6,
+                "digit_count": 0,
+                "alpha_count": 6,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0525,
+            "entropy": 5.6677838885893745,
+            "length_stats": {
+                "min": 1,
+                "max": 10,
+                "mean": 8.99696048632219
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "PatientID": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 9,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0855,
+            "entropy": 5.999549625918865,
+            "length_stats": {
+                "min": 1,
+                "max": 9,
+                "mean": 8.00483351235231
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Ward": {
+            "header_structure": {
+                "len": 4,
+                "digit_count": 0,
+                "alpha_count": 4,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0255,
+            "entropy": 3.136704364318517,
+            "length_stats": {
+                "min": 1,
+                "max": 18,
+                "mean": 9.45594262295082
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "ReportDate": {
+            "header_structure": {
+                "len": 10,
+                "digit_count": 0,
+                "alpha_count": 10,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.07,
+                "float": 0.07,
+                "datetime": 0.76,
+                "bool": 0.0,
+                "string": 0.1
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.6755,
+            "entropy": 10.179832020622168,
+            "length_stats": {
+                "min": 1,
+                "max": 12,
+                "mean": 10.06608606557377
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "Shift": {
+            "header_structure": {
+                "len": 5,
+                "digit_count": 0,
+                "alpha_count": 5,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0235,
+            "entropy": 2.899002790693161,
+            "length_stats": {
+                "min": 1,
+                "max": 13,
+                "mean": 10.94728839330968
+            },
+            "has_leading_trailing_spaces": true
+        },
+        "NursingNote": {
+            "header_structure": {
+                "len": 11,
+                "digit_count": 0,
+                "alpha_count": 11,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.7655,
+            "entropy": 10.40791414368673,
+            "length_stats": {
+                "min": 1,
+                "max": 142,
+                "mean": 88.7779463834092
+            },
+            "has_leading_trailing_spaces": true
+        }
+    }
+}

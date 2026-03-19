@@ -1,0 +1,249 @@
+{
+    "table_metadata": {
+        "column_count": 8,
+        "ordered_headers": [
+            "patient_id",
+            "timestamp",
+            "movement_index_0_100",
+            "micro_movements_count",
+            "bed_exit_detected_0_1",
+            "fall_event_0_1",
+            "impact_magnitude_g",
+            "post_fall_immobility_minutes"
+        ]
+    },
+    "column_fingerprints": {
+        "patient_id": {
+            "header_structure": {
+                "len": 10,
+                "digit_count": 0,
+                "alpha_count": 9,
+                "special_count": 1,
+                "space_count": 0,
+                "underscore_count": 1,
+                "is_all_caps": false,
+                "is_snake_case": true
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 1.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.008333333333333333,
+            "entropy": 7.643856189774726,
+            "length_stats": {
+                "min": 8,
+                "max": 8,
+                "mean": 8.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "timestamp": {
+            "header_structure": {
+                "len": 9,
+                "digit_count": 0,
+                "alpha_count": 9,
+                "special_count": 0,
+                "space_count": 0,
+                "underscore_count": 0,
+                "is_all_caps": false,
+                "is_snake_case": false
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 0.0,
+                "datetime": 1.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.005,
+            "entropy": 6.906890595608521,
+            "length_stats": {
+                "min": 19,
+                "max": 19,
+                "mean": 19.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "movement_index_0_100": {
+            "header_structure": {
+                "len": 20,
+                "digit_count": 4,
+                "alpha_count": 13,
+                "special_count": 3,
+                "space_count": 0,
+                "underscore_count": 3,
+                "is_all_caps": false,
+                "is_snake_case": true
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.03816666666666667,
+            "entropy": 9.351403699437606,
+            "length_stats": {
+                "min": 3,
+                "max": 5,
+                "mean": 3.8957916666666668
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "micro_movements_count": {
+            "header_structure": {
+                "len": 21,
+                "digit_count": 0,
+                "alpha_count": 19,
+                "special_count": 2,
+                "space_count": 0,
+                "underscore_count": 2,
+                "is_all_caps": false,
+                "is_snake_case": true
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0015,
+            "entropy": 4.540167147561887,
+            "length_stats": {
+                "min": 1,
+                "max": 2,
+                "mean": 1.6297083333333333
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "bed_exit_detected_0_1": {
+            "header_structure": {
+                "len": 21,
+                "digit_count": 2,
+                "alpha_count": 15,
+                "special_count": 4,
+                "space_count": 0,
+                "underscore_count": 4,
+                "is_all_caps": false,
+                "is_snake_case": true
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 8.333333333333333e-05,
+            "entropy": 0.6687361270743312,
+            "length_stats": {
+                "min": 1,
+                "max": 1,
+                "mean": 1.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "fall_event_0_1": {
+            "header_structure": {
+                "len": 14,
+                "digit_count": 2,
+                "alpha_count": 9,
+                "special_count": 3,
+                "space_count": 0,
+                "underscore_count": 3,
+                "is_all_caps": false,
+                "is_snake_case": true
+            },
+            "expected_types": {
+                "int": 1.0,
+                "float": 0.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": false,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 8.333333333333333e-05,
+            "entropy": 0.3936061409762513,
+            "length_stats": {
+                "min": 1,
+                "max": 1,
+                "mean": 1.0
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "impact_magnitude_g": {
+            "header_structure": {
+                "len": 18,
+                "digit_count": 0,
+                "alpha_count": 16,
+                "special_count": 2,
+                "space_count": 0,
+                "underscore_count": 2,
+                "is_all_caps": false,
+                "is_snake_case": true
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.018541666666666668,
+            "entropy": 8.642158591143067,
+            "length_stats": {
+                "min": 3,
+                "max": 4,
+                "mean": 3.9022556390977443
+            },
+            "has_leading_trailing_spaces": false
+        },
+        "post_fall_immobility_minutes": {
+            "header_structure": {
+                "len": 28,
+                "digit_count": 0,
+                "alpha_count": 25,
+                "special_count": 3,
+                "space_count": 0,
+                "underscore_count": 3,
+                "is_all_caps": false,
+                "is_snake_case": true
+            },
+            "expected_types": {
+                "int": 0.0,
+                "float": 1.0,
+                "datetime": 0.0,
+                "bool": 0.0,
+                "string": 0.0
+            },
+            "is_nullable": true,
+            "null_markers_found": 0.0,
+            "cardinality_ratio": 0.0018333333333333333,
+            "entropy": 5.43981255526635,
+            "length_stats": {
+                "min": 3,
+                "max": 4,
+                "mean": 3.7943071965628357
+            },
+            "has_leading_trailing_spaces": false
+        }
+    }
+}

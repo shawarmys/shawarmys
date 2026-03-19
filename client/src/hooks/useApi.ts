@@ -1,11 +1,21 @@
 import useSWR from "swr";
-import { getImportedFiles, getMetadata } from "../api/api";
+import {
+  getAlerts,
+  getDataGroupsSummary,
+  getDataSourcesSummary,
+  getImportedFiles,
+  getMetadata,
+} from "../api/api";
 
 // *** Metadata ***
 
-export function useMetadata() {
-  const { data, error, isLoading, mutate } = useSWR("/metadata", async () =>
-    getMetadata(),
+export function useMetadata(
+  filterSources: string[],
+  filterGroupTypes: string[],
+) {
+  const { data, error, isLoading, mutate } = useSWR(
+    `/metadata:${filterSources.join(",")}:${filterGroupTypes.join(",")}`,
+    async () => getMetadata(filterSources, filterGroupTypes),
   );
 
   return {
@@ -18,10 +28,66 @@ export function useMetadata() {
 
 // *** Imported Files ***
 
-export function useImportedFiles() {
+export function useImportedFiles(
+  filterSources: string[],
+  filterGroupTypes: string[],
+) {
   const { data, error, isLoading, mutate } = useSWR(
-    "/imported-files",
-    async () => getImportedFiles(),
+    `/imported-files:${filterSources.join(",")}:${filterGroupTypes.join(",")}`,
+    async () => getImportedFiles(filterSources, filterGroupTypes),
+  );
+
+  return {
+    data,
+    isLoading,
+    isError: error,
+    mutate,
+  };
+}
+
+// *** Data Source Summary ***
+
+export function useDataSourcesSummary(
+  filterSources: string[],
+  filterGroupTypes: string[],
+) {
+  const { data, error, isLoading, mutate } = useSWR(
+    `/data-sources-summary:${filterSources.join(",")}:${filterGroupTypes.join(",")}`,
+    async () => getDataSourcesSummary(filterSources, filterGroupTypes),
+  );
+
+  return {
+    data,
+    isLoading,
+    isError: error,
+    mutate,
+  };
+}
+
+// *** Data Groups Summary ***
+
+export function useDataGroupsSummary(
+  filterSources: string[],
+  filterGroupTypes: string[],
+) {
+  const { data, error, isLoading, mutate } = useSWR(
+    `/data-groups-summary:${filterSources.join(",")}:${filterGroupTypes.join(",")}`,
+    async () => getDataGroupsSummary(filterSources, filterGroupTypes),
+  );
+
+  return {
+    data,
+    isLoading,
+    isError: error,
+    mutate,
+  };
+}
+
+// *** Alerts ***
+export function useAlerts(filterSources: string[], filterGroupTypes: string[]) {
+  const { data, error, isLoading, mutate } = useSWR(
+    `/alerts:${filterSources.join(",")}:${filterGroupTypes.join(",")}`,
+    async () => getAlerts(filterSources, filterGroupTypes),
   );
 
   return {
