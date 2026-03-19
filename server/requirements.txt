@@ -4,9 +4,13 @@ anyio==4.12.1
 fastapi==0.135.1
 greenlet==3.3.2
 idna==3.11
+numpy==2.4.3
+pandas==3.0.1
 psycopg2-binary==2.9.11
 pydantic==2.12.5
 pydantic_core==2.41.5
+python-dateutil==2.9.0.post0
+six==1.17.0
 SQLAlchemy==2.0.48
 sqlmodel==0.0.37
 starlette==0.52.1
