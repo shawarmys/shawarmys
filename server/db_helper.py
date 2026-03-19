@@ -108,7 +108,8 @@ def resolve_and_insert(table_name: str, df: pd.DataFrame):
         # upsert_patients(df["patient_id"])
         upsert_cases(df["case_id"], df["patient_id"])
     elif table_name in _HAS_PATIENT_ONLY:
-        upsert_patients(df["patient_id"])
+        #upsert_patients(df["patient_id"])
+        pass
 
     insert_dataframe(df, table_name)
 
