@@ -62,36 +62,35 @@ def parse_nursing_daily_reports(df: pd.DataFrame) -> pd.DataFrame:
 
 def main():
     data_folder = resolve_data_folder()
-
+    dfs = {}
     # Iterate through all files in the data folder
     for file in os.listdir(data_folder):
         if file.endswith(".csv"):
-            # Read the CSV file into a DataFrame
-            # if file = synth_labs_1000_cases.csv, then parse it with parse_lab_results
             if file == "synth_labs_1000_cases.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_lab_results(df)
-                print(df.head())
+                dfs["lab_results"] = df
             elif file == "synthetic_cases_icd10_ops.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_icd10(df)
-                print(df.head())
+                dfs["icd10"] = df
             elif file == "synthetic_device_motion_fall_data.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_device_motion(df)
-                print(df.head())
+                dfs["device_motion"] = df
             elif file == "synthetic__device_1hz_motion_fall.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_device_1hz_motion(df)
-                print(df.head())
+                dfs["device_1hz_motion"] = df
             elif file == "synthetic_medication_raw_inpatient.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_medication_events(df)
-                print(df.head())
+                dfs["medication_events"] = df
             elif file == "synthetic_nursing_daily_reports_en.csv":
                 df = pd.read_csv(data_folder / file)
                 df = parse_nursing_daily_reports(df)
-                print(df.head())
+                dfs["nursing_daily_reports"] = df
+        return dfs
 
 if __name__ == "__main__":
     main()
