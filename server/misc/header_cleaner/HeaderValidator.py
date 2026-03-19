@@ -31,13 +31,13 @@ class HeaderValidator:
         # Check if the first row exactly matches the gold standard headers
         if incoming_row_1 == self.gold_headers:
             results["matchmaking_required"] = False
-            results["message"] = "Header row is valid and matches the gold standard."
+            results["message"] = "valid"
             return results["matchmaking_required"], results["message"]
 
         # Check if the first row has the same headers but in a different order
         if sorted(incoming_row_1) == sorted(self.gold_headers):
             results["matchmaking_required"] = True
-            results["message"] = "Header row has the correct headers but in a different order."
+            results["message"] = "invalid"
             return results["matchmaking_required"], results["message"]
 
         # Column Count Check
@@ -81,18 +81,18 @@ class HeaderValidator:
 
         # Error suggestions based on indicators
         if self.header_error_indicators["no_header_but_data"] > 0:
-            results["message"] = "Row 1 appears to contain data, not headers."
+            results["message"] = "invalid"
             return True, results["message"]
 
         if self.header_error_indicators["completely_wrong"] > 0:
-            results["message"] = "Header row is completely wrong. Consider using matchmaking to reorder/rename columns."
+            results["message"] = "invalid"
             return True, results["message"]
 
         if self.header_error_indicators["wrong_labels"] > 0:
-            results["message"] = "Header row has wrong labels. Consider using matchmaking to reorder/rename columns."
+            results["message"] = "invalid"
             return True, results["message"]
 
-        results["message"] = "Header row has some issues but is not completely wrong. Consider reviewing the headers."
+        results["message"] = "valid"
         return True, results["message"]
 
     def _get_composition(self, row):

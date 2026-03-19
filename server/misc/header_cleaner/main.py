@@ -4,15 +4,14 @@ import json
 import tempfile
 import pandas as pd
 
-from data_cleaner.file_name_matcher import FileNameMatcher
+from FileNameMatcher import FileNameMatcher
 from CsvExcelReader import CsvExcelReader
 from TableSchemaEncoder import TableSchemaEncoder
 from HeaderValidator import HeaderValidator
-from LLMMatchmaker import LLMMatchmaker
+from BertSemanticMatcher import BertSemanticMatcher
 from pdf_handler.TextExtractor import TextExtractor
 from pdf_handler.Mapper import Mapper
 from SaveBert import download_and_save_bert
-from server.misc.data_cleaner.data_cleaner import DataCleaner
 
 def main(file_path):
   # Get the gold standard fingerprint for the file type
@@ -25,15 +24,13 @@ def main(file_path):
   # Check file type
   if file_path.endswith('.pdf'):
     # Extract text from PDF
-    text_extractor = TextExtractor()
-    extracted_text = text_extractor.extract_text(file_path)
+    extracted_text = TextExtractor(file_path)
 
     # Map extracted text to structured format
     mapper = Mapper()
     incoming_df = mapper.map_values_to_dataframe(extracted_text)
 
-    # Save the mapped dataframe as CSV for further processing with ; delimiter
-    store_temp_file(incoming_df)
+    store_temp_file({"df": incoming_df, "errors": "valid"})
 
   else:
     # Load the gold fingerprint
@@ -55,7 +52,7 @@ def main(file_path):
       if not os.path.exists("server/misc/header_cleaner/bert_model"):
           download_and_save_bert("server/misc/header_cleaner/bert_model")
 
-      matchmaker = LLMMatchmaker()
+      matchmaker = BertSemanticMatcher()
       matches = matchmaker.match_columns(gold_fingerprint, incoming_fingerprint)
 
       # Reorder/rename incoming dataframe based on matches
@@ -66,8 +63,10 @@ def main(file_path):
       matchmaker_logic = MatchmakerLogic()
       reordered_df = matchmaker_logic.reorder_dataframe(incoming_df, unziped_predictions, list(gold_fingerprint.keys()))
 
+      print("Matchmaking completed. Columns have been reordered/renamed based on gold standard fingerprint.")
       return {"df": reordered_df, "errors": message}
 
+    print("No matchmaking needed. Header is valid.")
     return {"df": incoming_df, "errors": message}
 
 class MatchmakerLogic:
@@ -100,7 +99,7 @@ def store_temp_file(out):
       prefix="errors_",
       delete=False,
     ) as tmp_json:
-     json.dump(errors, tmp_json, ensure_ascii=False, indent=2, default=str)
+     json.dump({errors}, tmp_json, ensure_ascii=False, indent=2, default=str)
     errors_path = tmp_json.name
 
     csv_path = None
@@ -132,4 +131,7 @@ if __name__ == "__main__":
     )
 
   args = parser.parse_args()
-  df, errors = main(args.file_path)
+
+  main(args.file_path)
+# Usage example
+# python main.py --file_path "C:\Users\marti\Documents\shawarmys\server\misc\header_cleaner\csvFiles\split_data_pat_case_altered\clinic_1_device.csv
