@@ -1,7 +1,7 @@
 from typing import Optional
 
 from db.database import Base
-from sqlalchemy import BigInteger, ForeignKey, String
+from sqlalchemy import BigInteger, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 
@@ -12,9 +12,9 @@ class Icd10Data(Base):
     case_id: Mapped[Optional[int]] = mapped_column("case_id", ForeignKey("cases.id"))
     patient_id: Mapped[Optional[int]] = mapped_column("patient_id", BigInteger)
     ward: Mapped[Optional[str]] = mapped_column("ward", String(256))
-    admission_date: Mapped[Optional[str]] = mapped_column("admission_date", String(256))
-    discharge_date: Mapped[Optional[str]] = mapped_column("discharge_date", String(256))
-    length_of_stay_days: Mapped[Optional[str]] = mapped_column("length_of_stay_days", String(256))
+    admission_date: Mapped[Optional[Date]] = mapped_column("admission_date", Date)
+    discharge_date: Mapped[Optional[Date]] = mapped_column("discharge_date", Date)
+    length_of_stay_days: Mapped[Optional[int]] = mapped_column("length_of_stay_days", Integer)
     primary_icd10_code: Mapped[Optional[str]] = mapped_column("primary_icd10_code", String(256))
     primary_icd10_description_en: Mapped[Optional[str]] = mapped_column("primary_icd10_description_en", String(256))
     secondary_icd10_codes: Mapped[Optional[str]] = mapped_column("secondary_icd10_codes", String(256))
