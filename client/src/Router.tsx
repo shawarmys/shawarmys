@@ -1,7 +1,9 @@
 import CssBaseline from "@mui/material/CssBaseline";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Theme from "./components/Theme";
 import HomePage from "./pages/HomePage";
+import ImportedFilesPage from "./pages/ImportedFilesPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const Router = () => {
   return (
@@ -9,9 +11,9 @@ const Router = () => {
       <Theme>
         <CssBaseline />
         <Routes>
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="/home" element={<HomePage />} />
-          {/* <Route path="*" element={<NotFoundPage />} /> */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/imported-files" element={<ImportedFilesPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Theme>
     </BrowserRouter>

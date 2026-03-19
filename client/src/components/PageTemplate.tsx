@@ -4,15 +4,19 @@ import Navbar from "./Navbar";
 
 interface PageTemplateProps {
   children: React.ReactNode;
-  title: string;
+  title?: string;
 }
 
 const PageTemplate: React.FC<PageTemplateProps> = ({ children, title }) => {
   return (
     <Box>
       <Navbar />
-      <Container sx={{ mt: 4 }}>
-        {title && <Typography variant="h4">{title}</Typography>}
+      <Container sx={{ mt: 4, mb: 6 }}>
+        {title && (
+          <Typography variant="h4" sx={{ mb: 1 }}>
+            {title}
+          </Typography>
+        )}
         {children}
       </Container>
     </Box>

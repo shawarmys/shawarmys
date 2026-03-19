@@ -20,8 +20,12 @@ services:
     container_name: shawarmys-server
     depends_on:
       - db
+    ports:
+      - "8000:80"
     expose:
       - "80"
+    environment:
+      DATABASE_URL: postgresql://shawarmys:shawarmys@db:5432/shawarmys
 
   client:
     build:
