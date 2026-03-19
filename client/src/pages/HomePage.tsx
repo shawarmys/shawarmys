@@ -50,23 +50,19 @@ const CardListItem: React.FC<{
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const { data, isLoading, isError } = useMetadata();
+  const { data: metadata, isLoading: metadataIsLoading } = useMetadata();
 
   return (
     <PageTemplate title="">
       <Grid container spacing={2}>
         {/* *** First Overview Card *** */}
         <Grid size={4}>
-          <CustomCard>
+          <CustomCard loading={metadataIsLoading}>
             <List>
               {/* Imported Files */}
               <CardListItem
                 icon={<DownloadIcon sx={IconSX} />}
-                number={
-                  !isLoading && !isError && data?.importedFiles
-                    ? data.importedFiles.toString()
-                    : ""
-                }
+                number={metadata?.importedFiles.toString() || ""}
                 label="Imported Files"
                 onClick={() => navigate("/imported-files")}
               />
@@ -76,11 +72,7 @@ const HomePage: React.FC = () => {
               {/* Successful Mappings */}
               <CardListItem
                 icon={<CheckIcon sx={IconSX} />}
-                number={
-                  !isLoading && !isError && data?.successfulMappings
-                    ? data.successfulMappings.toString()
-                    : ""
-                }
+                number={metadata?.successfulMappings.toString() || ""}
                 label="Successful Mappings"
                 sx={{ color: "success.main" }}
               />
@@ -90,11 +82,7 @@ const HomePage: React.FC = () => {
               {/* Mapping Alerts */}
               <CardListItem
                 icon={<ReportProblemIcon sx={IconSX} />}
-                number={
-                  !isLoading && !isError && data?.mappingAlerts
-                    ? data.mappingAlerts.toString()
-                    : ""
-                }
+                number={metadata?.mappingAlerts.toString() || ""}
                 label="Mapping Alerts"
                 sx={{ color: "warning.main" }}
               />

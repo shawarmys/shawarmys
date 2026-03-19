@@ -1,12 +1,5 @@
-import {
-  Backdrop,
-  Box,
-  CircularProgress,
-  Container,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import React from "react";
-import { useMetadata } from "../hooks/useApi";
 import Navbar from "./Navbar";
 
 interface PageTemplateProps {
@@ -15,8 +8,6 @@ interface PageTemplateProps {
 }
 
 const PageTemplate: React.FC<PageTemplateProps> = ({ children, title }) => {
-  const { isLoading: metadataIsLoading } = useMetadata();
-
   return (
     <Box>
       <Navbar />
@@ -28,19 +19,6 @@ const PageTemplate: React.FC<PageTemplateProps> = ({ children, title }) => {
         )}
         {children}
       </Container>
-
-      {/* Loader */}
-      {metadataIsLoading && (
-        <Backdrop
-          open={true}
-          sx={{
-            color: "#fff",
-            zIndex: (theme) => theme.zIndex.drawer + 1,
-          }}
-        >
-          <CircularProgress color="inherit" size={32} />
-        </Backdrop>
-      )}
     </Box>
   );
 };
