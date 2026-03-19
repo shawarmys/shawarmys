@@ -4,7 +4,6 @@ import scipy.stats as stats
 import json
 import os
 import csv
-from Levenshtein import distance as lev_dist
 
 class TableSchemaEncoder:
     def __init__(self, save_fingerprint=False, save_directory='saved_fingerprints'):
@@ -162,7 +161,7 @@ class NumpyEncoder(json.JSONEncoder):
 
 if __name__ == "__main__":
     # Create FIngerprints for all csv and excel files in the 'goldStandard' directory
-    target_encoder = TargetSchemaEncoder(save_fingerprint=True)
+    target_encoder = TableSchemaEncoder(save_fingerprint=True)
     gold_standard_dir = os.path.join(os.path.dirname(__file__), 'csvFiles/goldStandard')
     for filename in os.listdir(gold_standard_dir):
         if filename.endswith(('.csv', '.xlsx')):
