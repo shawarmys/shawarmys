@@ -66,6 +66,19 @@ class Controller {
       next(error);
     }
   }
+  async upload2dArray(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { filename, tableData, ignoreOutliers } = req.body;
+      const result = await service.handleArrayUpload(
+        tableData,
+        filename,
+        ignoreOutliers,
+      );
+      res.json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export const controller = new Controller();
