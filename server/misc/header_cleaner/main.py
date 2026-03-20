@@ -19,7 +19,7 @@ def main(file_path):
   target_fingerprint_name = matcher.match_file_name(os.path.basename(file_path))
 
   # Find the corresponding gold fingerprint JSON file
-  gold_fingerprint_path = os.path.join("server\misc\header_cleaner\goldFingerPrints", f"{target_fingerprint_name}_fingerprint.json")
+  gold_fingerprint_path = os.path.join("goldFingerPrints", f"{target_fingerprint_name}_fingerprint.json")
 
   # Check file type
   if file_path.endswith('.pdf'):
@@ -42,7 +42,9 @@ def main(file_path):
         gold_fingerprint = json.load(f)
 
     # Read incoming file and create fingerprint
-    incoming_df = CsvExcelReader(file_path)
+    reader = CsvExcelReader(file_path)
+    incoming_df = reader.read_csv() if file_path.endswith('.csv') else reader.read_excel()
+
     encoder = TableSchemaEncoder()
     incoming_fingerprint = encoder.encode_target_table(os.path.basename(file_path), incoming_df)
 
@@ -50,32 +52,45 @@ def main(file_path):
 
     # Validate header and get errors
     header_validator = HeaderValidator(gold_fingerprint)
-    matchmaking_required, message = header_validator.validate_header(incoming_fingerprint)
+    matchmaking_required, message = header_validator.validate_header_row(incoming_fingerprint, )
 
     print("Header validation completed. Matchmaking required:", matchmaking_required, "Message:", message)
 
     # Match columns and reorder/rename incoming dataframe
     if matchmaking_required:
-      # Check if BERT model is available, if not download and save it
-      if not os.path.exists("server/misc/header_cleaner/bert_model"):
-          download_and_save_bert("server/misc/header_cleaner/bert_model")
+      # 1. Handle BERT loading
+      base_dir = os.path.dirname(os.path.abspath(__file__))
+      model_dir = os.path.join(base_dir, "models", "bert_local")
 
-      matchmaker = BertSemanticMatcher()
-      matches = matchmaker.match_columns(gold_fingerprint, incoming_fingerprint)
+      if not os.path.exists(model_dir):
+          download_and_save_bert()
 
-      # Reorder/rename incoming dataframe based on matches
-      predictions = matchmaker.reorder_and_rename(incoming_df, matches)
-      print("Matchmaking predictions obtained. Unzipping predictions and rearranging dataframe...")
+      matchmaker = BertSemanticMatcher(model_dir=model_dir)
 
-      # Unzip predictions and rearrange columns of dataframe with column names as predicted
-      unziped_predictions = matchmaker.unzip_predictions(predictions)
+      # 2. Get matches (Ensure you pass the nested 'column_fingerprints')
+      gold_cols = gold_fingerprint.get("column_fingerprints", gold_fingerprint)
+      inc_cols = incoming_fingerprint.get("column_fingerprints", incoming_fingerprint)
+
+      matches = matchmaker.match_columns(gold_cols, inc_cols)
+      print("Matchmaking predictions obtained. Rearranging dataframe...")
+
+      # 3. Transform data using MatchmakerLogic
       matchmaker_logic = MatchmakerLogic()
-      reordered_df = matchmaker_logic.reorder_dataframe(incoming_df, unziped_predictions, list(gold_fingerprint.keys()))
 
-      print("Matchmaking completed. Columns have been reordered/renamed based on gold standard fingerprint.")
+      # Convert list of matches into a simple {incoming: target} dictionary
+      unziped_predictions = matchmaker_logic.unzip_predictions(matches)
+
+      # Use the order defined in the gold standard (table_metadata)
+      target_order = gold_fingerprint.get("table_metadata", {}).get("ordered_headers", list(gold_cols.keys()))
+
+      reordered_df = matchmaker_logic.reorder_dataframe(incoming_df, unziped_predictions, target_order)
+
+      print("Matchmaking completed.")
+      store_temp_file({"df": reordered_df, "errors": message})
       return {"df": reordered_df, "errors": message}
 
     print("No matchmaking needed. Header is valid.")
+    store_temp_file({"df": incoming_df, "errors": message})
     return {"df": incoming_df, "errors": message}
 
 class MatchmakerLogic:
@@ -142,6 +157,7 @@ if __name__ == "__main__":
   args = parser.parse_args()
 
   main(args.file_path)
+
 # Usage example
-# python main.py --file_path "C:\Users\marti\Documents\shawarmys\server\misc\header_cleaner\csvFiles\split_data_pat_case_altered\clinic_1_labs.csv
+# python main.py --file_path "C:\Users\marti\Documents\shawarmys\server\misc\header_cleaner\csvFiles\split_data_pat_case_altered\clinic_1_labs.csv"
 # python main.py --file_path "C:\Users\marti\Documents\shawarmys\server\misc\header_cleaner\pdf_handler\clinic_4_nursing.pdf"

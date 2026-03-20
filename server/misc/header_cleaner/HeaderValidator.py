@@ -44,7 +44,6 @@ class HeaderValidator:
         incoming_col_count = len(incoming_row_1)
         count_diff = abs(incoming_col_count - self.gold_col_count)
         if count_diff > 0:
-            self.header_error_indicators["column_count_mismatch"] += 1
             self.header_error_indicators["completely_wrong"] += 1
 
         # We check how many headers match their expected positions
@@ -123,7 +122,7 @@ if __name__ == "__main__":
         gold_fingerprint = json.load(f)
 
     # Get the data from the input file and create the TargetScshemaEncoder fingerprint
-    target_encoder = TargetSchemaEncoder()
+    target_encoder = HeaderValidator(gold_fingerprint)
     file_path = 'C:\\Users\\marti\\Documents\\shawarmys\\server\\error_handler\\error_detection\\csvFiles\\errorousFiles\\NoHeader_synth_device_raw_1hz_motion_fall.csv'
 
     with open(file_path, 'r') as f:

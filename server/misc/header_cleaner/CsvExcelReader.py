@@ -5,12 +5,6 @@ import os
 class CsvExcelReader:
   def __init__(self, file_path):
     self.file_path = file_path
-    if file_path.endswith('.csv'):
-      self.read_csv()
-    elif file_path.endswith('.xlsx'):
-      self.read_excel()
-    else:
-      raise ValueError("Unsupported file type. Only .csv and .xlsx are supported.")
 
   def read_csv(self):
     try:

@@ -2,7 +2,7 @@ import os
 from transformers import BertTokenizer, BertModel
 
 # Define your local storage path
-MODEL_PATH = "./models/bert_local"
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "models", "bert_local")
 
 def download_and_save_bert():
     if not os.path.exists(MODEL_PATH):
