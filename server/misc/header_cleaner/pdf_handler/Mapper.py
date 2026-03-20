@@ -78,4 +78,3 @@ if __name__ == "__main__":
 
   final_data = mapper.map_values_to_dataframe(raw_text)
 
-  print(final_data)

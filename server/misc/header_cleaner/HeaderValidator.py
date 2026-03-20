@@ -37,7 +37,7 @@ class HeaderValidator:
         # Check if the first row has the same headers but in a different order
         if sorted(incoming_row_1) == sorted(self.gold_headers):
             results["matchmaking_required"] = True
-            results["message"] = "invalid"
+            results["message"] = "valid"
             return results["matchmaking_required"], results["message"]
 
         # Column Count Check
@@ -80,15 +80,15 @@ class HeaderValidator:
 
         # Error suggestions based on indicators
         if self.header_error_indicators["no_header_but_data"] > 0:
-            results["message"] = "invalid"
+            results["message"] = "valid"
             return True, results["message"]
 
         if self.header_error_indicators["completely_wrong"] > 0:
-            results["message"] = "invalid"
+            results["message"] = "valid"
             return True, results["message"]
 
         if self.header_error_indicators["wrong_labels"] > 0:
-            results["message"] = "invalid"
+            results["message"] = "valid"
             return True, results["message"]
 
         results["message"] = "valid"

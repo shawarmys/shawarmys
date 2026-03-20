@@ -135,6 +135,3 @@ if __name__ == "__main__":
     # Start the matching process
     matchmaker = MappingMatchmaker(gold_metadata, incoming_metadata, incoming_df)
     matched_df = matchmaker.match_wrong_labels()
-    print("Original columns:", incoming_df.columns.tolist())
-    print("Incoming columns:", incoming_df.columns.tolist())
-    print("Final matched columns:", matched_df.columns.tolist())

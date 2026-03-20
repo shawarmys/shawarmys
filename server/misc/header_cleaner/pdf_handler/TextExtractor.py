@@ -23,8 +23,6 @@ if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
     file_path = os.path.join(script_dir, "clinic_4_nursing.pdf")
 
-    print("Extracted Text:")
     text_extractor = TextExtractor(file_path)
     text = text_extractor.extract_text()
-    print(text)
 

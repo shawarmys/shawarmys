@@ -7,7 +7,6 @@ from scipy.optimize import linear_sum_assignment
 class BertSemanticMatcher:
     def __init__(self, model_dir="./models/bert_local"):
         # Load directly from the local directory
-        print(f"Loading BERT from {model_dir}...")
         self.tokenizer = BertTokenizer.from_pretrained(model_dir)
         self.model = BertModel.from_pretrained(model_dir)
         self.model.eval()
@@ -76,6 +75,3 @@ if __name__ == "__main__":
     # Start the matching process
     matchmaker = BertSemanticMatcher()
     matches = matchmaker.match_columns(gold_metadata["column_fingerprints"], incoming_metadata["column_fingerprints"])
-    print("Matches found:")
-    for match in matches:
-        print(f"Incoming Column: {match['incoming']} --> Target Column: {match['target']} (Confidence: {match['confidence']:.2f})")

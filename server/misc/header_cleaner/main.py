@@ -4,14 +4,14 @@ import json
 import tempfile
 import pandas as pd
 
-from FileNameMatcher import FileNameMatcher
-from CsvExcelReader import CsvExcelReader
-from TableSchemaEncoder import TableSchemaEncoder
-from HeaderValidator import HeaderValidator
-from BertSemanticMatcher import BertSemanticMatcher
-from pdf_handler.TextExtractor import TextExtractor
-from pdf_handler.Mapper import Mapper
-from SaveBert import download_and_save_bert
+from misc.header_cleaner.FileNameMatcher import FileNameMatcher
+from misc.header_cleaner.CsvExcelReader import CsvExcelReader
+from misc.header_cleaner.TableSchemaEncoder import TableSchemaEncoder
+from misc.header_cleaner.HeaderValidator import HeaderValidator
+from misc.header_cleaner.BertSemanticMatcher import BertSemanticMatcher
+from misc.header_cleaner.pdf_handler.TextExtractor import TextExtractor
+from misc.header_cleaner.pdf_handler.Mapper import Mapper
+from misc.header_cleaner.SaveBert import download_and_save_bert
 
 def main(file_path):
   # Get the gold standard fingerprint for the file type
@@ -19,7 +19,8 @@ def main(file_path):
   target_fingerprint_name = matcher.match_file_name(os.path.basename(file_path))
 
   # Find the corresponding gold fingerprint JSON file
-  gold_fingerprint_path = os.path.join("goldFingerPrints", f"{target_fingerprint_name}_fingerprint.json")
+  _dir = os.path.dirname(os.path.abspath(__file__))
+  gold_fingerprint_path = os.path.join(_dir, "goldFingerPrints", f"{target_fingerprint_name}_fingerprint.json")
 
   # Check file type
   if file_path.endswith('.pdf'):
@@ -29,14 +30,13 @@ def main(file_path):
 
     # Map extracted text to structured format
     mapper = Mapper()
-    mapper.load_schema("pdf_handler/FileSchemas/nursing_config.json")
+    mapper.load_schema(os.path.join(_dir, "pdf_handler", "FileSchemas", "nursing_config.json"))
 
     incoming_df = mapper.map_values_to_dataframe(raw_text)
 
     store_temp_file({"df": incoming_df, "errors": "valid"})
 
   else:
-    print("CSV/XLSX file detected. Validating header and performing matchmaking if needed...")
     # Load the gold fingerprint
     with open(gold_fingerprint_path, 'r') as f:
         gold_fingerprint = json.load(f)
@@ -48,13 +48,10 @@ def main(file_path):
     encoder = TableSchemaEncoder()
     incoming_fingerprint = encoder.encode_target_table(os.path.basename(file_path), incoming_df)
 
-    print("Gold fingerprint and incoming fingerprint created. Validating header...")
 
     # Validate header and get errors
     header_validator = HeaderValidator(gold_fingerprint)
     matchmaking_required, message = header_validator.validate_header_row(incoming_fingerprint, )
-
-    print("Header validation completed. Matchmaking required:", matchmaking_required, "Message:", message)
 
     # Match columns and reorder/rename incoming dataframe
     if matchmaking_required:
@@ -62,8 +59,8 @@ def main(file_path):
       base_dir = os.path.dirname(os.path.abspath(__file__))
       model_dir = os.path.join(base_dir, "models", "bert_local")
 
-      if not os.path.exists(model_dir):
-          download_and_save_bert()
+      # if not os.path.exists(model_dir):
+      download_and_save_bert()
 
       matchmaker = BertSemanticMatcher(model_dir=model_dir)
 
@@ -72,7 +69,6 @@ def main(file_path):
       inc_cols = incoming_fingerprint.get("column_fingerprints", incoming_fingerprint)
 
       matches = matchmaker.match_columns(gold_cols, inc_cols)
-      print("Matchmaking predictions obtained. Rearranging dataframe...")
 
       # 3. Transform data using MatchmakerLogic
       matchmaker_logic = MatchmakerLogic()
@@ -85,11 +81,9 @@ def main(file_path):
 
       reordered_df = matchmaker_logic.reorder_dataframe(incoming_df, unziped_predictions, target_order)
 
-      print("Matchmaking completed.")
       store_temp_file({"df": reordered_df, "errors": message})
       return {"df": reordered_df, "errors": message}
 
-    print("No matchmaking needed. Header is valid.")
     store_temp_file({"df": incoming_df, "errors": message})
     return {"df": incoming_df, "errors": message}
 
@@ -123,7 +117,7 @@ def store_temp_file(out):
       prefix="errors_",
       delete=False,
     ) as tmp_json:
-     json.dump({errors}, tmp_json, ensure_ascii=False, indent=2, default=str)
+     json.dump(errors, tmp_json, ensure_ascii=False, indent=2, default=str)
     errors_path = tmp_json.name
 
     csv_path = None

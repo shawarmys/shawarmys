@@ -114,13 +114,11 @@ class DataCleaner:
 
             # Drop rows with null IDs
             if rows_with_null_ids.sum() > 0:
-                print(f"Dropping {rows_with_null_ids.sum()} row(s) with null ID values")
                 out = out[~rows_with_null_ids].reset_index(drop=True)
 
         return out, id_issues
 
     def clean_csv(self):
-        print(f"Cleaning CSV file: {self.file_path}")
         # Depending on file type, apply schema
         df = CsvExcelReader(self.file_path).read_csv()
         schema = self.file_type_to_schema[self.file_type]
