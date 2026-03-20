@@ -2,8 +2,10 @@ import { create } from "zustand";
 
 export interface TableDataError {
   row: number;
-  col: number;
-  msg: string;
+  column: number;
+  message: string;
+  header: string;
+  error: string;
 }
 
 interface TableDataState {
@@ -53,7 +55,7 @@ export const useTableData = create<TableDataState>((set) => ({
   unsetError: (row: number, col: number) =>
     set((state) => {
       const newErrors = state.errors.filter(
-        (error) => !(error.row === row && error.col === col),
+        (error) => !(error.row === row && error.column === col),
       );
       return { errors: newErrors };
     }),
@@ -63,7 +65,7 @@ export const useTableData = create<TableDataState>((set) => ({
   unsetOutlier: (row: number, col: number) =>
     set((state) => {
       const newOutliers = state.outliers.filter(
-        (outlier) => !(outlier.row === row && outlier.col === col),
+        (outlier) => !(outlier.row === row && outlier.column === col),
       );
       return { outliers: newOutliers };
     }),

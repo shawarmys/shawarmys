@@ -60,11 +60,11 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
           key={cellIdx}
           title={
             errors.find(
-              (error) => error.row === rowIdx && error.col === cellIdx,
-            )?.msg ||
+              (error) => error.row === rowIdx && error.column === cellIdx,
+            )?.message ||
             outliers.find(
-              (outlier) => outlier.row === rowIdx && outlier.col === cellIdx,
-            )?.msg ||
+              (outlier) => outlier.row === rowIdx && outlier.column === cellIdx,
+            )?.message ||
             ""
           }
           placement="top"
@@ -73,12 +73,12 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
             tooltip: {
               sx: {
                 bgcolor: errors.some(
-                  (error) => error.row === rowIdx && error.col === cellIdx,
+                  (error) => error.row === rowIdx && error.column === cellIdx,
                 )
                   ? "error.main"
                   : outliers.some(
                         (outlier) =>
-                          outlier.row === rowIdx && outlier.col === cellIdx,
+                          outlier.row === rowIdx && outlier.column === cellIdx,
                       )
                     ? "warning.main"
                     : undefined,
@@ -88,12 +88,12 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
             arrow: {
               sx: {
                 color: errors.some(
-                  (error) => error.row === rowIdx && error.col === cellIdx,
+                  (error) => error.row === rowIdx && error.column === cellIdx,
                 )
                   ? "error.main"
                   : outliers.some(
                         (outlier) =>
-                          outlier.row === rowIdx && outlier.col === cellIdx,
+                          outlier.row === rowIdx && outlier.column === cellIdx,
                       )
                     ? "warning.main"
                     : undefined,
@@ -104,17 +104,19 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
           <TableCell
             id={`cell-${rowIdx}-${cellIdx}`}
             scope="row"
+            onClick={() => startEditingCell(rowIdx, cellIdx, cell)}
             sx={Object.assign(
               {
+                cursor: "pointer",
                 position: "relative",
                 overflow: "visible",
                 backgroundColor: errors.some(
-                  (error) => error.row === rowIdx && error.col === cellIdx,
+                  (error) => error.row === rowIdx && error.column === cellIdx,
                 )
                   ? "error.light"
                   : outliers.some(
                         (outlier) =>
-                          outlier.row === rowIdx && outlier.col === cellIdx,
+                          outlier.row === rowIdx && outlier.column === cellIdx,
                       )
                     ? "warning.light"
                     : undefined,
@@ -145,7 +147,8 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
                       <IconButton
                         size="small"
                         aria-label="save cell"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           saveCellValue(rowIdx, cellIdx);
                           unsetError(rowIdx, cellIdx);
                           unsetOutlier(rowIdx, cellIdx);
@@ -156,7 +159,10 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
                       <IconButton
                         size="small"
                         aria-label="cancel editing"
-                        onClick={() => cancelCellEditing(rowIdx, cellIdx)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          cancelCellEditing(rowIdx, cellIdx);
+                        }}
                       >
                         <CloseIcon fontSize="small" />
                       </IconButton>
@@ -165,12 +171,7 @@ const TableEditorRow: React.FC<TableEditorRowProps> = ({
                 }}
               />
             ) : (
-              <span
-                style={{ cursor: "pointer" }}
-                onClick={() => startEditingCell(rowIdx, cellIdx, cell)}
-              >
-                {cell}
-              </span>
+              <span>{cell}</span>
             )}
           </TableCell>
         </Tooltip>

@@ -43,7 +43,7 @@ const TableEditorPage: React.FC = () => {
 
   const saveCellValue = (row: number, col: number) => {
     const cellKey = getCellKey(row, col);
-    setTableDataEntry(row, col, editingValues[cellKey] ?? "");
+    setTableDataEntry(row + 1, col, editingValues[cellKey] ?? "");
     setEditModeTableDataEntry(row, col, false);
   };
 
@@ -88,7 +88,7 @@ const TableEditorPage: React.FC = () => {
                 onClick={() =>
                   document
                     .getElementById(
-                      `cell-${outliers[0].row}-${outliers[0].col}`,
+                      `cell-${outliers[0].row}-${outliers[0].column}`,
                     )
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
@@ -104,7 +104,7 @@ const TableEditorPage: React.FC = () => {
                 sx={{ cursor: "pointer", ml: 1 }}
                 onClick={() =>
                   document
-                    .getElementById(`cell-${errors[0].row}-${errors[0].col}`)
+                    .getElementById(`cell-${errors[0].row}-${errors[0].column}`)
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
               >
@@ -163,10 +163,10 @@ const TableEditorPage: React.FC = () => {
               return (
                 <TableEditorRow
                   row={row}
-                  rowIdx={rowIdx + 1}
+                  rowIdx={rowIdx}
                   errors={errors}
                   outliers={outliers}
-                  editModeRow={editModeTableData?.[rowIdx + 1]}
+                  editModeRow={editModeTableData?.[rowIdx]}
                   editingValues={editingValues}
                   getCellKey={getCellKey}
                   setEditingValues={setEditingValues}

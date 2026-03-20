@@ -259,23 +259,26 @@ const HomePage: React.FC = () => {
                   label: "Clean Data",
                   id: "cd",
                   stack: "total",
+                  color: "#25367a",
                 },
                 {
                   data: [20, 20, 45],
                   label: "Incorrect Values",
                   id: "iv",
                   stack: "total",
+                  color: "#c34441",
                 },
                 {
                   data: [10, 20, 15],
                   label: "Missing Values",
                   id: "mv",
                   stack: "total",
+                  color: "#c38932",
                 },
               ]}
               yAxis={[
                 {
-                  data: ["A", "B", "C"],
+                  data: ["Devices", "Nursing", "Medication Events"],
                   scaleType: "band",
                 },
               ]}
