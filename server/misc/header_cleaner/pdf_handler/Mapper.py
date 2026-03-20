@@ -13,9 +13,10 @@ class Mapper:
     # Using os.path for cross-platform compatibility (Windows vs Mac/Linux)
     return os.path.splitext(os.path.basename(file_path))[0]
 
-  def load_schema(self, absolute_path):
+  def load_schema(self, relative_path):
     # Ensure the directory exists or handle the path correctly
-    with open(path, "r") as f:
+
+    with open(relative_path, "r") as f:
         self.config = json.load(f)
 
   def clean_value(self, value):

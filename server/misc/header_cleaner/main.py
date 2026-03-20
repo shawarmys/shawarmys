@@ -29,9 +29,9 @@ def main(file_path):
 
     # Map extracted text to structured format
     mapper = Mapper()
-    mapper.load_schema("nursing_config")
+    mapper.load_schema("pdf_handler/FileSchemas/nursing_config.json")
 
-    incoming_df = mapper.map_values_to_dataframe(extracted_text)
+    incoming_df = mapper.map_values_to_dataframe(raw_text)
 
     store_temp_file({"df": incoming_df, "errors": "valid"})
 
