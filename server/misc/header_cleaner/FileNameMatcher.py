@@ -22,6 +22,9 @@ class FileNameMatcher:
         if "labs" in name:
             return "synth_labs_1000_cases"
 
+        if "clinic" in name and "icd" in name:
+            return "synthetic_device_motion_fall_data"
+
         if "icd" in name:
             return "synthetic_cases_icd10_ops"
 
