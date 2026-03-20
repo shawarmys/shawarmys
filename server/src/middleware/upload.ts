@@ -17,7 +17,6 @@ const upload = multer({
     file: Express.Multer.File,
     cb: FileFilterCallback,
   ) => {
-    console.log("Received file:", file.originalname);
     const ext = path.extname(file.originalname).toLowerCase();
     if (ALLOWED_EXTENSIONS.has(ext)) {
       cb(null, true);

@@ -1,14 +1,16 @@
+import { parse } from "csv-parse/sync";
+import { stringify } from "csv-stringify/sync";
 import fs from "fs";
 import child_process from "node:child_process";
 import path from "node:path";
 import { promisify } from "node:util";
-const MISC_DR = path.join(__dirname, "..", "misc");
+const MISC_DR = path.join(__dirname, "..", "..", "misc");
 const PYTHON_VENV_PATH = path.join(MISC_DR, "venv", "bin", "python");
 const PYTHON_CLEAN_DATA = path.join(MISC_DR, "data_cleaner", "data_cleaner.py");
 const PYTHON_NORMALIZE_HEADERS = path.join(
   MISC_DR,
-  "data_cleaner",
-  "data_cleaner.py",
+  "header_cleaner",
+  "main.py",
 );
 
 const execFile = promisify(child_process.execFile);
@@ -23,12 +25,12 @@ class MiscService {
     const csvFileContent = fs.readFileSync(csvPath, "utf-8");
     const errorFileContent = fs.readFileSync(errorPath, "utf-8");
 
-    const csvData = this.convertCsvTo2dArray(csvFileContent);
-    const errorData = JSON.parse(errorFileContent);
+    const tableData = this.convertCsvTo2dArray(csvFileContent);
+    const errors = JSON.parse(errorFileContent);
 
     return {
-      csvData,
-      errorData,
+      tableData,
+      errors,
     };
   }
 
@@ -41,12 +43,12 @@ class MiscService {
     const csvFileContent = fs.readFileSync(csvPath, "utf-8");
     const errorFileContent = fs.readFileSync(errorPath, "utf-8");
 
-    const csvData = this.convertCsvTo2dArray(csvFileContent);
-    const errorData = JSON.parse(errorFileContent);
+    const tableData = this.convertCsvTo2dArray(csvFileContent);
+    const errors = JSON.parse(errorFileContent);
 
     return {
-      csvData,
-      errorData,
+      tableData,
+      errors,
     };
   }
 
@@ -54,13 +56,12 @@ class MiscService {
     let out: string;
     try {
       const { stdout, stderr } = await execFile(PYTHON_VENV_PATH, [
-        PYTHON_CLEAN_DATA,
+        PYTHON_NORMALIZE_HEADERS,
         "--file_path",
         filepath,
       ]);
 
       out = stdout;
-      console.log(stderr);
     } catch (error) {
       console.error("Error processing file:", error);
       throw new Error("Failed to process the uploaded file");
@@ -72,13 +73,13 @@ class MiscService {
   async cleanData(filePath: string, ignoreOutliers?: boolean) {
     const stdout = await this.callCleaningScript(filePath, ignoreOutliers);
 
-    const jsonPath = stdout.trim().split(";")[0];
-    const csvPath = stdout.trim().split(";")[1];
-    const jsonFileContent = fs.readFileSync(jsonPath, "utf-8");
+    const csvPath = stdout.trim().split(";")[0];
+    const errorsPath = stdout.trim().split(";")[1];
+    const errorsContent = fs.readFileSync(errorsPath, "utf-8");
     const csvFileContent = fs.readFileSync(csvPath, "utf-8");
 
-    const jsonData = JSON.parse(jsonFileContent);
-    const csvData = this.convertCsvTo2dArray(csvFileContent);
+    const errors = JSON.parse(errorsContent);
+    const tableData = this.convertCsvTo2dArray(csvFileContent);
 
     if (ignoreOutliers) {
       const dataPath = stdout.trim().split(";")[2];
@@ -86,26 +87,25 @@ class MiscService {
       const data = JSON.parse(dataFileContent);
 
       return {
-        jsonData,
-        csvData,
+        tableData,
+        errors,
         data,
       };
     }
 
     return {
-      jsonData,
-      csvData,
+      errors,
+      tableData,
     };
   }
 
   async callCleaningScript(filePath: string, ignoreOutliers?: boolean) {
     let out: string;
-    const args = [PYTHON_NORMALIZE_HEADERS, "--file-path", filePath];
+    const args = [PYTHON_CLEAN_DATA, "--file_path", filePath];
     ignoreOutliers && args.push("--json");
     try {
       const { stdout, stderr } = await execFile(PYTHON_VENV_PATH, args);
       out = stdout;
-      console.log("stdout:", stdout);
       console.error("stderr:", stderr);
     } catch (error) {
       console.error("Error processing file:", error);
@@ -116,14 +116,11 @@ class MiscService {
   }
 
   convert2dArrayToCsv(arr: string[][]): string {
-    return arr.map((row) => row.join(",")).join("\n");
+    return stringify(arr);
   }
 
   private convertCsvTo2dArray(csv: string): string[][] {
-    return csv
-      .trim()
-      .split("\n")
-      .map((row) => row.split(","));
+    return parse(csv, { relax_column_count: true });
   }
 
   cleanupFiles(filePaths: string[]) {
