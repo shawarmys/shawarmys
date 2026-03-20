@@ -25,14 +25,18 @@ def main(file_path):
   if file_path.endswith('.pdf'):
     # Extract text from PDF
     extracted_text = TextExtractor(file_path)
+    raw_text = extracted_text.extract_text()
 
     # Map extracted text to structured format
     mapper = Mapper()
+    mapper.load_schema("nursing_config")
+
     incoming_df = mapper.map_values_to_dataframe(extracted_text)
 
     store_temp_file({"df": incoming_df, "errors": "valid"})
 
   else:
+    print("CSV/XLSX file detected. Validating header and performing matchmaking if needed...")
     # Load the gold fingerprint
     with open(gold_fingerprint_path, 'r') as f:
         gold_fingerprint = json.load(f)
@@ -42,9 +46,13 @@ def main(file_path):
     encoder = TableSchemaEncoder()
     incoming_fingerprint = encoder.encode_target_table(os.path.basename(file_path), incoming_df)
 
+    print("Gold fingerprint and incoming fingerprint created. Validating header...")
+
     # Validate header and get errors
     header_validator = HeaderValidator(gold_fingerprint)
     matchmaking_required, message = header_validator.validate_header(incoming_fingerprint)
+
+    print("Header validation completed. Matchmaking required:", matchmaking_required, "Message:", message)
 
     # Match columns and reorder/rename incoming dataframe
     if matchmaking_required:
@@ -57,6 +65,7 @@ def main(file_path):
 
       # Reorder/rename incoming dataframe based on matches
       predictions = matchmaker.reorder_and_rename(incoming_df, matches)
+      print("Matchmaking predictions obtained. Unzipping predictions and rearranging dataframe...")
 
       # Unzip predictions and rearrange columns of dataframe with column names as predicted
       unziped_predictions = matchmaker.unzip_predictions(predictions)
@@ -134,4 +143,5 @@ if __name__ == "__main__":
 
   main(args.file_path)
 # Usage example
-# python main.py --file_path "C:\Users\marti\Documents\shawarmys\server\misc\header_cleaner\csvFiles\split_data_pat_case_altered\clinic_1_device.csv
+# python main.py --file_path "C:\Users\marti\Documents\shawarmys\server\misc\header_cleaner\csvFiles\split_data_pat_case_altered\clinic_1_labs.csv
+# python main.py --file_path "C:\Users\marti\Documents\shawarmys\server\misc\header_cleaner\pdf_handler\clinic_4_nursing.pdf"
